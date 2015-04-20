@@ -13,6 +13,7 @@
 #include "interval.h"
 #include "bat.h"
 #include "region.h"
+#include "couple.h"
 
 using namespace std;
 
@@ -113,11 +114,11 @@ int main(int argc, char *argv[])
 		REGION region(query_name, index);		
 		region.output(output_name, map);	
 	}
-	else if (query_mode == "pair")
+	else if (query_mode == "couple")
 	{
 // need to implement
-		REGION region(query_name, index);		
-		region.output(output_name, map);	
+		COUPLE couple(query_name, index);		
+		couple.output(output_name, map);	
 	}
 		
 	cout << endl << "[END]" << endl;
@@ -161,8 +162,8 @@ void parse_command_line(int argc, char **argv, char *in_binmap_name, char *in_bi
 			query_mode = "local";
 			strcpy(query_name, argv[i]);
 		}		
-		else if( strncmp(argv[i-1],"-pair", 20)==0 ){
-			query_mode = "pair";
+		else if( strncmp(argv[i-1],"-couple", 20)==0 ){
+			query_mode = "couple";
 			strcpy(query_name, argv[i]);
 		}				
 		else if( strncmp(argv[i-1],"-submap", 20)==0 ){

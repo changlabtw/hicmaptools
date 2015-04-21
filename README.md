@@ -5,7 +5,7 @@ hicmaptools is a collection of tools for downstream HiC contmap analysis.
 
 Prerequisites
 --------------
-T-Coffee compilation requires the following tools installed on your system ``make``, ``gcc-c++`` and ``g77``. 
+hicmaptools compilation requires the following tools installed on your system ``make``, ``gcc-c++`` and ``g77``. 
 
 
 Compile/Installation 

@@ -46,13 +46,7 @@ COUPLE::COUPLE(const char *file_name, INDEX &index)
 				tmp.sbin2 = index.find_index(tmp.chrom2, tmp.start2, 1, 0);
 				tmp.ebin2 = index.find_index(tmp.chrom2, tmp.end2, 0, 1);
 			
-  				if ((tmp.sbin1 != -1) && (tmp.ebin1 != -1) && (tmp.sbin2 != -1) && (tmp.ebin2 != -1)){		
-					COUPLE_vec.push_back(tmp);	
-				}
-				else{
-					cerr << "no bins for " << tmp.chrom1 << "\t" << tmp.start1 << "\t" << tmp.end1 << "\t" 
-										   << tmp.chrom2 << "\t" << tmp.start2 << "\t" << tmp.end2 << endl;
-				}
+				COUPLE_vec.push_back(tmp);	
 			}
 		}		
 	}
@@ -79,36 +73,39 @@ void COUPLE::output(const char *fileName, BINMAP &binmap)
 		perror(fileName);
 		exit(0);
 	}
+	
+//output header	
+	output_f << "chrom1\tstart1\tend1\tsbin1\tebin1\t"
+			 << "chrom2\tstart2\tend2\tsbin2\tebin2\t"
+			 << "sum_bin\tsum_obs\tsum_exp\tsum_nor" << endl;					
 
 	for(vector< COUPLE_E >::iterator iter = COUPLE_vec.begin(); iter != COUPLE_vec.end(); iter++)
 	{
 		sum_bin = 0;
 		sum_obs = sum_exp = sum_nor = 0;
 
-//generate output file	
-		for(int m = iter->sbin1; m <= iter->ebin1; m++)
-		{
-			for(int n = iter->sbin2; n <= iter->ebin2; n++)
+		if ((iter->sbin1 != -1) && (iter->ebin1 != -1) && (iter->sbin2 != -1) && (iter->ebin2 != -1))
+		{		
+			for(int m = iter->sbin1; m <= iter->ebin1; m++)
 			{
-				obs = binmap.get_observe(m, n);
-				exp = binmap.get_expect(m, n);
-				if ((obs != -1) && (exp != -1))
-  				{
-  					sum_obs += obs;
-  					sum_exp += exp;
-  					sum_nor += obs/exp;	
-  					sum_bin++;
+				for(int n = iter->sbin2; n <= iter->ebin2; n++)
+				{
+					obs = binmap.get_observe(m, n);
+					exp = binmap.get_expect(m, n);
+					if ((obs != -1) && (exp != -1))
+  					{
+  						sum_obs += obs;
+  						sum_exp += exp;
+  						sum_nor += obs/exp;	
+  						sum_bin++;
+					}
 				}
 			}
 		}
-
-// output result only there is bin count
-		if(sum_bin > 0)
-		{
-			output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" << iter->sbin1 << "\t" << iter->ebin1 << "\t"
-					 << iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" << iter->sbin2 << "\t" << iter->ebin2 << "\t"
-					 << sum_bin << "\t" << sum_obs << "\t" << sum_exp << "\t" << sum_nor << endl;					
-		}
+		
+		output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" << iter->sbin1 << "\t" << iter->ebin1 << "\t"
+				 << iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" << iter->sbin2 << "\t" << iter->ebin2 << "\t"
+				 << sum_bin << "\t" << sum_obs << "\t" << sum_exp << "\t" << sum_nor << endl;					
 	}
 	
 	output_f.close();

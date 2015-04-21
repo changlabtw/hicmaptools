@@ -68,8 +68,8 @@ For instance:
 >hicmaptools -in_binmap nm_none_1000_reduced.bimap -in_bins nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 
 
-Input Format
--------------------
+Contact Input (essential)
+-------------------------
 
 #####-in_ncontact
 
@@ -80,6 +80,10 @@ Input Format
 
   * .bins (hicpipeline)
   * Bins index
+  * 
+  
+Query Input
+-------------------
 
 #####-TAD
 
@@ -110,3 +114,6 @@ Input Format
 
   * Contact between these sites
   * Calculate contact for PcG pair sites
+
+Illustration for different query options 
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/outline.jpg)

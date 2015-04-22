@@ -1,4 +1,5 @@
-# hicmaptools
+hicmaptools
+=================
 
 hicmaptools is a collection of tools for downstream HiC contmap analysis.
 
@@ -33,9 +34,8 @@ The binary will be automatically copied to the path ``hicmaptools/bin``.
 The binary will be automatically copied to the path specified by the environment 
 variable ``$USER_BIN`` (check that it exists before run the make command).
 
-
-'hicmaptools' Usage
-=================
+Usage 
+--------------------
 
 	hicmaptools -in_binmap in.binmap -in_bins in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
 	options:  

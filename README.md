@@ -82,8 +82,9 @@ Contact Input (essential)
   * Bins index
   * 
   
-Query Input
--------------------
+Query Input  
+--------------------------
+[bed format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) : first three required columns are enough.
 
 #####-TAD
 

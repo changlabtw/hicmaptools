@@ -21,6 +21,9 @@ INDEX::INDEX(const char *file_name)
 	int cbin;	
 	vector<int> tmp_vec;
 	INDEX_ELE tmp_index;
+
+// initialization	
+	tmp_index.count = 0;
 	
 	input_f.open(file_name, ios_base::in);
 	if(!input_f)
@@ -40,8 +43,10 @@ INDEX::INDEX(const char *file_name)
 		if((int)str.length() > 0)
 		{
 			ss.clear(); ss.str(str);
-// handle for the first line which might contain header			
-			if (ss >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end >> tmp_index.count)
+// handle for the first line which might contain header
+// parse by two formats : "cbin	chr	from.coord	to.coord	count" | "cbin	chr	start	end"
+			if ((ss >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end >> tmp_index.count) || 
+			    (ss >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end))
 			{
 				if(cbin_map.find(tmp_index.chr) == cbin_map.end())
 				{

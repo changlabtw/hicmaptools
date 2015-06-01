@@ -48,7 +48,7 @@ BINMAP::BINMAP(const char *file_name)
 		input_f.open(file_name, ios_base::in);
 	}
 	else{
-		cout << "Read in format not in .binmap or .n_contact " << file_name << endl;	
+		cout << "\twarning : input format not in .binmap or .n_contact " << file_name << endl;	
 		input_f.open(file_name, ios_base::in);
 	}
 
@@ -58,7 +58,7 @@ BINMAP::BINMAP(const char *file_name)
 			exit(0);
 	}
 	else{
-		cout << "\tparsing file =\t" << file_name << endl;
+		cout << "\treading contact file =\t" << file_name << endl;
 	}
 	
 // load map from binary : .binmap	
@@ -77,8 +77,7 @@ BINMAP::BINMAP(const char *file_name)
 			observe_map.insert(make_pair(make_pair(iter->cbin1,iter->cbin2),iter->obs));
 			expect_map.insert(make_pair(make_pair(iter->cbin1,iter->cbin2),iter->exp));
 		}
-	}	
-	
+	}
 // load map from text : .n_contact
 	else if (t_found!=std::string::npos)
 	{
@@ -107,22 +106,18 @@ BINMAP::BINMAP(const char *file_name)
 			{
 				ss.clear(); ss.str(str);
 	// handle for the first line which might contain header
-				if(	ss >> cbin1 >> cbin2 >> exp >> obs )
+				if(	ss >> cbin1 >> cbin2 >> obs )
 				{
 					observe_map.insert(make_pair(make_pair(cbin1,cbin2),obs));
-					expect_map.insert(make_pair(make_pair(cbin1,cbin2),exp));
+					expect_map.insert(make_pair(make_pair(cbin1,cbin2),obs));
 				}
-				else if( ss >> cbin1 >> cbin2 >> obs )
-				{
-					observe_map.insert(make_pair(make_pair(cbin1,cbin2),obs));
-					expect_map.insert(make_pair(make_pair(cbin1,cbin2),obs));				
-				}
-			}		
-		}			
+			}
+		}		
 	}
 
-	cout << "\tobserve_map size =\t" << (int)observe_map.size() << endl;
-	cout << "\texpect_map size =\t" << (int)expect_map.size() << endl;
+// output reading information
+	cout << "\t\tmap size =\t" << (int)observe_map.size() << endl;
+	
 // close file	
 	input_f.close();
 	input_f.clear();

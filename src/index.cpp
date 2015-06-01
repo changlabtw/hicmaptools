@@ -17,7 +17,7 @@ INDEX::INDEX(const char *file_name)
 {
 	fstream input_f;
 	string str, chr;
-	stringstream ss;
+	stringstream ss1,ss2;
 	int cbin;	
 	vector<int> tmp_vec;
 	INDEX_ELE tmp_index;
@@ -34,7 +34,7 @@ INDEX::INDEX(const char *file_name)
 	}
 	else
 	{
-		cout << "\treading file =\t" << file_name << endl;
+		cout << "\treading index file =\t" << file_name << endl;
 	}
 
 	while(!input_f.eof())
@@ -42,11 +42,12 @@ INDEX::INDEX(const char *file_name)
 		getline(input_f, str);
 		if((int)str.length() > 0)
 		{
-			ss.clear(); ss.str(str);
+			ss1.clear(); ss1.str(str);
+			ss2.clear(); ss2.str(str);			
 // handle for the first line which might contain header
 // parse by two formats : "cbin	chr	from.coord	to.coord	count" | "cbin	chr	start	end"
-			if ((ss >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end >> tmp_index.count) || 
-			    (ss >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end))
+			if ((ss1 >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end >> tmp_index.count) || 
+			    (ss2 >> cbin >> tmp_index.chr >> tmp_index.start >> tmp_index.end))
 			{
 				if(cbin_map.find(tmp_index.chr) == cbin_map.end())
 				{
@@ -62,11 +63,13 @@ INDEX::INDEX(const char *file_name)
 			}
 		}		
 	}
-
 		
 	input_f.close();
 	input_f.clear();
 
+	cout << "\t\treading # of chrs = " <<  (int)cbin_map.size()  << endl;
+	cout << "\t\treading # of bins = " <<  (int)index_map.size()  << endl;
+	
 #ifdef DEBUG
 		cout << "cbin" << endl;
 		for(map< string, vector<int> >::iterator iter = cbin_map.begin(); iter != cbin_map.end();iter++)

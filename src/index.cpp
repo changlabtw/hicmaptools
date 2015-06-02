@@ -115,6 +115,9 @@ int INDEX::find_index( const string q_chr, const int q_pos, bool forStart, bool 
 	
 	if(cbin_map.find(q_chr) != cbin_map.end())
 	{
+//	lower	upper	
+//	from	to*
+//	from*	to
   		low=lower_bound(from_map[q_chr].begin(), from_map[q_chr].end(), q_pos);
   		up=upper_bound(to_map[q_chr].begin(), to_map[q_chr].end(), q_pos);
   		
@@ -127,25 +130,33 @@ int INDEX::find_index( const string q_chr, const int q_pos, bool forStart, bool 
    			//element found
    			int low_i = (low - from_map[q_chr].begin())-1;
    			int up_i  = (up - to_map[q_chr].begin());
-   			if (low_i == up_i){
    			
+   			if (low_i == up_i){   			
 #ifdef DEBUG   			
 	cout << q_pos << " in bin index = " << cbin_map[q_chr][up_i] << "\t" << from_map[q_chr][low_i] << "\t" << to_map[q_chr][low_i] << endl;	
 #endif
 				return cbin_map[q_chr][up_i];			
    			}
-// for case : 3R	10000000 	lower bin range 9995000	10000000 			uper bin range 10000000	10005000   			
+// for case : 3R	10000000	lower bin range 9995000	10000000 			uper bin range 10000000	10005000   			
    			else if (forStart && from_map[q_chr][up_i] == q_pos) {
    				return cbin_map[q_chr][up_i];
    			}
-// for case : 3R	15000000 			lower bin range 14995000	15000000 			uper bin range 15000000	15005000   			
+// for case : 3R	15000000 	lower bin range 14995000	15000000 			uper bin range 15000000	15005000		
    			else if (forEnd && to_map[q_chr][low_i] == q_pos) {
    				return cbin_map[q_chr][low_i];
-   			}   			
+   			}
+// for case : 1  45453905	lower bin range 45451483    45454915	upper bin range 45451483 45454915:two same bins => pick up the first one, special for fragment input		    			
+   			else if (forStart && from_map[q_chr][up_i] == from_map[q_chr][low_i]) {
+   				return cbin_map[q_chr][up_i];
+   			}
+// for case : 1  45453905	lower bin range 45451483    45454915	upper bin range 45451483 45454915:two same bins => pick up the second one, special for fragment input	   			
+   			else if (forEnd && to_map[q_chr][low_i] == to_map[q_chr][up_i]) {
+   				return cbin_map[q_chr][low_i];
+   			}  			   			
    			else {
    				cout << "[WARNING] no bin for " << q_chr << "\t" << q_pos
-   					 << " 			lower bin range " << from_map[q_chr][low_i] << "\t" << to_map[q_chr][low_i]
-   				     << " 			uper bin range " << from_map[q_chr][up_i] << "\t" << to_map[q_chr][up_i] << endl;   				
+   					 << "\tLOWER bin range " << from_map[q_chr][low_i] << "\t" << to_map[q_chr][low_i]
+   				     << "\tUPPER bin range " << from_map[q_chr][up_i] << "\t" << to_map[q_chr][up_i] << endl;   				
   				return NOT_FOUND;   			
    			}
 		}

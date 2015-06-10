@@ -116,7 +116,7 @@ BINMAP::BINMAP(const char *file_name)
 	}
 
 // output reading information
-	cout << "\t\tmap size =\t" << (int)observe_map.size() << endl;
+	cout << "\t\tmap size =\t" << (int)observe_map.size() << endl << endl;
 	
 // close file	
 	input_f.close();

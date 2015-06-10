@@ -40,7 +40,7 @@ BAT::BAT(const char *file_name, INDEX &index, const int fordward_the, const int 
 	}
 	else
 	{
-		cout << "\treading file =\t" << file_name << endl;
+		cout << "\treading BAT file =\t" << file_name << endl;
 	}
 
 	while(!input_f.eof())
@@ -80,6 +80,8 @@ BAT::BAT(const char *file_name, INDEX &index, const int fordward_the, const int 
 		
 	input_f.close();
 	input_f.clear();
+	
+	cout << "\t\t# of BATs =\t" << (int)BINBAT_vec.size() << endl << endl;
 }
 
 BAT::~BAT()

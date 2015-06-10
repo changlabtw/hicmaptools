@@ -59,10 +59,10 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option)
 void exit_with_help()
 {
 	printf(
-		"Usage: hicmaptools [options] -in_binmap in.binmap -in_bins in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv\n"
+		"Usage: hicmaptools [options] -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv\n"
 		"options:\n"
-		"\t-in_binmap \t binary .binmap generate from .n_contact 3CONET-build \n"
-		"\t-in_bins \t the bin file for contact map, .bins\n"
+		"\t-in_map \t binary .binmap generate from .n_contact 3CONET-build \n"
+		"\t-in_bin \t the bin file for contact map, .bins\n"
 		"\n"
 		"\t-loop   \t loci gene: chr\tstrat\tend\n"
 		"\t-output \t contact between two ends, ie. gene 5' 3'\n"		
@@ -174,10 +174,10 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 		if(++i>=argc)
 			exit_with_help();
 		
-		if( strncmp(argv[i-1],"-in_binmap", 20)==0 ){
+		if( strncmp(argv[i-1],"-in_map", 20)==0 ){
 			strcpy(par.in_binmap_name, argv[i]);
 		}
-		else if( strncmp(argv[i-1],"-in_bins", 20)==0 ){
+		else if( strncmp(argv[i-1],"-in_bin", 20)==0 ){
 			strcpy(par.in_bins_name, argv[i]);
 		}
 // query mode
@@ -236,11 +236,11 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 void show_param(PARAMETER par)
 {
 	cout << "Input" << endl
-	     << "\t binmap =\t" << par.in_binmap_name << endl
-	     << "\t bins   =\t" << par.in_bins_name << endl
+	     << "\t map =\t" << par.in_binmap_name << endl
+	     << "\t bin   =\t" << par.in_bins_name << endl
 	     << "\t query  =\t" << par.query_name << endl;
 
-	cout << "Query" << endl
+	cout << "Parameters" << endl
 	     << "\t ner_bin =\t"  << par.ner_bin << endl
 	     << "\t random  =\t"  << par.random_size << endl;
 	     

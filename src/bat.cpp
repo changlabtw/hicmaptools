@@ -184,9 +184,13 @@ void BAT::output(const char *fileName)
 		output_f << iter->index << "\t" << iter->chrom << "\t" 
 				 << iter->start << "\t" << iter->end << "\t" 
 				 << iter->sbin << "\t" << iter->ebin << "\t"
-		         << iter->sum_bin << "\t" 
-		         << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
-		         << iter->sum_rand_obs << "\t" << iter->sum_rand_exp << "\t" << iter->sum_rand_nor << "\t" 
+		         << iter->sum_bin << "\t" ;
+
+		output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
+		output_f.precision(3); // for fixed format, two decimal places    
+		         
+		output_f << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
+		         << iter->sum_rand_obs << "\t" << iter->sum_rand_exp << "\t" << iter->sum_rand_nor << "\t"
 		         << iter->sum_obs/iter->sum_rand_obs << "\t" << iter->sum_exp/iter->sum_rand_exp << "\t" << iter->sum_nor/iter->sum_rand_nor << "\t" << endl;
 	}
 	

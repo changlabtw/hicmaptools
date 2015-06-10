@@ -236,13 +236,13 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 void show_param(PARAMETER par)
 {
 	cout << "Input" << endl
-	     << "\t map =\t" << par.in_binmap_name << endl
+	     << "\t map   =\t" << par.in_binmap_name << endl
 	     << "\t bin   =\t" << par.in_bins_name << endl
-	     << "\t query  =\t" << par.query_name << endl;
+	     << "\t query =\t" << par.query_name << endl;
 
 	cout << "Parameters" << endl
-	     << "\t ner_bin =\t"  << par.ner_bin << endl
-	     << "\t random  =\t"  << par.random_size << endl;
+	     << "\t ner_bin     =\t"  << par.ner_bin << endl
+	     << "\t random size =\t"  << par.random_size << endl;
 	     
 	cout << "Output" << endl
 	     << "\t output =\t" << par.output_name << endl;  

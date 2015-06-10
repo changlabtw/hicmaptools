@@ -8,6 +8,7 @@
 #include <string>
 #include <cerrno> // for errno 
 #include <cstdlib>
+#include <limits>
 
 #include "bat.h"
 #include "index.h"
@@ -17,7 +18,7 @@ BAT::BAT()
 }
 
 // read BAT file from text
-BAT::BAT(const char *file_name, BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the)
+BAT::BAT(const char *file_name, INDEX &index, const int fordward_the, const int backward_the)
 {
 	fstream input_f;
 	string str;
@@ -27,7 +28,7 @@ BAT::BAT(const char *file_name, BINMAP &binmap, INDEX &index, const int fordward
 	int count = 1;
 	
 // initialisation
-	tmp.sum_obs = tmp.sum_exp = tmp.sum_nor = tmp.sum_bin = 0;
+	tmp.sum_obs = tmp.sum_exp = tmp.sum_nor = tmp.sum_bin = tmp.sum_rand_obs = tmp.sum_rand_exp = tmp.sum_rand_nor = 0;
 	tmp.sbin = tmp.ebin = tmp.fordward_bin = tmp.backward_bin = -1;	
 	
 	input_f.open(file_name, ios_base::in);
@@ -85,41 +86,75 @@ BAT::~BAT()
 {
 }
 
-void BAT::cal_contact(BINMAP &binmap)
+void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the, const int RANDOME_TEST_SIZE)
 {
-// initialization
-	float obs, exp;
-		
+// initialisation
+	float obs, exp, sum_rand_obs, sum_rand_exp, sum_rand_nor;
+	int rand_count;
+	vector< pair<int, int> > random_bins;
+	pair<int, int> r_tmp;
+	int tmp_s, tmp_e;
+	int fordward_bin, backward_bin;
+			
 //  loop for all bats	
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{
 // loop for all internal contacts inside each bat
-		for(int i=iter->fordward_bin; i<=iter->backward_bin; i++)
+		for(int i=iter->sbin; i<=iter->ebin; i++)
 		{
-// check pair contact for sbin
-				obs = binmap.get_observe(iter->sbin , i);
-  				exp = binmap.get_expect(iter->sbin , i);
-  					
-  				if ((obs != -1) && (exp != -1))
-  				{
-  					iter->sum_obs += obs;
-  					iter->sum_exp += exp;
-  					iter->sum_nor += obs/exp;
-  					iter->sum_bin++;
-				}
-				
-// check pair contact for ebin
-				obs = binmap.get_observe(iter->ebin, i);
-  				exp = binmap.get_expect(iter->ebin, i);
-  					
-  				if ((obs != -1) && (exp != -1))
-  				{
-  					iter->sum_obs += obs;
-  					iter->sum_exp += exp;
-  					iter->sum_nor += obs/exp;  					
-  					iter->sum_bin++;
-				}				
+			for(int j=iter->fordward_bin; j<=iter->backward_bin; j++)
+			{
+	// check pair contact for sbin
+					obs = binmap.get_observe(i, j);
+					exp = binmap.get_expect(i, j);
+					
+					if ((obs != -1) && (exp != -1))
+					{
+						iter->sum_obs += obs;
+						iter->sum_exp += exp;
+						iter->sum_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+						iter->sum_bin++;  					
+					}
+			}		
 		}
+
+// generate random bin pair for randomisation test
+		random_bins.clear();
+		random_bins.resize(RANDOME_TEST_SIZE);
+		index.gen_random_index(iter->sbin, iter->ebin, random_bins);
+// calculate contact for random bins
+		sum_rand_obs = sum_rand_exp = sum_rand_nor = 0;	
+		rand_count = 0;				
+		for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+// get the index range for the specified chrom: begin & end
+				tmp_s = random_bins[r].first;
+				tmp_e = random_bins[r].second;
+				r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
+							
+				fordward_bin = (tmp_s-fordward_the > r_tmp.first)  ? tmp_s-fordward_the : r_tmp.first;
+				backward_bin = (tmp_e+backward_the < r_tmp.second) ? tmp_e+backward_the : r_tmp.second;
+				
+				for(int i=tmp_s; i<=tmp_e; i++)
+				{
+					for(int j=fordward_bin; j<=backward_bin; j++)
+					{
+						obs = binmap.get_observe(i, j);
+						exp = binmap.get_expect(i, j);
+					
+						if ((obs != -1) && (exp != -1))
+						{
+							sum_rand_obs += obs;
+							sum_rand_exp += exp;
+							sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							rand_count++;	
+						}
+					}
+				}
+		}
+					
+		iter->sum_rand_obs += sum_rand_obs/RANDOME_TEST_SIZE;
+		iter->sum_rand_exp += sum_rand_exp/RANDOME_TEST_SIZE;
+		iter->sum_rand_nor += sum_rand_nor/RANDOME_TEST_SIZE;	
 	}	
 }
 
@@ -137,7 +172,10 @@ void BAT::output(const char *fileName)
 	}
 	
 // print header 
-	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\tsum_obs\tsum_exp\tsum_nor" << endl;
+	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\tsum_obs\tsum_exp\tsum_nor\t" 
+	                                                       << "rand_obs\trand_exp\trand_nor\t"
+	                                                       << "divide_obs\tdivide_exp\tdivide_nor\t"	                                                       
+	                                                       << endl;
 		
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{
@@ -145,7 +183,9 @@ void BAT::output(const char *fileName)
 				 << iter->start << "\t" << iter->end << "\t" 
 				 << iter->sbin << "\t" << iter->ebin << "\t"
 		         << iter->sum_bin << "\t" 
-		         << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << endl;
+		         << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
+		         << iter->sum_rand_obs << "\t" << iter->sum_rand_exp << "\t" << iter->sum_rand_nor << "\t" 
+		         << iter->sum_obs/iter->sum_rand_obs << "\t" << iter->sum_exp/iter->sum_rand_exp << "\t" << iter->sum_nor/iter->sum_rand_nor << "\t" << endl;
 	}
 	
 	output_f.close();	

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <algorithm>
+#include <ctime> // for random generator
 
 #include <stdio.h>
 #include <string.h>
@@ -23,7 +24,7 @@ using namespace std;
 ////////////////////////////////////
 struct PARAMETER{
 // initialization
-	PARAMETER() : in_binmap_name(), in_bins_name(), query_name(), output_name(), query_mode("none"), ner_bin(10) {}
+	PARAMETER() : in_binmap_name(), in_bins_name(), query_name(), output_name(), query_mode("none"), ner_bin(10), random_size(100) {}
 
     char in_binmap_name[1024];
 	char in_bins_name[1024];
@@ -31,6 +32,7 @@ struct PARAMETER{
 	char output_name[1024];
 	string query_mode;
 	int ner_bin; // check bins in +- ner_bin
+	int random_size;
 };
 
 void parse_command_line(int argc, char **argv, PARAMETER &par);
@@ -91,18 +93,15 @@ void exit_with_help()
 
 int main(int argc, char *argv[])
 {
-//	char in_binmap_name[1024] = "";
-//	char in_bins_name[1024] = "";
-//	char query_name[1024] = "";
-//	char output_name[1024] = "";
-//	string query_mode;
+// parse data
 	PARAMETER par;
 	
 	parse_command_line(argc, argv, par);
 	show_param(par);
-	return 0;
+
+//	for random
+	srand((unsigned)time(NULL)); 
 	
-//		
 	cout << endl << "[BEGIN]" << endl;
 	BINMAP map(par.in_binmap_name);
 	INDEX index(par.in_bins_name);
@@ -132,16 +131,16 @@ int main(int argc, char *argv[])
 	}	
 	else if (par.query_mode == "bat")
 	{
-		BAT bat(par.query_name, map, index, par.ner_bin, par.ner_bin);
+		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
 		
-		bat.cal_contact(map);
+		bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size);
 		bat.output(par.output_name);	
 	}
 	else if (par.query_mode == "site")
 	{
-		BAT bat(par.query_name, map, index, par.ner_bin, par.ner_bin);
+		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
 		
-		bat.cal_contact(map);
+		bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size);
 		bat.output_pair(par.output_name, map);		
 	}	
 	else if (par.query_mode == "submap")
@@ -160,7 +159,6 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-//void parse_command_line(int argc, char **argv, char *in_binmap_name, char *in_bins_name, char *query_name, char *output_name, char *output2_name, string& query_mode)
 void parse_command_line(int argc, char **argv, PARAMETER &par)
 {
 	int i;
@@ -211,10 +209,15 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			par.query_mode = "site";
 			strcpy(par.query_name, argv[i]);
 		}		
-// other query parameter
+// other parameters		
+// check neighbouring bins for bat mode
 		else if( strncmp(argv[i-1],"-ner_bin", 20)==0 ){
 			par.ner_bin = atoi(argv[i]);
 		}						
+// random size
+		else if( strncmp(argv[i-1],"-random", 20)==0 ){
+			par.random_size = atoi(argv[i]);
+		}								
 // output								
 		else if( strncmp(argv[i-1],"-output", 20)==0 ){
 			strcpy(par.output_name, argv[i]);
@@ -238,8 +241,9 @@ void show_param(PARAMETER par)
 	     << "\t query  =\t" << par.query_name << endl;
 
 	cout << "Query" << endl
-	     << "\t ner_bin =\t"  << par.ner_bin << endl;
-
+	     << "\t ner_bin =\t"  << par.ner_bin << endl
+	     << "\t random  =\t"  << par.random_size << endl;
+	     
 	cout << "Output" << endl
 	     << "\t output =\t" << par.output_name << endl;  
 }

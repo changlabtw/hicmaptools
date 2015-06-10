@@ -21,6 +21,9 @@ struct BINBAT
 	float sum_obs;
 	float sum_exp;
 	float sum_nor;
+	float sum_rand_obs;
+	float sum_rand_exp;
+	float sum_rand_nor;	
 };
 
 //===BAT===
@@ -28,9 +31,9 @@ class BAT
 {
 public:
 	BAT();
-	BAT( const char *fileName, BINMAP &binmap, INDEX &index , int fordward_the, int backward_the);
+	BAT( const char *fileName, INDEX &index , int fordward_the, int backward_the);
 	~BAT();
-	void cal_contact( BINMAP &binmap );
+	void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size);
 	void output( const char *fileName );
 	void output_pair(const char *fileName, BINMAP &binmap);
 protected:

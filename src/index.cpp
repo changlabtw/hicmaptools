@@ -15,6 +15,7 @@ INDEX::INDEX()
 // load map from binary file
 INDEX::INDEX(const char *file_name)
 {
+	FIXED_BIN = true;
 	fstream input_f;
 	string str, chr;
 	stringstream ss1,ss2;
@@ -167,4 +168,53 @@ int INDEX::find_index( const string q_chr, const int q_pos, bool forStart, bool 
 		return NOT_FOUND;
 	}	
 }
+
+void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, int> > &random_index)
+{
+	INDEX_ELE ele1, ele2;
+	int bin_dis = abs(biny-binx);
+
+//	for random
+	int random_size = (int)random_index.size();
+	int random_x, random_y;
+	int count = 0;
+		
+// check inter-chromosome or intra-chromosome
+	if (index_map.find(binx) != index_map.end() && index_map.find(biny) != index_map.end()){
+		ele1 = index_map[binx];
+		ele2 = index_map[biny];
+		cout << "\tgenerate random for " << binx << " " << biny << endl;		
+	}	
+	else{
+		cout << "ERROR: can not find index for bins " << binx << " or " << biny << endl;
+		return; 
+	}
 	
+// inter-chromosome	
+	if(ele1.chr == ele2.chr){
+//select bins from the chromosome
+		vector<int> pool_bins = cbin_map[ele1.chr];
+
+		if(FIXED_BIN){
+// fixed bins : random use bin difference
+			int rand_x_limit = (int)pool_bins.size()-bin_dis;
+			do{ 
+				random_x = (int)(((double)rand()/RAND_MAX)*(rand_x_limit + 1));
+        		random_y = random_x + bin_dis;
+        		if ((pool_bins[random_y] - pool_bins[random_x]) == bin_dis)	// avoiding the vector of the bins is not continuos
+        		{
+        			random_index[count] = make_pair(random_x,random_y);
+        			count++;
+//        			cout << "\tpair " << random_x << " " << random_y << endl; 
+        		}
+    		} while (count < random_size); 
+		}else{
+// non-fixed bins : random use distance => take longer computing time
+			cout << " WARNING: random index for non-fxied bin is not implemented, time consuming" << endl;		
+		}	
+	}
+// intra-chromosome
+	else{
+		cout << " WARNING: random index for intra-chromosome is not implemented" << endl;
+	}		
+}

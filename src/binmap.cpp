@@ -208,6 +208,7 @@ BINMAP::~BINMAP()
 {
 }
 
+// get observe contact from contact map
 float BINMAP::get_observe( const int i, const int j )
 {
 	pair<int, int> index;
@@ -218,14 +219,10 @@ float BINMAP::get_observe( const int i, const int j )
 	else	
 		index = make_pair(j, i);
 		
-	if ( observe_map.find(index) != observe_map.end() ){
-		return observe_map[index];
-	}
-	else{
-		return -1;
-	}
+	return ( observe_map.find(index) != observe_map.end() ) ? observe_map[index] : -1;		
 };
 
+// get expect contact from contact map
 float BINMAP::get_expect( const int i, const int j )
 {
 	pair<int, int> index;
@@ -236,12 +233,7 @@ float BINMAP::get_expect( const int i, const int j )
 	else	
 		index = make_pair(j, i);
 
-	if ( expect_map.find(index) != expect_map.end() ){
-		return expect_map[index];
-	}
-	else{
-		return -1;
-	}
+	return ( expect_map.find(index) != expect_map.end() ) ? expect_map[index] : -1;
 };
 
 void BINMAP::out_subcontact( const int start_bin, const int end_bin, const char *fileName )

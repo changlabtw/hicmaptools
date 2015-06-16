@@ -60,10 +60,11 @@ void exit_with_help()
 {
 	printf(
 		"Usage: hicmaptools [options] -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv\n"
-		"options:\n"
+		"inputs:\n"
 		"\t-in_map \t binary .binmap generate from .n_contact 3CONET-build \n"
 		"\t-in_bin \t the bin file for contact map, .bins\n"
 		"\n"
+		"queries:\n"
 		"\t-loop   \t loci gene: chr\tstrat\tend\n"
 		"\t-output \t contact between two ends, ie. gene 5' 3'\n"		
 		"\n"
@@ -85,8 +86,11 @@ void exit_with_help()
 		"\t-couple \t pair sites: chr1\tstrat1\tend1\tchr2\tstrat2\tend2\n"
 		"\t-output \t output pair contacts\n"
 		"\n"
+		"query parameters:\n"
+		"\t-random N \t random sampling corresponding N contacts\n"
+		"\t-ner_bin N\t consider within +- N bins\n"	
 		"\nFor instance:\n"
-		"\thicmaptools -in_binmap nm_none_1000_reduced.bimap -in_bins nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv\n"
+		"\thicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -TAD data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv\n"
 	);
 	exit(0);
 }

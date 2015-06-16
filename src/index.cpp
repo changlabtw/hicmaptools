@@ -161,17 +161,20 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 {
 	INDEX_ELE ele1, ele2;
 	int bin_dis = abs(biny-binx);
+//select bins from the chromosome
+	vector<int> pool_bins = cbin_map[index_map[binx].chr];
 
 //	for random
 	int random_size = (int)random_index.size();
 	int random_x, random_y;
 	int count = 0;
+	int rand_x_limit;
 		
 // check inter-chromosome or intra-chromosome
 	if (index_map.find(binx) != index_map.end() && index_map.find(biny) != index_map.end()){
 		ele1 = index_map[binx];
 		ele2 = index_map[biny];
-		cout << "\tgenerate random for " << binx << " " << biny << " random size = " << random_size << endl;		
+		cout << "\tgenerate random for " << binx << " " << biny << "\trandom size = " << random_size << " ... ";		
 	}	
 	else{
 		cout << "ERROR: can not find index for bins " << binx << " or " << biny << endl;
@@ -180,18 +183,15 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 	
 // inter-chromosome	
 	if(ele1.chr == ele2.chr){
-//select bins from the chromosome
-		vector<int> pool_bins = cbin_map[ele1.chr];
-
 		if(FIXED_BIN){
 // fixed bins : random use bin difference
-			int rand_x_limit = (int)pool_bins.size()-bin_dis;
+			rand_x_limit = (int)pool_bins.size()-2-bin_dis;
 			do{ 
-				random_x = (int)(((double)rand()/RAND_MAX)*(rand_x_limit + 1));
+				random_x = (int)(((double)rand()/RAND_MAX)*rand_x_limit);
         		random_y = random_x + bin_dis;
         		if ((pool_bins[random_y] - pool_bins[random_x]) == bin_dis)	// avoiding the vector of the bins is not continuos
         		{
-        			random_index[count] = make_pair(random_x,random_y);
+        			random_index[count] = make_pair(pool_bins[random_x],pool_bins[random_y]);
         			count++;
 //        			cout << "\tpair " << random_x << " " << random_y << endl; 
         		}
@@ -204,5 +204,6 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 // intra-chromosome
 	else{
 		cout << " WARNING: random index for intra-chromosome is not implemented" << endl;
-	}		
+	}
+	cout << "[DONE]" << endl;		
 }

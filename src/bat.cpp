@@ -110,7 +110,7 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		{
 			for(int j=iter->fordward_bin; j<=iter->backward_bin; j++)
 			{
-	// check pair contact for sbin
+// check pair contact for sbin
 					obs = binmap.get_observe(i, j);
 					exp = binmap.get_expect(i, j);
 					

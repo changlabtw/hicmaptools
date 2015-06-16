@@ -100,8 +100,6 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 	int tmp_s, tmp_e;
 	int fordward_bin, backward_bin;
 	
-//	random_bins.resize(RANDOME_TEST_SIZE);		
-
 //  loop for all bats	
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{
@@ -125,8 +123,6 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		}
 
 // generate random bin pair for randomisation test
-//		random_bins.clear();
-//		random_bins.resize(RANDOME_TEST_SIZE);
 		index.gen_random_index(iter->sbin, iter->ebin, random_bins);
 						
 		for(int r = 0; r < RANDOME_TEST_SIZE; r++){
@@ -134,36 +130,39 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 // get the index range for the specified chrom: begin & end
 				tmp_s = random_bins[r].first;
 				tmp_e = random_bins[r].second;
-				r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
+// if generate random index				
+				if ((tmp_s != 0) && (tmp_e != 0)){
+					r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
 							
-				fordward_bin = (tmp_s-fordward_the > r_tmp.first)  ? tmp_s-fordward_the : r_tmp.first;
-				backward_bin = (tmp_e+backward_the < r_tmp.second) ? tmp_e+backward_the : r_tmp.second;
+					fordward_bin = (tmp_s-fordward_the > r_tmp.first)  ? tmp_s-fordward_the : r_tmp.first;
+					backward_bin = (tmp_e+backward_the < r_tmp.second) ? tmp_e+backward_the : r_tmp.second;
 
-				for(int i=tmp_s; i<=tmp_e; i++)
-				{
-					for(int j=fordward_bin; j<=backward_bin; j++)
+					for(int i=tmp_s; i<=tmp_e; i++)
 					{
-						obs = binmap.get_observe(i, j);
-						exp = binmap.get_expect(i, j);
-					
-						if ((obs != -1) && (exp != -1))
+						for(int j=fordward_bin; j<=backward_bin; j++)
 						{
-							iter->sum_rand_obs += obs;
-							iter->sum_rand_exp += exp;
-							iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
-							run_obs += obs;
-							run_exp += exp; 
-							run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							obs = binmap.get_observe(i, j);
+							exp = binmap.get_expect(i, j);
+					
+							if ((obs != -1) && (exp != -1))
+							{
+								iter->sum_rand_obs += obs;
+								iter->sum_rand_exp += exp;
+								iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+								run_obs += obs;
+								run_exp += exp; 
+								run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							}
 						}
 					}
-				}
 				
-				if (run_obs > iter->sum_obs) iter->rank_obs++;
-				if (run_exp > iter->sum_exp) iter->rank_exp++;
-				if (run_nor > iter->sum_nor) iter->rank_nor++;
+					if (run_obs > iter->sum_obs) iter->rank_obs++;
+					if (run_exp > iter->sum_exp) iter->rank_exp++;
+					if (run_nor > iter->sum_nor) iter->rank_nor++;
 #ifdef DEBUG				
 				cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
 #endif
+				}
 		 }
 
 #ifdef DEBUG						 

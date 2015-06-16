@@ -29,7 +29,8 @@ BAT::BAT(const char *file_name, INDEX &index, const int fordward_the, const int 
 	
 // initialisation
 	tmp.sum_obs = tmp.sum_exp = tmp.sum_nor = tmp.sum_bin = tmp.sum_rand_obs = tmp.sum_rand_exp = tmp.sum_rand_nor = 0;
-	tmp.sbin = tmp.ebin = tmp.fordward_bin = tmp.backward_bin = -1;	
+	tmp.sbin = tmp.ebin = tmp.fordward_bin = tmp.backward_bin = -1;
+	tmp.rank_obs = tmp.rank_exp = tmp.rank_nor = 0;
 	
 	input_f.open(file_name, ios_base::in);
 	if(!input_f)
@@ -91,13 +92,16 @@ BAT::~BAT()
 void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the, const int RANDOME_TEST_SIZE)
 {
 // initialisation
-	float obs, exp, sum_rand_obs, sum_rand_exp, sum_rand_nor;
-	int rand_count;
-	vector< pair<int, int> > random_bins;
+	float obs, exp;
+	float run_obs, run_exp, run_nor;
+//	vector< pair<int, int> > random_bins;
+	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
 	pair<int, int> r_tmp;
 	int tmp_s, tmp_e;
 	int fordward_bin, backward_bin;
-			
+	
+//	random_bins.resize(RANDOME_TEST_SIZE);		
+
 //  loop for all bats	
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{
@@ -121,13 +125,12 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		}
 
 // generate random bin pair for randomisation test
-		random_bins.clear();
-		random_bins.resize(RANDOME_TEST_SIZE);
+//		random_bins.clear();
+//		random_bins.resize(RANDOME_TEST_SIZE);
 		index.gen_random_index(iter->sbin, iter->ebin, random_bins);
-// calculate contact for random bins
-		sum_rand_obs = sum_rand_exp = sum_rand_nor = 0;	
-		rand_count = 0;				
+						
 		for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+				run_obs = run_exp = run_nor = 0;
 // get the index range for the specified chrom: begin & end
 				tmp_s = random_bins[r].first;
 				tmp_e = random_bins[r].second;
@@ -135,7 +138,7 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 							
 				fordward_bin = (tmp_s-fordward_the > r_tmp.first)  ? tmp_s-fordward_the : r_tmp.first;
 				backward_bin = (tmp_e+backward_the < r_tmp.second) ? tmp_e+backward_the : r_tmp.second;
-				
+
 				for(int i=tmp_s; i<=tmp_e; i++)
 				{
 					for(int j=fordward_bin; j<=backward_bin; j++)
@@ -145,18 +148,35 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 					
 						if ((obs != -1) && (exp != -1))
 						{
-							sum_rand_obs += obs;
-							sum_rand_exp += exp;
-							sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
-							rand_count++;	
+							iter->sum_rand_obs += obs;
+							iter->sum_rand_exp += exp;
+							iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							run_obs += obs;
+							run_exp += exp; 
+							run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
 						}
 					}
 				}
-		}
-					
-		iter->sum_rand_obs += sum_rand_obs/RANDOME_TEST_SIZE;
-		iter->sum_rand_exp += sum_rand_exp/RANDOME_TEST_SIZE;
-		iter->sum_rand_nor += sum_rand_nor/RANDOME_TEST_SIZE;	
+				
+				if (run_obs > iter->sum_obs) iter->rank_obs++;
+				if (run_exp > iter->sum_exp) iter->rank_exp++;
+				if (run_nor > iter->sum_nor) iter->rank_nor++;
+#ifdef DEBUG				
+				cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+#endif
+		 }
+
+#ifdef DEBUG						 
+		 cout << "normal end" << endl;
+#endif
+	 			
+		 iter->sum_rand_obs /= RANDOME_TEST_SIZE;
+		 iter->sum_rand_exp /= RANDOME_TEST_SIZE;
+		 iter->sum_rand_nor /= RANDOME_TEST_SIZE;
+		 
+		 iter->rank_obs /= RANDOME_TEST_SIZE;
+		 iter->rank_exp /= RANDOME_TEST_SIZE;
+		 iter->rank_nor /= RANDOME_TEST_SIZE;		 		 
 	}	
 }
 
@@ -176,7 +196,8 @@ void BAT::output(const char *fileName)
 // print header 
 	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\tsum_obs\tsum_exp\tsum_nor\t" 
 	                                                       << "rand_obs\trand_exp\trand_nor\t"
-	                                                       << "divide_obs\tdivide_exp\tdivide_nor\t"	                                                       
+	                                                       << "divide_obs\tdivide_exp\tdivide_nor\t"
+	                                                       << "rank_obs\trank_exp\trank_nor\t"	                                                       
 	                                                       << endl;
 		
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
@@ -184,14 +205,16 @@ void BAT::output(const char *fileName)
 		output_f << iter->index << "\t" << iter->chrom << "\t" 
 				 << iter->start << "\t" << iter->end << "\t" 
 				 << iter->sbin << "\t" << iter->ebin << "\t"
-		         << iter->sum_bin << "\t" ;
+		         << iter->sum_bin << "\t";
 
 		output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
 		output_f.precision(3); // for fixed format, two decimal places    
 		         
 		output_f << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
 		         << iter->sum_rand_obs << "\t" << iter->sum_rand_exp << "\t" << iter->sum_rand_nor << "\t"
-		         << iter->sum_obs/iter->sum_rand_obs << "\t" << iter->sum_exp/iter->sum_rand_exp << "\t" << iter->sum_nor/iter->sum_rand_nor << "\t" << endl;
+		         << iter->sum_obs/iter->sum_rand_obs << "\t" << iter->sum_exp/iter->sum_rand_exp << "\t" << iter->sum_nor/iter->sum_rand_nor << "\t" 
+		         << iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor << "\t" 		         
+		         << endl;
 	}
 	
 	output_f.close();	

@@ -72,34 +72,22 @@ INDEX::INDEX(const char *file_name)
 	cout << "\t\treading # of bins = " <<  (int)index_map.size()  << endl << endl;
 	
 #ifdef DEBUG
-		cout << "cbin" << endl;
+		cout << "cbins" << endl;
 		for(map< string, vector<int> >::iterator iter = cbin_map.begin(); iter != cbin_map.end();iter++)
 		{
-			cout << "\t" << iter->first << endl;
-			for(vector<int>::iterator iter_v = iter->second.begin(); iter_v != iter->second.end();iter_v++)
-			{
-				cout << "\t\t" << *iter_v << endl;
-			}
+			cout << "\tchr\t" << iter->first << "\t first = " << iter->second.front() << " end = " << iter->second.back() << endl;			
 		}
 		
-		cout << "from" << endl;
+		cout << "start position" << endl;
 		for(map< string, vector<int> >::iterator iter = from_map.begin(); iter != from_map.end();iter++)
 		{
-			cout << "\t" << iter->first << endl;
-			for(vector<int>::iterator iter_v = iter->second.begin(); iter_v != iter->second.end();iter_v++)
-			{
-				cout << "\t\t" << *iter_v << endl;
-			}
+			cout << "\tchr\t" << iter->first << "\t first = " << iter->second.front() << " end = " << iter->second.back() << endl;			
 		}
 
-		cout << "to" << endl;
+		cout << "end position" << endl;
 		for(map< string, vector<int> >::iterator iter = to_map.begin(); iter != to_map.end();iter++)
 		{
-			cout << "\t" << iter->first << endl;
-			for(vector<int>::iterator iter_v = iter->second.begin(); iter_v != iter->second.end();iter_v++)
-			{
-				cout << "\t\t" << *iter_v << endl;
-			}
+			cout << "\tchr\t" << iter->first << "\t first = " << iter->second.front() << " end = " << iter->second.back() << endl;			
 		}		
 #endif
 
@@ -183,7 +171,7 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 	if (index_map.find(binx) != index_map.end() && index_map.find(biny) != index_map.end()){
 		ele1 = index_map[binx];
 		ele2 = index_map[biny];
-		cout << "\tgenerate random for " << binx << " " << biny << endl;		
+		cout << "\tgenerate random for " << binx << " " << biny << " random size = " << random_size << endl;		
 	}	
 	else{
 		cout << "ERROR: can not find index for bins " << binx << " or " << biny << endl;

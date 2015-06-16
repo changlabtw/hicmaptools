@@ -2,7 +2,7 @@
 
 all: 3CONET-build hicmaptools
 
-DEBUG = 0
+DEBUG ?= 0
 ifeq ($(DEBUG), 1)
     CFLAGS = -g -DDEBUG
 else

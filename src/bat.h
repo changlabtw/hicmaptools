@@ -17,13 +17,19 @@ struct BINBAT
 	int ebin;
 	int fordward_bin;
 	int backward_bin;
+// observe, expect, normalization for query BAT	
 	int sum_bin;
 	float sum_obs;
 	float sum_exp;
 	float sum_nor;
+// observe, expect, normalization for random sample	
 	float sum_rand_obs;
 	float sum_rand_exp;
-	float sum_rand_nor;	
+	float sum_rand_nor;
+// the rank of observe, expect, normalization among random sampling, in top sense
+	float rank_obs;
+	float rank_exp;
+	float rank_nor;			
 };
 
 //===BAT===

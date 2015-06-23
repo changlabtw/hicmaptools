@@ -1,6 +1,6 @@
 .KEEP_STAT:
 
-all: 3CONET-build hicmaptools
+all: genBiMap hicmaptools
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -13,13 +13,13 @@ Compiler	= g++
 FLAGS		= -Wall $(CFLAGS) -O2
 LIB		=
 
-OBJECT3CONETbuild	= 3CONET-build.o binmap.o
+OBJECTgenBiMap	= genBiMap.o binmap.o
 
 OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o
 
-3CONET-build:	$(OBJECT3CONETbuild)
-			$(Compiler) $(FLAGS) $(OBJECT3CONETbuild) -o 3CONET-build $(LIB)
-			mv -f 3CONET-build ../bin/.
+genBiMap:	$(OBJECTgenBiMap)
+			$(Compiler) $(FLAGS) $(OBJECTgenBiMap) -o genBiMap $(LIB)
+			mv -f genBiMap ../bin/.
 
 hicmaptools:	$(OBJECThicmaptools)
 			$(Compiler) $(FLAGS) $(OBJECThicmaptools) -o hicmaptools $(LIB)
@@ -32,5 +32,5 @@ clean:
 			rm -f *.o
 
 install:
-			mv -f ../3CONET-build ~/bin/.
+			mv -f ../genBiMap ~/bin/.
 			mv -f ../hicmaptools ~/bin/.

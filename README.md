@@ -37,10 +37,10 @@ variable ``$USER_BIN`` (check that it exists before run the make command).
 Usage 
 --------------------
 
-	hicmaptools -in_binmap in.binmap -in_bins in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
+	hicmaptools -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
 	options:  
-        	-in_binmap 	 binary .binmap generate from .n_contact 3CONET-build 
-        	-in_bins 	 the bin file for contact map, .bins
+        	-in_map 	 text .n_contact or binary .bimap by genBiMap commend 
+        	-in_bin 	 the bin file for contact map, .bins
         	
         	-loop 	 loci gene: chr	strat	end
         	-output 	 contact between two ends, ie. gene 5' 3'
@@ -65,35 +65,35 @@ Usage
 
 
 For instance:
->hicmaptools -in_binmap nm_none_1000_reduced.bimap -in_bins nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
+>hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 
 
 Contact Input (essential)
 -------------------------
 
-#####-in_bins
-
-  *bins definition
-   Format
+#####-in_bin
+   define the chromosome, start position and end position of each bin. Format is as the following:
+   ```
 	cbin	chr	from.coord	to.coord
 	1		2L	6000	7000
 	2		2L	7000	8000
 	3		2L	8000	9000
 	4		2L	9000	10000
 	5		2L	12000	13000
+   ```
+#####-in_map
+   contact map indexed by bins. Format is as the following: 
+   * expected_count : the expected contact between those two chromosome regions (bins) according to model
+   * observed_count : the observed contact between those two chromosome regions (bins) by HiC data
 
-#####-in_ncontact
-
-  *contact map, the column "count"
-   expected_count : the expected contact between those two chromosome regions (bins) according to model
-   observed_count : the observed contact between those two chromosome regions (bins) by HiC data
-   Format
+   ```
 	cbin1	cbin2	expected_count	observed_count
 	1	1	0.077080	50
 	1	2	0.389912	314
 	1	3	0.493750	163
 	1	4	0.560505	169
 	1	5	0.368884	79
+  ```
   
 Query Input  
 --------------------------

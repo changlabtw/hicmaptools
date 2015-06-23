@@ -94,7 +94,6 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 // initialisation
 	float obs, exp;
 	float run_obs, run_exp, run_nor;
-//	vector< pair<int, int> > random_bins;
 	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
 	pair<int, int> r_tmp;
 	int tmp_s, tmp_e;

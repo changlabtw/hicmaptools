@@ -154,9 +154,9 @@ int main(int argc, char *argv[])
 	}
 	else if (par.query_mode == "couple")
 	{
-// need to implement
-		COUPLE couple(par.query_name, index);		
-		couple.output(par.output_name, map);	
+		COUPLE couple(par.query_name, index);	
+		couple.cal_contact(map, index, par.random_size);
+		couple.output(par.output_name);	
 	}
 		
 	cout << endl << "[END]" << endl;

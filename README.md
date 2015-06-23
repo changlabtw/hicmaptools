@@ -39,7 +39,7 @@ Usage
 
 	hicmaptools -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
 	options:  
-        	-in_map 	 binary .binmap generate from .n_contact 3CONET-build 
+        	-in_map 	 text .n_contact or binary .bimap by genBiMap commend 
         	-in_bin 	 the bin file for contact map, .bins
         	
         	-loop 	 loci gene: chr	strat	end

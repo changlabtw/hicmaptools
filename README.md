@@ -37,10 +37,10 @@ variable ``$USER_BIN`` (check that it exists before run the make command).
 Usage 
 --------------------
 
-	hicmaptools -in_binmap in.binmap -in_bins in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
+	hicmaptools -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
 	options:  
-        	-in_binmap 	 binary .binmap generate from .n_contact 3CONET-build 
-        	-in_bins 	 the bin file for contact map, .bins
+        	-in_map 	 binary .binmap generate from .n_contact 3CONET-build 
+        	-in_bin 	 the bin file for contact map, .bins
         	
         	-loop 	 loci gene: chr	strat	end
         	-output 	 contact between two ends, ie. gene 5' 3'
@@ -65,7 +65,7 @@ Usage
 
 
 For instance:
->hicmaptools -in_binmap nm_none_1000_reduced.bimap -in_bins nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
+>hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 
 
 Contact Input (essential)

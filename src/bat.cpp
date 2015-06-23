@@ -192,11 +192,12 @@ void BAT::output(const char *fileName)
 	}
 	
 // print header 
-	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\tsum_obs\tsum_exp\tsum_nor\t" 
-	                                                       << "rand_obs\trand_exp\trand_nor\t"
-	                                                       << "divide_obs\tdivide_exp\tdivide_nor\t"
-	                                                       << "rank_obs\trank_exp\trank_nor\t"	                                                       
-	                                                       << endl;
+	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\t"
+			 << "sum_obs\tsum_exp\tsum_nor\t" 
+	         << "rand_obs\trand_exp\trand_nor\t"
+	         << "divide_obs\tdivide_exp\tdivide_nor\t"
+	         << "rank_obs\trank_exp\trank_nor\t"	                                                       
+	         << endl;
 		
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{

@@ -371,11 +371,12 @@ void BINMAP::out2list( INDEX &index, char *f_name, const int bin_dis )
 	o_f.close();
 };
 
-void BINMAP::out2matrix( INDEX &index, char *f_name, const int bin_dis )
+void BINMAP::out2matrix( INDEX &index, char *f_name, const string sel_chr )
 {
 	INDEX_ELE index1;
 	INDEX_ELE index2;
-
+	pair<int, int> index_range = index.get_index_range(sel_chr);
+	
 // open output list file
 	ofstream o_f;
 	o_f.open (f_name);
@@ -385,19 +386,20 @@ void BINMAP::out2matrix( INDEX &index, char *f_name, const int bin_dis )
 		perror(f_name);
 		exit(0);
 	}
-
-	for(map< pair<int, int>, float >::iterator iter = observe_map.begin(); iter != observe_map.end(); iter++)
+	
+	for(int i = index_range.first; i <= index_range.second; i++)
 	{
-// only output half part of matrix	
-		if(iter->first.second > iter->first.first)
+		for(int j = index_range.first; j <= index_range.second; j++)
 		{
-			index1 = index.get_index(iter->first.first);
-			index2 = index.get_index(iter->first.second);
-		
-			o_f << "chr" << index1.chr << "," << index1.start  << "," << index1.end << "\t"
-				<< "chr" << index2.chr << "," << index2.start  << "," << index2.end << "\t"
-				<< iter->second << endl;
-		}	
-	}
+			pair<int, int> tmp_i = make_pair(i, j);
+			if(observe_map.find(tmp_i) != observe_map.end())
+				o_f << observe_map[tmp_i];
+			else
+				o_f << 0;
+			o_f << "\t";
+		}
+		o_f << endl;
+	}	
+
 	o_f.close();
 };

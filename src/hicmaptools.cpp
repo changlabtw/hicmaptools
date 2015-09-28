@@ -87,8 +87,8 @@ void exit_with_help()
 		"\t-output \t output pair contacts\n"
 		"\n"
 		"query parameters:\n"
-		"\t-random N \t random sampling corresponding N contacts\n"
-		"\t-ner_bin N\t consider within +- N bins\n"	
+		"\t-random N \t random sampling corresponding N contacts [default: 100 contacts]\n"
+		"\t-ner_bin N\t consider within +- N bins [default: 10 bins]\n"
 		"\nFor instance:\n"
 		"\thicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -TAD data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv\n"
 	);

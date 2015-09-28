@@ -70,7 +70,7 @@ BAT::BAT(const char *file_name, INDEX &index, const int fordward_the, const int 
 // get the index range for the specified chrom: begin & end
 	  				r_tmp = index.get_index_range(tmp.chrom);
   				
-  					tmp.fordward_bin = (tmp.sbin-fordward_the > r_tmp.first) ? tmp.sbin-fordward_the : r_tmp.first;
+  					tmp.fordward_bin = (tmp.sbin-fordward_the > r_tmp.first)  ? tmp.sbin-fordward_the : r_tmp.first;
  					tmp.backward_bin = (tmp.ebin+backward_the < r_tmp.second) ? tmp.ebin+backward_the : r_tmp.second;
 					BINBAT_vec.push_back(tmp);
 				}

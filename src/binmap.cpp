@@ -116,7 +116,7 @@ BINMAP::BINMAP(const char *file_name)
 	}
 
 // output reading information
-	cout << "\t\tmap size =\t" << (int)observe_map.size() << endl << endl;
+	cout << "\tmap size                 =\t" << (int)observe_map.size() << endl << endl;
 	
 // close file	
 	input_f.close();
@@ -336,4 +336,68 @@ void BINMAP::out_contIne( const int cis_thre, INDEX &index, char *prefix )
 	}	
 	col_cis_f.close();			
 
+};
+
+void BINMAP::out2list( INDEX &index, char *f_name, const int bin_dis )
+{
+	INDEX_ELE index1;
+	INDEX_ELE index2;
+
+// open output list file
+	ofstream o_f;
+	o_f.open (f_name);
+	if(!o_f)
+	{
+		system("hostname");
+		perror(f_name);
+		exit(0);
+	}
+
+	for(map< pair<int, int>, float >::iterator iter = observe_map.begin(); iter != observe_map.end(); iter++)
+	{
+// only output half part of matrix & two bins in certain distance
+		if((iter->first.second > iter->first.first) && (iter->first.second - iter->first.first) > bin_dis)
+		{
+			index1 = index.get_index(iter->first.first);
+			index2 = index.get_index(iter->first.second);	
+			
+			if(iter->second > 0){
+				o_f << "chr" << index1.chr << "," << index1.start  << "," << index1.end << "\t"
+					<< "chr" << index2.chr << "," << index2.start  << "," << index2.end << "\t"
+					<< iter->second << endl;
+			}
+		}	
+	}
+	o_f.close();
+};
+
+void BINMAP::out2matrix( INDEX &index, char *f_name, const int bin_dis )
+{
+	INDEX_ELE index1;
+	INDEX_ELE index2;
+
+// open output list file
+	ofstream o_f;
+	o_f.open (f_name);
+	if(!o_f)
+	{
+		system("hostname");
+		perror(f_name);
+		exit(0);
+	}
+
+	for(map< pair<int, int>, float >::iterator iter = observe_map.begin(); iter != observe_map.end(); iter++)
+	{
+// only output half part of matrix	
+		if(iter->first.second > iter->first.first)
+		{
+			index1 = index.get_index(iter->first.first);
+			index2 = index.get_index(iter->first.second);
+		
+			o_f << "chr" << index1.chr << "," << index1.start  << "," << index1.end << "\t"
+				<< "chr" << index2.chr << "," << index2.start  << "," << index2.end << "\t"
+				<< iter->second << endl;
+		}	
+	}
+	o_f.close();
 };

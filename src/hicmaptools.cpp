@@ -16,24 +16,9 @@
 #include "bat.h"
 #include "region.h"
 #include "couple.h"
+#include "par.h"
 
 using namespace std;
-
-////////////////////////////////////
-// structure definiation
-////////////////////////////////////
-struct PARAMETER{
-// initialization
-	PARAMETER() : in_binmap_name(), in_bins_name(), query_name(), output_name(), query_mode("none"), ner_bin(10), random_size(100) {}
-
-    char in_binmap_name[1024];
-	char in_bins_name[1024];
-	char query_name[1024];
-	char output_name[1024];
-	string query_mode;
-	int ner_bin; // check bins in +- ner_bin
-	int random_size;
-};
 
 void parse_command_line(int argc, char **argv, PARAMETER &par);
 void show_param(PARAMETER par);

@@ -13,6 +13,24 @@
 
 using namespace std;
 
+////////////////////////////////////
+// parse function
+////////////////////////////////////
+char* getCmdOption(char ** begin, char ** end, const std::string & option)
+{
+    char ** itr = std::find(begin, end, option);
+    if (itr != end && ++itr != end)
+    {
+        return *itr;
+    }
+    return 0;
+}
+
+bool cmdOptionExists(char** begin, char** end, const std::string& option)
+{
+    return std::find(begin, end, option) != end;
+}
+
 void show_param(char *in_ncontact_name, char *out_bimap_name);
 
 void exit_with_help()
@@ -21,6 +39,7 @@ void exit_with_help()
 		"Turn .n_contact into list (for Wash U) or 2D matrix (for hommer)\n"	
 		"Usage: formatmap [options] -in_map input.n_contact|s0.mat -in_bin input.cbins -out_list|-out_2dmatrix out.tsv\n"
 		"options:\n"
+		"\t-use_normal \t output normalized contact or observed contact [default] \n"		
 		"\t-out_list \t list of pair-contact according to the format @ http://wiki.wubrowse.org/Long-range\n"
 		"\t-out_2dmatrix \t 2d matrix format @ \n"
 		"\nFor instance:\n"
@@ -43,11 +62,11 @@ int main(int argc, char *argv[])
 
 	if((par.query_mode == "none")||(par.query_mode == "list"))
 	{
-		map.out2list( index, par.output_name, par.ner_bin);
+		map.out2list( index, par);
 	}
 	else if(par.query_mode == "2dmatrix")
 	{
-		map.out2matrix( index, par.output_name, par.sel_chr);
+		map.out2matrix( index, par);
 	}
 	
 	cout << endl << "[END]" << endl;
@@ -75,7 +94,11 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 		else if( strncmp(argv[i-1],"-in_bin", 20)==0 ){
 			strcpy(par.in_bins_name, argv[i]);
 		}
-// other parameters		
+// other parameters
+// use normalized
+		else if( strncmp(argv[i-1],"-use_normal", 20)==0 ){
+			par.useNormal = true;
+		}
 // check neighbouring bins for bat mode
 		else if( strncmp(argv[i-1],"-ner_bin", 20)==0 ){
 			par.ner_bin = atoi(argv[i]);

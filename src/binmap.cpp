@@ -5,11 +5,11 @@
 #include <cerrno> // for errno 
 #include <string.h>
 #include <cstdlib>
-
+#include <limits>
 #include <vector>
+#include <math.h> 
 
 #include "binmap.h"
-#include "index.h"
 
 struct NCON_ELM
 {
@@ -338,11 +338,14 @@ void BINMAP::out_contIne( const int cis_thre, INDEX &index, char *prefix )
 
 };
 
-void BINMAP::out2list( INDEX &index, char *f_name, const int bin_dis )
-{
+void BINMAP::out2list( INDEX &index, PARAMETER par )
+{	
 	INDEX_ELE index1;
 	INDEX_ELE index2;
-
+	
+	char *f_name = par.output_name;
+	const int bin_dis = par.ner_bin;
+	
 // open output list file
 	ofstream o_f;
 	o_f.open (f_name);
@@ -360,19 +363,24 @@ void BINMAP::out2list( INDEX &index, char *f_name, const int bin_dis )
 		{
 			index1 = index.get_index(iter->first.first);
 			index2 = index.get_index(iter->first.second);	
-			
+						
 			if(iter->second > 0){
+				float output_cont=(par.useNormal) ? log((expect_map[iter->first]+std::numeric_limits<float>::min())/(iter->second+std::numeric_limits<float>::min())) : iter->second;
+				
 				o_f << "chr" << index1.chr << "," << index1.start  << "," << index1.end << "\t"
 					<< "chr" << index2.chr << "," << index2.start  << "," << index2.end << "\t"
-					<< iter->second << endl;
+					<< output_cont << endl;
 			}
 		}	
 	}
 	o_f.close();
 };
 
-void BINMAP::out2matrix( INDEX &index, char *f_name, const string sel_chr )
+void BINMAP::out2matrix( INDEX &index, PARAMETER par )
 {
+	char *f_name = par.output_name;
+	const string sel_chr = par.sel_chr;
+	 
 	INDEX_ELE index1;
 	INDEX_ELE index2;
 	pair<int, int> index_range = index.get_index_range(sel_chr);
@@ -392,8 +400,9 @@ void BINMAP::out2matrix( INDEX &index, char *f_name, const string sel_chr )
 		for(int j = index_range.first; j <= index_range.second; j++)
 		{
 			pair<int, int> tmp_i = make_pair(i, j);
+			
 			if(observe_map.find(tmp_i) != observe_map.end())
-				o_f << observe_map[tmp_i];
+				o_f << (par.useNormal) ? log((expect_map[tmp_i]+std::numeric_limits<float>::min())/(observe_map[tmp_i]+std::numeric_limits<float>::min())) : observe_map[tmp_i];
 			else
 				o_f << 0;
 			o_f << "\t";

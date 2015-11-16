@@ -42,6 +42,7 @@ void exit_with_help()
 		"\t-use_normal \t output normalized contact or observed contact [default] \n"		
 		"\t-out_list \t list of pair-contact according to the format @ http://wiki.wubrowse.org/Long-range\n"
 		"\t-out_2dmatrix \t 2d matrix format @ \n"
+		"\t-sel_chr \t select output chromosome \n"
 		"\nFor instance:\n"
 		"formatmap -in_map example/s0.mat -in_bin example/DpnII_hg19.cbins -out_list example/1000.bimap\n"
 	);
@@ -133,7 +134,7 @@ void show_param(PARAMETER par)
 	     << "\t map   =\t" << par.in_binmap_name << endl
 	     << "\t bin   =\t" << par.in_bins_name << endl;	     
 	cout << "Parameters" << endl
-	     << "\t ner_bin     =\t"  << par.ner_bin << endl	
+	     << "\t ner_bin     =\t"  << par.ner_bin << " (only used in out_list) " << endl	
 	     << "\t sel_chr     =\t"  << par.sel_chr << endl;	     
 	cout << "Output" << endl	
 	     << "\t output format =\t" << par.query_mode << endl	

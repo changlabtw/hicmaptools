@@ -8,6 +8,7 @@
 #include <limits>
 #include <vector>
 #include <math.h> 
+#include <iomanip>
 
 #include "binmap.h"
 
@@ -32,6 +33,7 @@ BINMAP::BINMAP(const char *file_name)
 	int cbin1, cbin2;
 	float exp, obs;
 	std::string file_n(file_name);
+	pair<int, int> tmp_pair;
 	
 // load map from binary or text	
 	string binary_format = ".binmap";
@@ -90,8 +92,9 @@ BINMAP::BINMAP(const char *file_name)
 	// handle for the first line which might contain header
 				if(	ss >> cbin1 >> cbin2 >> exp >> obs )
 				{
-					observe_map.insert(make_pair(make_pair(cbin1,cbin2),obs));
-					expect_map.insert(make_pair(make_pair(cbin1,cbin2),exp));
+					tmp_pair = make_pair(cbin1, cbin2);
+					observe_map.insert(make_pair(tmp_pair ,obs));
+					expect_map.insert(make_pair(tmp_pair, exp));
 				}
 			}		
 		}		
@@ -379,13 +382,13 @@ void BINMAP::out2list( INDEX &index, PARAMETER par )
 void BINMAP::out2matrix( INDEX &index, PARAMETER par )
 {
 	char *f_name = par.output_name;
-	const string sel_chr = par.sel_chr;
-	 
+	const string sel_chr = par.sel_chr; 
 	INDEX_ELE index1;
 	INDEX_ELE index2;
 	pair<int, int> index_range = index.get_index_range(sel_chr);
-	
-// open output list file
+	INDEX_ELE tmp_index;
+	float obs, exp;
+		
 	ofstream o_f;
 	o_f.open (f_name);
 	if(!o_f)
@@ -397,14 +400,23 @@ void BINMAP::out2matrix( INDEX &index, PARAMETER par )
 	
 	for(int i = index_range.first; i <= index_range.second; i++)
 	{
+		tmp_index = index.get_index(i);
+		o_f << tmp_index.chr << "\t" << tmp_index.start << "\t" << tmp_index.end << "\t";
+
 		for(int j = index_range.first; j <= index_range.second; j++)
 		{
-			pair<int, int> tmp_i = make_pair(i, j);
+			obs = get_observe(i, j);
+			exp = get_expect(i, j);
 			
-			if(observe_map.find(tmp_i) != observe_map.end())
-				o_f << (par.useNormal) ? log((expect_map[tmp_i]+std::numeric_limits<float>::min())/(observe_map[tmp_i]+std::numeric_limits<float>::min())) : observe_map[tmp_i];
-			else
+			if((obs != -1) && (exp != -1)){
+				if(par.useNormal){
+					o_f << fixed << setprecision(2) << log((obs+std::numeric_limits<float>::min())/(exp+std::numeric_limits<float>::min()));					
+				}else{
+					o_f << obs;
+				}
+			}else
 				o_f << 0;
+				
 			o_f << "\t";
 		}
 		o_f << endl;

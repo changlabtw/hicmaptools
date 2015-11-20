@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
 	cout << endl << "[BEGIN]" << endl;
 	BINMAP map(par.in_binmap_name);
 	INDEX index(par.in_bins_name);
-
+	
+	
 	if((par.query_mode == "none")||(par.query_mode == "list"))
 	{
 		map.out2list( index, par);

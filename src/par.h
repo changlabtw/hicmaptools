@@ -8,7 +8,7 @@
 ////////////////////////////////////
 struct PARAMETER{
 // initialization
-	PARAMETER() : in_binmap_name(), in_bins_name(), query_name(), output_name(), query_mode("none"), ner_bin(10), random_size(100), useNormal(false) {}
+	PARAMETER() : in_binmap_name(), in_bins_name(), query_name(), output_name(), query_mode("none"), ner_bin(10), random_size(100), sel_chr("NONE"), useNormal(false) {}
 
     char in_binmap_name[1024];
 	char in_bins_name[1024];

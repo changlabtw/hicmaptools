@@ -90,7 +90,6 @@ INDEX::INDEX(const char *file_name)
 			cout << "\tchr\t" << iter->first << "\t first = " << iter->second.front() << " end = " << iter->second.back() << endl;			
 		}		
 #endif
-
 }
 
 INDEX::~INDEX()

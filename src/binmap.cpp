@@ -370,9 +370,10 @@ void BINMAP::out2list( INDEX &index, PARAMETER par )
 			if(iter->second > 0){
 				float output_cont=(par.useNormal) ? log((expect_map[iter->first]+std::numeric_limits<float>::min())/(iter->second+std::numeric_limits<float>::min())) : iter->second;
 				
-				o_f << "chr" << index1.chr << "," << index1.start  << "," << index1.end << "\t"
-					<< "chr" << index2.chr << "," << index2.start  << "," << index2.end << "\t"
-					<< output_cont << endl;
+				o_f << "chr" << index1.chr << "\t" << index1.start  << "\t" << index1.end << "\t"
+					<< "chr" << index2.chr << ":" << index2.start  << "-" << index2.end << "," << output_cont << "\t1\t." << endl
+					<< "chr" << index2.chr << "\t" << index2.start  << "\t" << index2.end << "\t"
+					<< "chr" << index1.chr << ":" << index1.start  << "-" << index1.end << "," << output_cont << "\t2\t." << endl;
 			}
 		}	
 	}

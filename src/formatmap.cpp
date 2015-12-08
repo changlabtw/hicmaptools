@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	
 	parse_command_line(argc, argv, par);
 	show_param(par);
-
+	
 	cout << endl << "[BEGIN]" << endl;
 	BINMAP map(par.in_binmap_name);
 	INDEX index(par.in_bins_name);
@@ -80,7 +80,7 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 	int i;
 	
 	if (argc == 1 || cmdOptionExists(argv, argv+argc, "-h")){
-	 exit_with_help();
+		exit_with_help();
 	}
 	
 	// parse options
@@ -100,6 +100,7 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 // use normalized
 		else if( strncmp(argv[i-1],"-use_normal", 20)==0 ){
 			par.useNormal = true;
+			i--;
 		}
 // check neighbouring bins for bat mode
 		else if( strncmp(argv[i-1],"-ner_bin", 20)==0 ){
@@ -119,8 +120,8 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			strcpy(par.output_name, argv[i]);
 		}						
 		else{
-				fprintf(stderr,"unknown option:%s\n",argv[i-1]);
-				exit_with_help();	
+			fprintf(stderr,"unknown option:%s\n",argv[i-1]);
+			exit_with_help();	
 		}
 	}
 	
@@ -137,7 +138,8 @@ void show_param(PARAMETER par)
 	cout << "Parameters" << endl
 	     << "\t ner_bin     =\t"  << par.ner_bin << " (only used in out_list) " << endl	
 	     << "\t sel_chr     =\t"  << par.sel_chr << endl;	     
-	cout << "Output" << endl	
+	cout << "Output" << endl
+	     << "\t output count  =\t" << (par.useNormal? "log10(observe/expect)" : "observe") << endl	
 	     << "\t output format =\t" << par.query_mode << endl	
-	     << "\t output        =\t" << par.output_name << endl;  
+	     << "\t output file   =\t" << par.output_name << endl;  
 }

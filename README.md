@@ -37,33 +37,33 @@ variable ``$USER_BIN`` (check that it exists before run the make command).
 Usage 
 --------------------
 
-	hicmaptools -in_map in.binmap -in_bin in.bins -loop|-TAD|-bat|-submap query.bed -output out_file.tsv  
+	hicmaptools -in_map in.binmap -in_bin in.bins SELECT_ONE_QUERY_MODE query.bed -output out_file.tsv  
 	options:  
         	-in_map 	 text .n_contact or binary .bimap by genBiMap commend 
         	-in_bin 	 the bin file for contact map, .bins
+		
+	query modes: 
+		-bat 	 	 a loci bat: chr	strat	end
+        	-output 	 ave neighboring contact of the bat
+		
+        	-couple 	 pair of sites: chr1	strat1	end1	chr2	strat2	end2
+        	-output 	 contacts between all pairs
+
+        	-local 	 	 a interval: chr	strat	end
+        	-output 	 all contacts inside interval
+
+        	-loop 	 	 loci gene: chr	strat	end
+        	-output 	 contact between two ends, ie. 5' and 3' genes
         	
-        	-loop 	 loci gene: chr	strat	end
-        	-output 	 contact between two ends, ie. gene 5' 3'
-        	
-        	-TAD 	 loci interval: chr	strat	end
-        	-output 	 sum/ave contact of the TAD, ie. TAD
-        	
-        	-bat 	 loci bat: chr	strat	end
-        	-output 	 neighboring ave contact of the bat, ie. PcG binding site
-        	
+        	-TAD 	 	 loci interval: chr	strat	end
+        	-output 	 sum/ave contact of the TAD
+
+        	-site 	 	 interesting sites: chr	strat	end
+        	-output 	 contact between those sites        	        	
+
         	-submap 	 genome region to extract: chr	strat	end
         	-output 	 sub contact map, ie. 3R:10~15MB
         	
-        	-site 	 interesting sites: chr	strat	end
-        	-output 	 contact between those sites
-        	
-        	-local 	 interval: chr	strat	end
-        	-output 	 all contacts inside interval
-        	
-        	-couple 	 pair sites: chr1	strat1	end1	chr2	strat2	end2
-        	-output 	 output pair contacts
-
-
 For instance:
 >hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 
@@ -71,7 +71,7 @@ For instance:
 Contact Input (essential)
 -------------------------
 
-#####-in_bin
+##### -in_bin
    define the chromosome, start position and end position of each bin. Format is as the following:
    ```
 	cbin	chr	from.coord	to.coord
@@ -81,7 +81,7 @@ Contact Input (essential)
 	4		2L	9000	10000
 	5		2L	12000	13000
    ```
-#####-in_map
+##### -in_map
    contact map indexed by bins. Format is as the following: 
    * expected_count : the expected contact between those two chromosome regions (bins) according to model
    * observed_count : the observed contact between those two chromosome regions (bins) by HiC data
@@ -95,39 +95,44 @@ Contact Input (essential)
 	1	5	0.368884	79
   ```
   
-Query Input  
+Query Modes  
 --------------------------
 [bed format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) : first three required columns are enough.
 
-#####-TAD
+##### -bat
 
-  * sum./ave. contacts among the interval
-  * PcG/Active TAD different contact property
+  * calculate the average contacts +- 5000bps of the interested position
+  * PcG binding sites
 
-#####-local
+##### -couple
+
+  * Contact of the pair
+  * a enhancer vs a promoter
+
+##### -local
 
   * List all contacts inside the interval
   * Check intra-contacts of TAD
 
-#####-pair
-
-  * Contact of the pair
-  * Contact of given enhancer vs promoter
-
-#####-submap
-
-  * Contact map of interesting region
-  * Extract contacts of specific genome region
-
-#####-loop
+##### -loop
 
   * Contact between two ends
   * Check whether gene 5’ & 3’ form loop or not
 
-#####-site
+##### -TAD
+
+  * sum./ave. contacts among the interval
+  * PcG/Active TAD different contact property
+
+##### -site
 
   * Contact between these sites
   * Calculate contact for PcG pair sites
+
+##### -submap
+
+  * Contact map of interesting region
+  * Extract contacts of specific genome region
 
 Illustration for different query options 
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/outline.jpg)

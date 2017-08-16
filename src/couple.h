@@ -4,7 +4,7 @@
 #include <vector>
 #include "binmap.h"
 #include "index.h"
-#include "contact.h"
+#include "random.h"
 
 using namespace std;
 
@@ -19,8 +19,9 @@ struct COUPLE_E
 	int start2;
 	int end2;
 	int sbin2;
-	int ebin2;	
-	CONTACT_E cont;
+	int ebin2;
+	int num_bins=0;
+	RANDOM_E ran;
 };
 
 //===COUPLE===

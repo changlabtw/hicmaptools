@@ -135,4 +135,4 @@ Query Modes
   * Extract contacts of specific genome region
 
 Illustration for different query options 
-![](https://github.com/cbcrg/hicmaptools/blob/master/doc/queryExample.png)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/queryExample.pdf)

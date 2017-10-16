@@ -46,13 +46,13 @@ Usage
 		-bat 	 	 a loci bat: chr	start	end
         	-output 	 ave neighboring contact of the bat
 		
-        	-couple 	 pair of sites: chr1	start1	end1	chr2	strat2	end2
+        	-couple 	 pair of sites: chr1	start1	end1	chr2	start2	end2
         	-output 	 contacts between all pairs
 
         	-local 	 	 a interval: chr	start	end
         	-output 	 all contacts inside interval
 
-        	-loop 	 	 loci gene: chr	strat	end
+        	-loop 	 	 loci gene: chr	start	end
         	-output 	 contact between two ends, ie. 5' and 3' genes
         	
         	-TAD 	 	 loci interval: chr	start	end

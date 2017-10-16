@@ -58,7 +58,7 @@ Usage
         	-TAD 	 	 loci interval: chr	start	end
         	-output 	 sum/ave contact of the TAD
 
-        	-site 	 	 interesting sites: chr	start	end
+        	-sites 	 	 interesting sites: chr	start	end
         	-output 	 contact between those sites        	        	
 
         	-submap 	 genome region to extract: chr	start	end
@@ -124,7 +124,7 @@ Query Modes
   * sum./ave. contacts among the interval
   * PcG/Active TAD different contact property
 
-##### -site
+##### -sites
 
   * Contact between these sites
   * Calculate contact for PcG pair sites

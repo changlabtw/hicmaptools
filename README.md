@@ -43,25 +43,25 @@ Usage
         	-in_bin 	 the bin file for contact map, .bins
 		
 	query modes: 
-		-bat 	 	 a loci bat: chr	strat	end
+		-bat 	 	 a loci bat: chr	start	end
         	-output 	 ave neighboring contact of the bat
 		
-        	-couple 	 pair of sites: chr1	strat1	end1	chr2	strat2	end2
+        	-couple 	 pair of sites: chr1	start1	end1	chr2	strat2	end2
         	-output 	 contacts between all pairs
 
-        	-local 	 	 a interval: chr	strat	end
+        	-local 	 	 a interval: chr	start	end
         	-output 	 all contacts inside interval
 
         	-loop 	 	 loci gene: chr	strat	end
         	-output 	 contact between two ends, ie. 5' and 3' genes
         	
-        	-TAD 	 	 loci interval: chr	strat	end
+        	-TAD 	 	 loci interval: chr	start	end
         	-output 	 sum/ave contact of the TAD
 
-        	-site 	 	 interesting sites: chr	strat	end
+        	-site 	 	 interesting sites: chr	start	end
         	-output 	 contact between those sites        	        	
 
-        	-submap 	 genome region to extract: chr	strat	end
+        	-submap 	 genome region to extract: chr	start	end
         	-output 	 sub contact map, ie. 3R:10~15MB
         	
 For instance:

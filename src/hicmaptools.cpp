@@ -101,13 +101,13 @@ int main(int argc, char *argv[])
 	}
 	else if(par.query_mode == "loop")
 	{
-		QUERY query(par.query_name, map, index);
+		QUERY query(par.query_name, map, index, par.random_size, par.output_name);
 		query.output(par.output_name);
 	}
 	else if (par.query_mode == "TAD")
 	{
 		INTERVAL interval(par.query_name, map, index);
-		interval.gen_internal_contact(map);		
+		interval.gen_internal_contact(map, index, par.random_size, par.output_name);
 		interval.output(par.output_name, 1);
 	}
 	else if (par.query_mode == "local")
@@ -115,21 +115,21 @@ int main(int argc, char *argv[])
 		INTERVAL interval(par.query_name, map, index);
 		
 		cout << " generating internal contact " << endl;
-		interval.gen_internal_contact(map);
+		interval.gen_internal_contact(map, index, par.random_size, par.output_name);
 		interval.output_internal(par.output_name);		
 	}	
 	else if (par.query_mode == "bat")
 	{
-		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
-		
-		bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size);
-		bat.output(par.output_name);	
+        BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
+        
+        bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size, par.output_name);
+        bat.output(par.output_name);
 	}
 	else if (par.query_mode == "site")
 	{
 		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
 		
-		bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size);
+		bat.cal_contact(map, index, par.ner_bin, par.ner_bin, par.random_size, par.output_name);
 		bat.output_pair(par.output_name, map);		
 	}	
 	else if (par.query_mode == "submap")
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 	else if (par.query_mode == "couple")
 	{
 		COUPLE couple(par.query_name, index);	
-		couple.cal_contact(map, index, par.random_size);
+		couple.cal_contact(map, index, par.random_size, par.output_name);
 		couple.output(par.output_name);	
 	}
 		

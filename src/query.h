@@ -16,6 +16,10 @@ struct BINCONT
 	int cbin2;
 	float obs;
 	float exp;
+    float nor;
+    float rank_obs;
+    float rank_exp;
+    float rank_nor;
 };
 
 //===QUERY===
@@ -23,7 +27,7 @@ class QUERY
 {
 public:
 	QUERY();
-	QUERY(const char *fileName, BINMAP &binmap, INDEX &index);
+	QUERY(const char *fileName, BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *OutputName);
 	~QUERY();
 	void gen_random();
 	void gen_rightdown();

@@ -20,6 +20,15 @@ struct BININTERVAL
 	int sum_bin;
 	float sum_obs;
 	float sum_exp;
+    float sum_nor;
+// observe, expect, normalization for random sample
+    float sum_rand_obs;
+    float sum_rand_exp;
+    float sum_rand_nor;
+// the rank of observe, expect, normalization among random sampling, in top sense
+    float rank_obs;
+    float rank_exp;
+    float rank_nor;
 };
 
 //===INTERVAL===
@@ -29,7 +38,7 @@ public:
 	INTERVAL();
 	INTERVAL( const char *fileName, BINMAP &binmap, INDEX &index );
 	~INTERVAL();
-	void gen_internal_contact( BINMAP &binmap );
+	void gen_internal_contact( BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *fileName );
 	void output(const char *fileName, bool show_average);
 	void output_internal(const char *fileName);
 protected:

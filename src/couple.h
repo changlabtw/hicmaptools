@@ -30,7 +30,7 @@ public:
 	COUPLE();
 	COUPLE(const char *fileName, INDEX &index);
 	~COUPLE();
-	void cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE);	
+	void cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *fileName);	
 	void output(const char *fileName);
 protected:
 	vector< COUPLE_E > COUPLE_vec;	

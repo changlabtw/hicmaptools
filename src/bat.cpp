@@ -13,6 +13,7 @@
 #include "bat.h"
 #include "index.h"
 
+
 BAT::BAT()
 {
 }
@@ -89,7 +90,7 @@ BAT::~BAT()
 {
 }
 
-void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the, const int RANDOME_TEST_SIZE)
+void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the, const int RANDOME_TEST_SIZE, const char *outputfileName)
 {
 // initialisation
 	float obs, exp;
@@ -98,6 +99,9 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 	pair<int, int> r_tmp;
 	int tmp_s, tmp_e;
 	int fordward_bin, backward_bin;
+// random test
+    float test[RANDOME_TEST_SIZE][3];
+    int outputcount=1;
 	
 //  loop for all bats	
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
@@ -154,7 +158,11 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 							}
 						}
 					}
-				
+                    
+                    test[r][0] = run_obs;
+                    test[r][1] = run_exp;
+                    test[r][2] = run_nor;
+                    
 					if (run_obs > iter->sum_obs) iter->rank_obs++;
 					if (run_exp > iter->sum_exp) iter->rank_exp++;
 					if (run_nor > iter->sum_nor) iter->rank_nor++;
@@ -175,7 +183,25 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		 iter->rank_obs /= RANDOME_TEST_SIZE;
 		 iter->rank_exp /= RANDOME_TEST_SIZE;
 		 iter->rank_nor /= RANDOME_TEST_SIZE;		 		 
-	}	
+	
+//ranom test
+        string filename = "random_" + to_string(outputcount) + "_" + (string)outputfileName;
+        ofstream myfile(filename);
+        if (myfile.is_open())
+        {
+            myfile << "random_obs,";
+            myfile << "random_exp,";
+            myfile << "random_nor\n";
+            for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+                myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+            }
+            myfile.close();
+            outputcount++;
+        }
+        else cout << "Unable to open file";
+        
+    }
+    
 }
 
 // output function

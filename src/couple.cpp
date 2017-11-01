@@ -74,13 +74,17 @@ COUPLE::~COUPLE()
 {
 }
 
-void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE)
+void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *outputfileName)
 {
 	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
 	float run_obs, run_exp, run_nor, obs, exp;
 	int tmp_s1, tmp_e1, tmp_s2, tmp_e2, dif1, dif2;
 	pair<int, int> r_tmp;
 		
+// random test
+    float test[RANDOME_TEST_SIZE][3];
+    int outputcount=1;
+    
 	for(vector< COUPLE_E >::iterator iter = COUPLE_vec.begin(); iter != COUPLE_vec.end(); iter++)
 	{
 		if ((iter->sbin1 != -1) && (iter->ebin1 != -1) && (iter->sbin2 != -1) && (iter->ebin2 != -1))
@@ -139,7 +143,11 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 								}
 							}
 						}
-				
+				        
+                        test[r][0] = run_obs;
+                        test[r][1] = run_exp;
+                        test[r][2] = run_nor;
+                        
 						if (run_obs > iter->cont.quer_obs) iter->cont.rank_obs++;
 						if (run_exp > iter->cont.quer_exp) iter->cont.rank_exp++;
 						if (run_nor > iter->cont.quer_nor) iter->cont.rank_nor++;
@@ -160,7 +168,24 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 			 iter->cont.rank_obs /= RANDOME_TEST_SIZE;
 			 iter->cont.rank_exp /= RANDOME_TEST_SIZE;
 			 iter->cont.rank_nor /= RANDOME_TEST_SIZE;		 		 
-		}				
+		}
+        
+        //ranom test
+        string filename = "random_" + to_string(outputcount) + "_" + (string)outputfileName;
+        ofstream myfile(filename);
+        if (myfile.is_open())
+        {
+            myfile << "random_obs,";
+            myfile << "random_exp,";
+            myfile << "random_nor\n";
+            for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+                myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+            }
+            myfile.close();
+            outputcount++;
+        }
+        else cout << "Unable to open file";
+        
 	}		
 }
 

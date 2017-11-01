@@ -39,7 +39,7 @@ public:
 	BAT();
 	BAT( const char *fileName, INDEX &index , int fordward_the, int backward_the);
 	~BAT();
-	void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size);
+	void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size, const char *fileName);
 	void output( const char *fileName );
 	void output_pair(const char *fileName, BINMAP &binmap);
 protected:

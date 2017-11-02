@@ -5,6 +5,7 @@
 #include <string>
 #include <cerrno> // for errno 
 #include <cstdlib>
+#include <limits>
 
 #include "query.h"
 #include "index.h"
@@ -140,7 +141,9 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
         tmp.rank_obs = tmp.rank_exp = tmp.rank_nor =0;
         
 //ranom test
-        string filename = "random_" + to_string(outputcount) + "_" + (string)OutputName;
+        string filename = (string)OutputName;
+        int found = filename.find_last_of(".");
+        filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
         ofstream myfile(filename);
         if (myfile.is_open())
         {

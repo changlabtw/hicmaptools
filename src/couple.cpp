@@ -171,7 +171,9 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 		}
         
         //ranom test
-        string filename = "random_" + to_string(outputcount) + "_" + (string)outputfileName;
+        string filename = (string)outputfileName;
+        int found = filename.find_last_of(".");
+        filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
         ofstream myfile(filename);
         if (myfile.is_open())
         {

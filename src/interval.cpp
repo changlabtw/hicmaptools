@@ -5,6 +5,7 @@
 #include <string>
 #include <cerrno> // for errno 
 #include <cstdlib>
+#include <limits>
 
 #include "interval.h"
 #include "index.h"
@@ -88,7 +89,7 @@ struct INTER_ELE
     float sum_nor;
 };
 
-void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *fileName)
+void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName)
 {
 // initialization
 	BININTERVAL tmp;
@@ -221,7 +222,9 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 #endif
     
     //ranom test
-    string filename = "random_" + to_string(outputcount)+ "_" + (string)fileName;
+    string filename = (string)OutputfileName;
+    int found = filename.find_last_of(".");
+    filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
     ofstream myfile(filename);
     if (myfile.is_open())
     {

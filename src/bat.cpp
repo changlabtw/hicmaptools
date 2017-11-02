@@ -185,7 +185,9 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		 iter->rank_nor /= RANDOME_TEST_SIZE;		 		 
 	
 //ranom test
-        string filename = "random_" + to_string(outputcount) + "_" + (string)outputfileName;
+        string filename = (string)outputfileName;
+        int found = filename.find_last_of(".");
+        filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
         ofstream myfile(filename);
         if (myfile.is_open())
         {

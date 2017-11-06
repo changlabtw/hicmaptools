@@ -17,7 +17,7 @@ OBJECTgenBiMap	= genBiMap.o binmap.o
 
 OBJECTformatmap	= formatmap.o binmap.o index.o
 
-OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o random.o
+OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o
 
 genBiMap:	$(OBJECTgenBiMap)
 			$(Compiler) $(FLAGS) $(OBJECTgenBiMap) -o genBiMap $(LIB)

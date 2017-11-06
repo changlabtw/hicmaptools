@@ -12,7 +12,6 @@
 
 #include "bat.h"
 #include "index.h"
-#include "random.h"
 
 BAT::BAT()
 {
@@ -90,10 +89,20 @@ BAT::~BAT()
 {
 }
 
-void BAT::cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int RANDOME_TEST_SIZE)
+void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, const int backward_the, const int RANDOME_TEST_SIZE, const char *OutputfileName)
 {
 	// initialisation
 	float obs, exp;
+	float run_obs, run_exp, run_nor;
+	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
+	pair<int, int> r_tmp;
+	int tmp_s, tmp_e;
+	int fordward_bin, backward_bin;
+	// random test
+	float test[RANDOME_TEST_SIZE][3];
+	int outputcount=1;
+	stringstream ss;
+	string outputcount_str;
 
 	//  loop for all bats	
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
@@ -116,11 +125,89 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backwa
 				}
 			}		
 		}
-		iter->ran.quer_obs=iter->sum_obs;
-		iter->ran.quer_exp=iter->sum_exp;
-		iter->ran.quer_nor=iter->sum_nor;
-		RANDOM(binmap,index,iter->sbin,iter->ebin,fordward_the,backward_the,RANDOME_TEST_SIZE,iter->ran,1);
+
+		// generate random bin pair for randomisation test
+		index.gen_random_index(iter->sbin, iter->ebin, random_bins);
+
+		for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+			run_obs = run_exp = run_nor = 0;
+			// get the index range for the specified chrom: begin & end
+			tmp_s = random_bins[r].first;
+			tmp_e = random_bins[r].second;
+			// if generate random index				
+			if ((tmp_s != 0) && (tmp_e != 0)){
+				r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
+
+				fordward_bin = (tmp_s-fordward_the > r_tmp.first)  ? tmp_s-fordward_the : r_tmp.first;
+				backward_bin = (tmp_e+backward_the < r_tmp.second) ? tmp_e+backward_the : r_tmp.second;
+
+				for(int i=tmp_s; i<=tmp_e; i++)
+				{
+					for(int j=fordward_bin; j<=backward_bin; j++)
+					{
+						obs = binmap.get_observe(i, j);
+						exp = binmap.get_expect(i, j);
+
+						if ((obs != -1) && (exp != -1))
+						{
+							iter->sum_rand_obs += obs;
+							iter->sum_rand_exp += exp;
+							iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							run_obs += obs;
+							run_exp += exp; 
+							run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+						}
+					}
+				}
+
+				test[r][0] = run_obs;
+				test[r][1] = run_exp;
+				test[r][2] = run_nor;
+
+				if (run_obs > iter->sum_obs) iter->rank_obs++;
+				if (run_exp > iter->sum_exp) iter->rank_exp++;
+				if (run_nor > iter->sum_nor) iter->rank_nor++;
+#ifdef DEBUG				
+				cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+#endif
+			}
+		}
+
+#ifdef DEBUG						 
+		cout << "normal end" << endl;
+#endif
+
+		iter->sum_rand_obs /= RANDOME_TEST_SIZE;
+		iter->sum_rand_exp /= RANDOME_TEST_SIZE;
+		iter->sum_rand_nor /= RANDOME_TEST_SIZE;
+
+		iter->rank_obs /= RANDOME_TEST_SIZE;
+		iter->rank_exp /= RANDOME_TEST_SIZE;
+		iter->rank_nor /= RANDOME_TEST_SIZE;		 		 
+
+		//random test
+		string filename = (string)OutputfileName;
+		int found = filename.find_last_of(".");
+		ss << outputcount;
+		ss >> outputcount_str;
+		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
+		const char *filename_chr = filename.c_str();
+		ofstream myfile(filename_chr);
+		if (!myfile)
+		{
+			myfile << "random_obs,";
+			myfile << "random_exp,";
+			myfile << "random_nor\n";
+			for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+				myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+			}
+			myfile.close();
+			outputcount++;
+		}
+		else cout << "Unable to open file";
+
 	}
+
 }
 
 // output function
@@ -155,19 +242,24 @@ void BAT::output(const char *fileName)
 		output_f.precision(3); // for fixed format, two decimal places    
 
 		output_f << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
-			<< iter->ran.rand_obs << "\t" << iter->ran.rand_exp << "\t" << iter->ran.rand_nor << "\t"
-			<< iter->sum_obs/iter->ran.rand_obs << "\t" << iter->sum_exp/iter->ran.rand_exp << "\t" << iter->sum_nor/iter->ran.rand_nor << "\t" 
-			<< iter->ran.rank_obs << "\t" << iter->ran.rank_exp << "\t" << iter->ran.rank_nor << "\t" 		         
+			<< iter->sum_rand_obs << "\t" << iter->sum_rand_exp << "\t" << iter->sum_rand_nor << "\t"
+			<< iter->sum_obs/iter->sum_rand_obs << "\t" << iter->sum_exp/iter->sum_rand_exp << "\t" << iter->sum_nor/iter->sum_rand_nor << "\t" 
+			<< iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor << "\t" 		         
 			<< endl;
 	}
 
 	output_f.close();	
 }
 
-void BAT::output_pair(const char *fileName, BINMAP &binmap)
+void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE)
 {
 	int sum_bin;
 	float sum_obs, sum_exp, sum_nor, obs, exp;
+	float sum_rand_obs, sum_rand_exp, sum_rand_nor;
+	float rank_obs, rank_exp, rank_nor; 
+	float run_obs, run_exp, run_nor;
+	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
+	int tmp_s1, tmp_e1, tmp_s2, tmp_e2;
 	ofstream output_f;
 	output_f.open (fileName);
 
@@ -181,7 +273,11 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap)
 	// print header
 	output_f << "index1\tchrom1\tstart1\tend1\tsbin1\tebin1\t" 
 		<< "index2\tchrom2\tstart2\tend2\tsbin2\tebin2\t" 
-		<< "sum_bin\tsum_obs\tsum_exp\tsum_nor" << endl;
+		<< "sum_bin\tsum_obs\tsum_exp\tsum_nor\t"
+		<< "rand_obs\trand_exp\trand_nor\t"
+		<< "divide_obs\tdivide_exp\tdivide_nor\t"
+		<< "rank_obs\trank_exp\trank_nor\t" 
+		<< endl;
 
 	for(vector<BINBAT>::iterator i = BINBAT_vec.begin(); i != BINBAT_vec.end(); i++)
 	{
@@ -190,6 +286,8 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap)
 			// initial
 			sum_bin = 0;
 			sum_obs = sum_exp = sum_nor = 0;
+			sum_rand_obs = sum_rand_exp = sum_rand_nor =0;
+			rank_obs = rank_exp = rank_nor=0;
 
 			for(int m = i->sbin; m <= i->ebin; m++)
 			{
@@ -210,9 +308,62 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap)
 			// output result only there is bin count
 			if(sum_bin > 0)
 			{
+				output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
+				output_f.precision(3); // for fixed format, two decimal places    
 				output_f << i->index << "\t" << i->chrom << "\t" << i->start << "\t" << i->end << "\t" << i->sbin << "\t" << i->ebin << "\t" 
 					<< j->index << "\t" << j->chrom << "\t" << j->start << "\t" << j->end << "\t" << j->sbin << "\t" << j->ebin << "\t" 
-					<< sum_bin << "\t" << sum_obs << "\t" << sum_exp << "\t" << sum_nor << endl;					
+					<< sum_bin << "\t" << sum_obs << "\t" << sum_exp << "\t" << sum_nor<<"\t";
+
+				// generate random bin pair for randomisation test
+				index.gen_random_index(i->ebin, j->sbin, random_bins);
+
+				for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+					run_obs = run_exp = run_nor = 0;
+					// get the index range for the specified chrom: begin & end
+					tmp_s1 = random_bins[r].first-(i->ebin-i->sbin);
+					tmp_e1 = random_bins[r].first;
+					tmp_s2 = random_bins[r].second;
+					tmp_e2 = random_bins[r].second+(j->ebin-j->sbin);
+					// if generate random index
+					if ((tmp_s1 != 0) && (tmp_e1 != 0)&&(tmp_s2 != 0)&&(tmp_e2 != 0)){
+						for(int m=tmp_s1; m<=tmp_e1; m++)
+						{
+							for(int n=tmp_s2; n<=tmp_e2; n++)
+							{
+								obs = binmap.get_observe(m, n);
+								exp = binmap.get_expect(m, n);
+
+								if ((obs != -1) && (exp != -1))
+								{
+									sum_rand_obs += obs;
+									sum_rand_exp += exp;
+									sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+									run_obs += obs;
+									run_exp += exp; 
+									run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+								}
+							}
+						}
+
+						if (run_obs > sum_obs) rank_obs++;
+						if (run_exp > sum_exp) rank_exp++;
+						if (run_nor > sum_nor) rank_nor++;
+					}
+#ifdef DEBUG				
+					cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+#endif
+				}
+				sum_rand_obs /= RANDOME_TEST_SIZE;
+				sum_rand_exp /= RANDOME_TEST_SIZE;
+				sum_rand_nor /= RANDOME_TEST_SIZE;
+
+				rank_obs /= RANDOME_TEST_SIZE;
+				rank_exp /= RANDOME_TEST_SIZE;
+				rank_nor /= RANDOME_TEST_SIZE;		 		 
+				output_f << sum_rand_obs << "\t" << sum_rand_exp << "\t" << sum_rand_nor << "\t"
+					<< sum_obs/sum_rand_obs << "\t" << sum_exp/sum_rand_exp << "\t" << sum_nor/sum_rand_nor << "\t" 
+					<< rank_obs << "\t" << rank_exp << "\t" << rank_nor << "\t" 		         
+					<< endl;
 			}
 		}
 	}	

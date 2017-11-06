@@ -4,7 +4,6 @@
 #include <vector>
 #include "binmap.h"
 #include "index.h"
-#include "random.h"
 
 using namespace std;
 
@@ -30,21 +29,21 @@ struct BINBAT
 	// the rank of observe, expect, normalization among random sampling, in top sense
 	float rank_obs;
 	float rank_exp;
-	float rank_nor;
-	RANDOM_E ran;
+	float rank_nor;			
 };
 
 //===BAT===
-class BAT {
+class BAT
+{
 	public:
 		BAT();
 		BAT( const char *fileName, INDEX &index , int fordward_the, int backward_the);
 		~BAT();
-		void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size);
+		void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size, const char *fileName);
 		void output( const char *fileName );
-		void output_pair(const char *fileName, BINMAP &binmap);
+		void output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const int random_size);
 	protected:
 		vector< BINBAT > BINBAT_vec;
 };
 
-#endif
+#endif /* _BAT_H */

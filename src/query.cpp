@@ -145,6 +145,7 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
 		//random test
 		string filename = (string)OutputfileName;
 		int found = filename.find_last_of(".");
+		tt.clear();
 		tt << outputcount;
 		tt >> outputcount_str;
 		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";

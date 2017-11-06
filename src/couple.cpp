@@ -175,6 +175,7 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 		//random test
 		string filename = (string)OutputfileName;
 		int found = filename.find_last_of(".");
+		ss.clear();
 		ss << outputcount;
 		ss >> outputcount_str;
 		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";

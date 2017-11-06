@@ -188,12 +188,13 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
 		//random test
 		string filename = (string)OutputfileName;
 		int found = filename.find_last_of(".");
+		ss.clear();
 		ss << outputcount;
 		ss >> outputcount_str;
 		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
 		const char *filename_chr = filename.c_str();
 		ofstream myfile(filename_chr);
-		if (!myfile)
+		if (myfile.is_open())
 		{
 			myfile << "random_obs,";
 			myfile << "random_exp,";

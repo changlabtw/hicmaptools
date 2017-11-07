@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 	{
 		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
 
-		bat.output_pair(par.output_name, map, index, par.random_size);		
+		bat.output_pair(par.output_name, map, index, par.random_size, par.output_name);		
 	}	
 	else if (par.query_mode == "submap")
 	{

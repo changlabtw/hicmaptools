@@ -41,7 +41,7 @@ class BAT
 		~BAT();
 		void cal_contact(BINMAP &binmap, INDEX &index, int fordward_the, int backward_the, int random_size, const char *fileName);
 		void output( const char *fileName );
-		void output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const int random_size);
+		void output_pair(const char *fileName, BINMAP &binmap, INDEX &index, int random_size, const char *OutputfileName);
 	protected:
 		vector< BINBAT > BINBAT_vec;
 };

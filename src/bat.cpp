@@ -252,7 +252,7 @@ void BAT::output(const char *fileName)
 	output_f.close();	
 }
 
-void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE)
+void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName)
 {
 	int sum_bin;
 	float sum_obs, sum_exp, sum_nor, obs, exp;
@@ -261,6 +261,11 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 	float run_obs, run_exp, run_nor;
 	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
 	int tmp_s1, tmp_e1, tmp_s2, tmp_e2;
+	// random test
+	float test[RANDOME_TEST_SIZE][3];
+	int outputcount=1;
+	stringstream ss;
+	string outputcount_str;
 	ofstream output_f;
 	output_f.open (fileName);
 
@@ -346,6 +351,9 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 							}
 						}
 
+						test[r][0] = run_obs;
+						test[r][1] = run_exp;
+						test[r][2] = run_nor;
 						if (run_obs > sum_obs) rank_obs++;
 						if (run_exp > sum_exp) rank_exp++;
 						if (run_nor > sum_nor) rank_nor++;
@@ -361,6 +369,29 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 				rank_obs /= RANDOME_TEST_SIZE;
 				rank_exp /= RANDOME_TEST_SIZE;
 				rank_nor /= RANDOME_TEST_SIZE;		 		 
+
+				//random test
+				string filename = (string)OutputfileName;
+				int found = filename.find_last_of(".");
+				ss.clear();
+				ss << outputcount;
+				ss >> outputcount_str;
+				filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
+				const char *filename_chr = filename.c_str();
+				ofstream myfile(filename_chr);
+				if (myfile.is_open())
+				{
+					myfile << "random_obs,";
+					myfile << "random_exp,";
+					myfile << "random_nor\n";
+					for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+						myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+					}
+					myfile.close();
+					outputcount++;
+				}
+				else cout << "Unable to open file";
+
 				output_f << sum_rand_obs << "\t" << sum_rand_exp << "\t" << sum_rand_nor << "\t"
 					<< sum_obs/sum_rand_obs << "\t" << sum_exp/sum_rand_exp << "\t" << sum_nor/sum_rand_nor << "\t" 
 					<< rank_obs << "\t" << rank_exp << "\t" << rank_nor << "\t" 		         

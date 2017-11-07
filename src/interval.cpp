@@ -263,11 +263,11 @@ void INTERVAL::output(const char *fileName, bool show_average)
 
 	// print header 
 	if (show_average)
-		output_f <<"index\tchrom\tstart\tend\tsbin\tebin\tobser_contact\texpect_contact\tnum_bins\tsum_obser\tsum_expect\t"
+		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tsum_obser\tsum_expect\t"
 			<< "rank_obs\trank_exp\trank_nor"
 			<<endl;
 	else
-		output_f << "index\tchrom\tstart\tend\tsbin\tebin\tobser_contact\texpect_contact"
+		output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact"
 			<< "rank_obs\trank_exp\t\rank_nor"
 			<< endl;
 
@@ -275,13 +275,11 @@ void INTERVAL::output(const char *fileName, bool show_average)
 	{
 		output_f << iter->index << "\t" << iter->chrom << "\t" 
 			<< iter->start << "\t" << iter->end << "\t" 
-			<< iter->sbin << "\t" << iter->ebin << "\t" 
 			<< iter->obs << "\t" << iter->exp;
 
 		if(show_average)
 		{		 
-			output_f << "\t" << iter->sum_bin 
-				<< "\t" << iter->sum_obs << "\t" << iter->sum_exp << "\t"
+			output_f << "\t" << iter->sum_obs << "\t" << iter->sum_exp << "\t"
 				<< iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor
 				<<endl;
 		}
@@ -306,7 +304,7 @@ void INTERVAL::output_internal(const char *fileName)
 	}
 
 	// print header
-	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tobser_contact\texpect_contact" << endl;
+	output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact" << endl;
 
 	if ((int)internal_BININTERVAL_vec.size() > 0)
 	{
@@ -315,7 +313,6 @@ void INTERVAL::output_internal(const char *fileName)
 		{
 			output_f << iter->index << "\t" << iter->chrom << "\t" 
 				<< iter->start << "\t" << iter->end << "\t" 
-				<< iter->sbin << "\t" << iter->ebin << "\t" 
 				<< iter->obs << "\t" << iter->exp << endl;
 		}	
 	}

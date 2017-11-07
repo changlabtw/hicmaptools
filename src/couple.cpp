@@ -210,15 +210,15 @@ void COUPLE::output(const char *fileName)
 	}
 
 	//output header	
-	output_f << "chrom1\tstart1\tend1\tsbin1\tebin1\t"
-		<< "chrom2\tstart2\tend2\tsbin2\tebin2\t";
+	output_f << "chrom1\tstart1\tend1\t"
+		<< "chrom2\tstart2\tend2\t";
 	COUPLE_vec.front().cont.out_header(output_f);		 
 	output_f << endl;					
 
 	for(vector< COUPLE_E >::iterator iter = COUPLE_vec.begin(); iter != COUPLE_vec.end(); iter++)
 	{		
-		output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" << iter->sbin1 << "\t" << iter->ebin1 << "\t"
-			<< iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" << iter->sbin2 << "\t" << iter->ebin2 << "\t";
+		output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" 
+			<< iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" ;
 		iter->cont.output(output_f);		 
 		output_f << endl;					
 	}

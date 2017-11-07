@@ -225,7 +225,7 @@ void BAT::output(const char *fileName)
 	}
 
 	// print header 
-	output_f << "index\tchrom\tstart\tend\tsbin\tebin\tsum_bin\t"
+	output_f << "index\tchrom\tstart\tend\t"
 		<< "sum_obs\tsum_exp\tsum_nor\t" 
 		<< "rand_obs\trand_exp\trand_nor\t"
 		<< "divide_obs\tdivide_exp\tdivide_nor\t"
@@ -235,9 +235,7 @@ void BAT::output(const char *fileName)
 	for(vector<BINBAT>::iterator iter = BINBAT_vec.begin(); iter != BINBAT_vec.end(); iter++)
 	{
 		output_f << iter->index << "\t" << iter->chrom << "\t" 
-			<< iter->start << "\t" << iter->end << "\t" 
-			<< iter->sbin << "\t" << iter->ebin << "\t"
-			<< iter->sum_bin << "\t";
+			<< iter->start << "\t" << iter->end << "\t" ;
 
 		output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
 		output_f.precision(3); // for fixed format, two decimal places    
@@ -277,9 +275,9 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 	}
 
 	// print header
-	output_f << "index1\tchrom1\tstart1\tend1\tsbin1\tebin1\t" 
-		<< "index2\tchrom2\tstart2\tend2\tsbin2\tebin2\t" 
-		<< "sum_bin\tsum_obs\tsum_exp\tsum_nor\t"
+	output_f << "index1\tchrom1\tstart1\tend1\t" 
+		<< "index2\tchrom2\tstart2\tend2\t" 
+		<< "sum_obs\tsum_exp\tsum_nor\t"
 		<< "rand_obs\trand_exp\trand_nor\t"
 		<< "divide_obs\tdivide_exp\tdivide_nor\t"
 		<< "rank_obs\trank_exp\trank_nor\t" 
@@ -316,9 +314,9 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 			{
 				output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
 				output_f.precision(3); // for fixed format, two decimal places    
-				output_f << i->index << "\t" << i->chrom << "\t" << i->start << "\t" << i->end << "\t" << i->sbin << "\t" << i->ebin << "\t" 
-					<< j->index << "\t" << j->chrom << "\t" << j->start << "\t" << j->end << "\t" << j->sbin << "\t" << j->ebin << "\t" 
-					<< sum_bin << "\t" << sum_obs << "\t" << sum_exp << "\t" << sum_nor<<"\t";
+				output_f << i->index << "\t" << i->chrom << "\t" << i->start << "\t" << i->end << "\t"
+					<< j->index << "\t" << j->chrom << "\t" << j->start << "\t" << j->end << "\t" 
+					<< sum_obs << "\t" << sum_exp << "\t" << sum_nor<<"\t";
 
 				// generate random bin pair for randomisation test
 				index.gen_random_index(i->ebin, j->sbin, random_bins);

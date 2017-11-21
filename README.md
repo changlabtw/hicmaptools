@@ -38,6 +38,7 @@ Usage
 --------------------
 
 	hicmaptools -in_map in.binmap -in_bin in.bins SELECT_ONE_QUERY_MODE query.bed -output out_file.tsv  
+	
 	options:  
         	-in_map 	 text .n_contact or binary .bimap by genBiMap commend 
         	-in_bin 	 the bin file for contact map, .bins
@@ -147,12 +148,13 @@ Example
 Suppose you have such files below:
   * map file : nm_none_30000.n_contact
   * bin file : 30000.cbins
-  * bat input file : BATtest.txt
+  * query input file : BATtest.txt
   
 And you want to use the query such as **-bat**
 
 use the command :
->hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output BATRes.txt
+>hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output XXX.txt
+XXX : output name you assign
 
 You will get two output files
 

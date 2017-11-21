@@ -150,13 +150,24 @@ Suppose you have such files below:
   * bin file : 30000.cbins
   * query input file : BATtest.txt
   
-And you want to use the query such as **-bat**
+And you want to use the query such as ``-bat``
 
 use the command :
 >hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output XXX.txt
+
 XXX : output name you assign
 
-You will get two output files
+You will get two output files :
+  * XXX.txt : processed information
+  * XXX_random.txt : random data
+  
+When you open the XXX.txt, you may see:
+
+```
+	index	chrom	start	end	sbin	ebin	sum_bin	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
+1	3R	100000	200000	2278	2281	68	111256.000	904.993	8834.416	143293.438	1545.653	10137.946	0.776	0.586	0.871	0.880	0.990	0.760
+	
+  ```
 
 Random Test
 --------------------

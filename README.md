@@ -147,9 +147,10 @@ Example
 Suppose you have such files below:
   * map file : nm_none_30000.n_contact
   * bin file : 30000.cbins
+  * bat input file : BATtest.txt
   
 And you want to use the query such as **-bat**
-use the command :
+<\n>use the command :
 >hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output BATRes.txt
 
 

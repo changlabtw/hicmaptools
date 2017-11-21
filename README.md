@@ -138,7 +138,7 @@ Illustration for different query options
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/queryExample.png)
 
 There will generate two output files after excuting hicmaptools commands :
-  * First : Includes the processed information you interested.
+  * First	 : Includes the processed information you interested.
   * Second: Includes all the random data from the assigned random size.
 
 Random Test

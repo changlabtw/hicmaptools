@@ -65,7 +65,7 @@ Usage
         	-output 	 sub contact map, ie. 3R:10~15MB
 		
 For instance:
->hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_modes data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
+>hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 		
 Contact Input (essential)
 -------------------------
@@ -150,9 +150,11 @@ Suppose you have such files below:
   * bat input file : BATtest.txt
   
 And you want to use the query such as **-bat**
-<\n>use the command :
+
+use the command :
 >hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output BATRes.txt
 
+You will get two output files
 
 Random Test
 --------------------

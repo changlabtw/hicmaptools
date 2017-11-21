@@ -75,11 +75,11 @@ Contact Input (essential)
    define the chromosome, start position and end position of each bin. Format is as the following:
    ```
 	cbin	chr	from.coord	to.coord
-	1		2L	6000	7000
-	2		2L	7000	8000
-	3		2L	8000	9000
-	4		2L	9000	10000
-	5		2L	12000	13000
+	1	2L	6000		7000
+	2	2L	7000		8000
+	3	2L	8000		9000
+	4	2L	9000		10000
+	5	2L	12000		13000
    ```
 ##### -in_map
    contact map indexed by bins. Format is as the following: 
@@ -136,3 +136,11 @@ Query Modes
 
 Illustration for different query options 
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/queryExample.png)
+
+There will generate two output files after excuting hicmaptools commands :
+  First : Includes the processed information you interested.
+  Second: Includes all the random data from the assigned random size.
+
+
+Random Test
+--------------------

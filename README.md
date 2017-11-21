@@ -164,10 +164,23 @@ You will get two output files :
 When you open the XXX.txt, you may see:
 
 ```
-	index	chrom	start	end	sbin	ebin	sum_bin	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
-1	3R	100000	200000	2278	2281	68	111256.000	904.993	8834.416	143293.438	1545.653	10137.946	0.776	0.586	0.871	0.880	0.990	0.760
-	
-  ```
+index	chrom	start	end	...	rank_obs	rank_exp	rank_nor	
+1	3R	100000	200000  ...     0.880		0.990		0.760
+```
 
-Random Test
+You may concern whether the rank information are conviced, so you can use the tool we support to examine it.
+
+Normal Distribution Test
 --------------------
+If the random data are normal distribution, we can assume the rank info are convinced.
+
+Our tool are supported to examine normal distribution, to use it just follow below steps.
+
+First, move to the tool folder:
+> cd tools
+
+Then, use the following command:
+>Rscript normality_test.R XXX_random.txt
+
+You will get the exam ouput message and three images
+

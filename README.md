@@ -144,7 +144,10 @@ Illustration for different query options
 
 Example  
 --------------------------
-
+Suppose you have such files below:
+  * map file : nm_none_30000.n_contact
+  * bin file : 30000.cbins
+And you want to use the query such as -bat 
 
 
 Random Test

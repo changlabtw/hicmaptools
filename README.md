@@ -65,7 +65,7 @@ Usage
         	-output 	 sub contact map, ie. 3R:10~15MB
 		
 For instance:
->hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
+>hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_modes data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 		
 Contact Input (essential)
 -------------------------
@@ -132,13 +132,20 @@ Query Modes
 
   * Contact map of interesting region
   * Extract contacts of specific genome region
+  
+##### -output  
+
+There will generate two output files after excuting hicmaptools commands :
+  * First : Includes the processed information you interested.
+  * Second : Includes all the random data from the assigned random size.
 
 Illustration for different query options 
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/queryExample.png)
 
-There will generate two output files after excuting hicmaptools commands :
-  * Firs : Includes the processed information you interested.
-  * Second : Includes all the random data from the assigned random size.
+Example  
+--------------------------
+
+
 
 Random Test
 --------------------

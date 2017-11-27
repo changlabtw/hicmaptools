@@ -187,13 +187,13 @@ void QUERY::output(const char *fileName)
 	}
 
 	// print header 
-	output_f << "chrom\tpos1\tpos2\tobser_contact\texpect_contact\t"
+	output_f << "chrom\tpos1\tpos2\tobser_contact\texpect_contact\tnormal_contact\t"
 		<< "rank_obs\trank_exp\trank_nor"<<endl;
 
 	for(vector<BINCONT>::iterator iter = bincont_vec.begin(); iter != bincont_vec.end(); iter++)
 	{
 		output_f << iter->chrom << "\t" << iter->pos1 << "\t" << iter->pos2
-			<< "\t" << iter->obs << "\t" << iter->exp 
+			<< "\t" << iter->obs << "\t" << iter->exp << "\t" << iter->nor
 			<< "\t" << iter->rank_obs << "\t" <<iter->rank_exp << "\t" << iter->rank_nor <<endl;
 	}
 	output_f.close();

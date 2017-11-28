@@ -176,7 +176,7 @@ If the random data are normal distribution, we can assume the rank info are conv
 
 Our tool are supported to examine normal distribution, to use it requires the following tools installed on your system.
 
-R https://cran.r-project.org/
+``R`` https://cran.r-project.org/
 
 use the following command:
 >Rscript tools/normality_test.R temp_random.txt outputname
@@ -184,6 +184,7 @@ use the following command:
 You will get the exam ouput message and a PDF file contains three plot.
 
 Illustration for PDF file 
+
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_1.png)
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_2.png)
 ![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_3.png)

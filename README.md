@@ -153,15 +153,15 @@ Suppose you have such files below:
 And you want to use the query such as ``-bat``
 
 use the command :
->hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output XXX.txt
+>hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.txt
 
-XXX : output name you assign
+temp : output name you assign
 
 You will get two output files :
-  * XXX.txt : processed information
-  * XXX_random.txt : random data
+  * temp.txt : processed information
+  * temp_random.txt : random data
   
-When you open the XXX.txt, you may see:
+When you open the temp.txt, you may see:
 
 ```
 index	chrom	start	end	...	rank_obs	rank_exp	rank_nor	
@@ -174,13 +174,13 @@ Normal Distribution Test
 --------------------
 If the random data are normal distribution, we can assume the rank info are convinced.
 
-Our tool are supported to examine normal distribution, to use it just follow below steps.
+Our tool are supported to examine normal distribution, to use it requires the following tools installed on your system.
 
-First, move to the tool folder:
-> cd tools
+R https://cran.r-project.org/
 
-Then, use the following command:
->Rscript normality_test.R XXX_random.txt
+use the following command:
+>Rscript tools/normality_test.R temp_random.txt outputname
 
-You will get the exam ouput message and three images
+You will get the exam ouput message and a PDF file contains three plot.
+Illustration for PDF file 
 

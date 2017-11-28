@@ -182,5 +182,8 @@ use the following command:
 >Rscript tools/normality_test.R temp_random.txt outputname
 
 You will get the exam ouput message and a PDF file contains three plot.
-Illustration for PDF file 
 
+Illustration for PDF file 
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_1.pdf)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_2.pdf)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_3.pdf)

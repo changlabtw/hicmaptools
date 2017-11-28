@@ -184,6 +184,6 @@ use the following command:
 You will get the exam ouput message and a PDF file contains three plot.
 
 Illustration for PDF file 
-![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_1.pdf)
-![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_2.pdf)
-![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_3.pdf)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_1.png)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_2.png)
+![](https://github.com/cbcrg/hicmaptools/blob/master/doc/example_3.png)

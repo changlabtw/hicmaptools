@@ -6,7 +6,7 @@ hicmaptools is a collection of tools for downstream HiC contmap analysis.
 
 Prerequisites
 --------------
-hicmaptools compilation requires the following tools installed on your system ``make``, ``gcc-c++`` and ``g77``. 
+hicmaptools compilation requires the following tools installed on your system ``make``, ``gcc-c++`` and ``R``. 
 
 
 Compile/Installation 
@@ -174,11 +174,8 @@ Normal Distribution Test
 --------------------
 If the random data are normal distribution, we can assume the rank info are convinced.
 
-Our tool are supported to examine normal distribution, to use it requires the following tools installed on your system.
+Therefore, our tool are supported to examine normal distribution, following the command:
 
-``R`` https://cran.r-project.org/
-
-use the following command:
 >Rscript tools/normality_test.R temp_random.txt outputname
 
 You will get the exam ouput message and a PDF file contains three plot.

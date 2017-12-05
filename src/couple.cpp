@@ -180,6 +180,7 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
             myfile << "random_obs,";
             myfile << "random_exp,";
             myfile << "random_nor\n";
+            myfile << iter->cont.quer_obs << "," << iter->cont.quer_exp << "," << iter->cont.quer_nor << endl;
             for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
                 myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
             }

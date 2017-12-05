@@ -194,6 +194,7 @@ void BAT::cal_contact(BINMAP &binmap, INDEX &index, const int fordward_the, cons
             myfile << "random_obs,";
             myfile << "random_exp,";
             myfile << "random_nor\n";
+            myfile << iter->sum_obs << "," << iter->sum_exp << "," << iter->sum_nor << endl;
             for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
                 myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
             }

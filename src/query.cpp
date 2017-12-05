@@ -150,6 +150,7 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
             myfile << "random_obs,";
             myfile << "random_exp,";
             myfile << "random_nor\n";
+            myfile << tmp.obs << "," << tmp.exp << "," << tmp.nor << endl;
             for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
                 myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
             }

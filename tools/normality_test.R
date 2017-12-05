@@ -43,7 +43,6 @@ if(result$p.value<0.05){
     message("According to SHAPIRO TEST, we reject that the  sample is normal distribution");
 }
 
-#pdf(paste(path,filename,".pdf"))
 pdf(paste(path,filename,".pdf"))
 
 qplot(x=mydata$random_obs,
@@ -52,9 +51,9 @@ col = "red",
 geom="density",
 main = "Densityplot of obs",
 xlab="obs",
-)+theme(legend.position="none")
-
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,1])
 #ggsave(paste("Distribution_of_",filename,"_obs.pdf"), width = 4, height = 3)
+
 
 qplot(x=mydata$random_exp,
 data = mydata,
@@ -62,7 +61,7 @@ col = "red",
 geom="density",
 main = "Densityplot of exp",
 xlab="exp",
-)+theme(legend.position="none")
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,2])
 
 #ggsave(paste("Distribution_of_",filename,"_exp.pdf"), width = 4, height = 3)
 
@@ -72,7 +71,7 @@ col = "red",
 geom="density",
 main = "Densityplot of nor",
 xlab="exp",
-)+theme(legend.position="none")
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,3])
 
 #ggsave(paste("Distribution_of_",filename,"_nor.pdf"), width = 4, height = 3)
-dev.off()
+a <- dev.off()

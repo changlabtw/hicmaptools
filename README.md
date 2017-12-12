@@ -65,6 +65,11 @@ Usage
         	-submap 	 genome region to extract: chr	start	end
         	-output 	 sub contact map, ie. 3R:10~15MB
 		
+	other parameters:
+	        -ner_bin	 check neighbouring bins for bat mode, d.f=10
+        	-random 	 assign random size, d,f=500
+		
+		
 For instance:
 >hicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -query_interval data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv
 		

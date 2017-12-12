@@ -47,30 +47,6 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
 		cout << "\treading file =\t" << file_name << endl;
 	}
 
-	/*
-	// handle for the first line which might contain header
-	getline(input_f, str);
-	if (((int)str.length() > 0) && std::isdigit(str[0])) 
-	{
-	ss.clear(); ss.str(str);
-	ss >> tmp.chrom >> tmp.pos1 >> tmp.pos2;
-
-	// find cbin for position		
-	tmp.cbin1 = index.find_index(tmp.chrom, tmp.pos1, 1, 0);
-	tmp.cbin2 = index.find_index(tmp.chrom, tmp.pos2, 0, 1);
-
-	// get contact from bin
-	if ((tmp.cbin1 != -1) && (tmp.cbin2 != -1)){ 
-	tmp.obs = binmap.get_observe(tmp.cbin1, tmp.cbin2);
-	tmp.exp = binmap.get_expect(tmp.cbin1, tmp.cbin2);
-	}
-	else{
-	tmp.obs = tmp.exp = -1;
-	}		
-
-	bincont_vec.push_back(tmp);		
-	}		
-	 */
 	while(!input_f.eof())
 	{
 		getline(input_f, str);

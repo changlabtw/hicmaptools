@@ -17,6 +17,7 @@ struct BININTERVAL
 	int ebin;
 	float obs;
 	float exp;
+	float nor;
 	int sum_bin;
 	float sum_obs;
 	float sum_exp;
@@ -38,7 +39,7 @@ class INTERVAL
 		INTERVAL();
 		INTERVAL( const char *fileName, BINMAP &binmap, INDEX &index );
 		~INTERVAL();
-		void gen_internal_contact( BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *fileName );
+		void gen_internal_contact( BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *fileName, bool is_TAD);
 		void output(const char *fileName, bool show_average);
 		void output_internal(const char *fileName);
 	protected:

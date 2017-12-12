@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 	else if (par.query_mode == "TAD")
 	{
 		INTERVAL interval(par.query_name, map, index);
-		interval.gen_internal_contact(map, index, par.random_size, par.output_name);
+		interval.gen_internal_contact(map, index, par.random_size, par.output_name,1);
 		interval.output(par.output_name, 1);
 	}
 	else if (par.query_mode == "local")
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 		INTERVAL interval(par.query_name, map, index);
 
 		cout << " generating internal contact " << endl;
-		interval.gen_internal_contact(map, index, par.random_size, par.output_name);
+		interval.gen_internal_contact(map, index, par.random_size, par.output_name,0);
 		interval.output_internal(par.output_name);		
 	}	
 	else if (par.query_mode == "bat")

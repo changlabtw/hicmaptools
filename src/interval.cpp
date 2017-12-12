@@ -89,7 +89,7 @@ struct INTER_ELE
 	float sum_nor;
 };
 
-void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName)
+void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName, bool is_TAD)
 {
 	// initialization
 	BININTERVAL tmp;
@@ -222,7 +222,8 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 				<< internal_BININTERVAL_vec[i].obs << "\t" << internal_BININTERVAL_vec[i].exp << endl;
 		}   	
 #endif
-
+		
+		if(is_TAD){
 		//random test
 		string filename = (string)OutputfileName;
 		int found = filename.find_last_of(".");
@@ -244,6 +245,7 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 		}
 		else cout << "Unable to open file";
 		outputcount++;
+		}
 	}
 
 }
@@ -263,11 +265,11 @@ void INTERVAL::output(const char *fileName, bool show_average)
 
 	// print header 
 	if (show_average)
-		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tsum_obser\tsum_expect\t"
+		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tsum_obser\tsum_expect\tsum_normal"
 			<< "rank_obs\trank_exp\trank_nor"
 			<<endl;
 	else
-		output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact"
+		output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact\t"
 			<< "rank_obs\trank_exp\t\rank_nor"
 			<< endl;
 
@@ -279,7 +281,7 @@ void INTERVAL::output(const char *fileName, bool show_average)
 
 		if(show_average)
 		{		 
-			output_f << "\t" << iter->sum_obs << "\t" << iter->sum_exp << "\t"
+			output_f << "\t" << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"
 				<< iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor
 				<<endl;
 		}
@@ -304,7 +306,7 @@ void INTERVAL::output_internal(const char *fileName)
 	}
 
 	// print header
-	output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact" << endl;
+	output_f << "index\tchrom\tsbin\tebin\tobser_contact\texpect_contact\tnormal_contact" << endl;
 
 	if ((int)internal_BININTERVAL_vec.size() > 0)
 	{
@@ -312,8 +314,8 @@ void INTERVAL::output_internal(const char *fileName)
 		for(vector<BININTERVAL>::iterator iter = internal_BININTERVAL_vec.begin(); iter != internal_BININTERVAL_vec.end(); iter++)
 		{
 			output_f << iter->index << "\t" << iter->chrom << "\t" 
-				<< iter->start << "\t" << iter->end << "\t" 
-				<< iter->obs << "\t" << iter->exp << endl;
+				<< iter->sbin << "\t" << iter->ebin << "\t" 
+				<< iter->obs << "\t" << iter->exp << "\t" << iter->nor << endl;
 		}	
 	}
 	else

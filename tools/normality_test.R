@@ -49,29 +49,23 @@ qplot(x=mydata$random_obs,
 data = mydata,
 col = "red",
 geom="density",
-main = "Densityplot of obs",
 xlab="obs",
-)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,1])
-#ggsave(paste("Distribution_of_",filename,"_obs.pdf"), width = 4, height = 3)
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,1])+ggtitle(paste0("Densityplot of random obs,\nquery obs =",mydata[1,1])) +theme(plot.title = element_text(hjust = 0.5))
 
 
 qplot(x=mydata$random_exp,
 data = mydata,
 col = "red",
 geom="density",
-main = "Densityplot of exp",
 xlab="exp",
-)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,2])
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,2])+ggtitle(paste0("Densityplot of random exp,\nquery exp =",mydata[1,2])) +theme(plot.title = element_text(hjust = 0.5))
 
-#ggsave(paste("Distribution_of_",filename,"_exp.pdf"), width = 4, height = 3)
 
 qplot(x=mydata$random_nor,
 data = mydata,
 col = "red",
 geom="density",
-main = "Densityplot of nor",
 xlab="exp",
-)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,3])
+)+theme(legend.position="none")+geom_vline(xintercept = mydata[1,3])+ggtitle(paste0("Densityplot of random nor,\nquery nor =",mydata[1,3])) +theme(plot.title = element_text(hjust = 0.5))
 
-#ggsave(paste("Distribution_of_",filename,"_nor.pdf"), width = 4, height = 3)
 a <- dev.off()

@@ -62,6 +62,7 @@ INTERVAL::INTERVAL(const char *file_name, BINMAP &binmap, INDEX &index)
 				if ((tmp.sbin != -1) && (tmp.ebin != -1)){
 					tmp.obs = binmap.get_observe(tmp.sbin, tmp.ebin);
 					tmp.exp = binmap.get_expect(tmp.sbin, tmp.ebin);
+					tmp.nor = tmp.obs/(tmp.exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
 				}
 				else{
 					tmp.obs = tmp.exp = -1;
@@ -127,6 +128,7 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 					tmp.ebin = j;
 					tmp.obs = binmap.get_observe(tmp.sbin, tmp.ebin);
 					tmp.exp = binmap.get_expect(tmp.sbin, tmp.ebin);
+					tmp.nor = tmp.obs/(tmp.exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
 
 					if ((tmp.obs != -1) & (tmp.exp != -1))
 					{
@@ -157,53 +159,56 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 				<< iter->sbin << "\t" << iter->ebin << "\t" 
 				<< iter->obs << "\t" << iter->exp << endl;
 		}
-		// generate random bin pair for randomisation test
-		index.gen_random_index(iter->sbin, iter->ebin, random_bins);
 
-		for(int r = 0; r < RANDOME_TEST_SIZE; r++){
-			run_obs = run_exp = run_nor = 0;
-			// get the index range for the specified chrom: begin & end
-			tmp_s = random_bins[r].first;
-			tmp_e = random_bins[r].second;
-			// if generate random index
-			if ((tmp_s != 0) && (tmp_e != 0)){
-				r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
+		if(is_TAD){
+			// generate random bin pair for randomisation test
+			index.gen_random_index(iter->sbin, iter->ebin, random_bins);
 
-				for(int i=tmp_s; i<=tmp_e; i++)
-				{
-					for(int j=i; j<=tmp_e; j++)
+			for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+				run_obs = run_exp = run_nor = 0;
+				// get the index range for the specified chrom: begin & end
+				tmp_s = random_bins[r].first;
+				tmp_e = random_bins[r].second;
+				// if generate random index
+				if ((tmp_s != 0) && (tmp_e != 0)){
+					r_tmp = index.get_index_range(index.get_index(tmp_s).chr);
+
+					for(int i=tmp_s; i<=tmp_e; i++)
 					{
-						obs = binmap.get_observe(i, j);
-						exp = binmap.get_expect(i, j);
-
-						if ((obs != -1) && (exp != -1))
+						for(int j=i; j<=tmp_e; j++)
 						{
-							// add internal contact inf to interval
-							iter->sum_rand_obs += obs;
-							iter->sum_rand_exp += exp;
-							iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
-							run_obs += obs;
-							run_exp += exp;
-							run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							obs = binmap.get_observe(i, j);
+							exp = binmap.get_expect(i, j);
+
+							if ((obs != -1) && (exp != -1))
+							{
+								// add internal contact inf to interval
+								iter->sum_rand_obs += obs;
+								iter->sum_rand_exp += exp;
+								iter->sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+								run_obs += obs;
+								run_exp += exp;
+								run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							}
 						}
 					}
-				}
 
-				test[r][0] = run_obs;
-				test[r][1] = run_exp;
-				test[r][2] = run_nor;
+					test[r][0] = run_obs;
+					test[r][1] = run_exp;
+					test[r][2] = run_nor;
 
-				if (run_obs > iter->sum_obs) iter->rank_obs++;
-				if (run_exp > iter->sum_exp) iter->rank_exp++;
-				if (run_nor > iter->sum_nor) iter->rank_nor++;
+					if (run_obs > iter->sum_obs) iter->rank_obs++;
+					if (run_exp > iter->sum_exp) iter->rank_exp++;
+					if (run_nor > iter->sum_nor) iter->rank_nor++;
 #ifdef DEBUG
-				cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+					cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
 #endif
+				}
 			}
+			iter->rank_obs /= RANDOME_TEST_SIZE;
+			iter->rank_exp /= RANDOME_TEST_SIZE;
+			iter->rank_nor /= RANDOME_TEST_SIZE;
 		}
-		iter->rank_obs /= RANDOME_TEST_SIZE;
-		iter->rank_exp /= RANDOME_TEST_SIZE;
-		iter->rank_nor /= RANDOME_TEST_SIZE;
 
 		cout << "[SUMMARY] average internal contact" << endl;	
 		cout << "bin_size\tcounts\tsum_obs\tsum_exp\tsum_nor" << endl;
@@ -222,29 +227,29 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 				<< internal_BININTERVAL_vec[i].obs << "\t" << internal_BININTERVAL_vec[i].exp << endl;
 		}   	
 #endif
-		
+
 		if(is_TAD){
-		//random test
-		string filename = (string)OutputfileName;
-		int found = filename.find_last_of(".");
-		ss.clear();
-		ss << outputcount;
-		ss >> outputcount_str;
-		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
-		const char *filename_chr = filename.c_str();
-		ofstream myfile(filename_chr);
-		if (myfile.is_open())
-		{
-			myfile << "random_obs,";
-			myfile << "random_exp,";
-			myfile << "random_nor\n";
-			for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
-				myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+			//random test
+			string filename = (string)OutputfileName;
+			int found = filename.find_last_of(".");
+			ss.clear();
+			ss << outputcount;
+			ss >> outputcount_str;
+			filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
+			const char *filename_chr = filename.c_str();
+			ofstream myfile(filename_chr);
+			if (myfile.is_open())
+			{
+				myfile << "random_obs,";
+				myfile << "random_exp,";
+				myfile << "random_nor\n";
+				for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+					myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+				}
+				myfile.close();
 			}
-			myfile.close();
-		}
-		else cout << "Unable to open file";
-		outputcount++;
+			else cout << "Unable to open file";
+			outputcount++;
 		}
 	}
 
@@ -265,7 +270,7 @@ void INTERVAL::output(const char *fileName, bool show_average)
 
 	// print header 
 	if (show_average)
-		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tsum_obser\tsum_expect\tsum_normal"
+		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tnormal_contact\tsum_obser\tsum_expect\tsum_normal"
 			<< "rank_obs\trank_exp\trank_nor"
 			<<endl;
 	else
@@ -277,7 +282,7 @@ void INTERVAL::output(const char *fileName, bool show_average)
 	{
 		output_f << iter->index << "\t" << iter->chrom << "\t" 
 			<< iter->start << "\t" << iter->end << "\t" 
-			<< iter->obs << "\t" << iter->exp;
+			<< iter->obs << "\t" << iter->exp << "\t" << iter->nor;
 
 		if(show_average)
 		{		 

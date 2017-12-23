@@ -101,7 +101,8 @@ int main(int argc, char *argv[])
 	}
 	else if(par.query_mode == "loop")
 	{
-		QUERY query(par.query_name, map, index, par.random_size, par.output_name);
+		QUERY query(par.query_name, map, index);
+		query.gen_random(map, index, par.random_size, par.output_name);
 		query.output(par.output_name);
 	}
 	else if (par.query_mode == "TAD")

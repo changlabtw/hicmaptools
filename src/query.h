@@ -27,9 +27,9 @@ class QUERY
 {
 	public:
 		QUERY();
-		QUERY(const char *fileName, BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *OutputfileName);
+		QUERY(const char *fileName, BINMAP &binmap, INDEX &index);
 		~QUERY();
-		void gen_random();
+		void gen_random(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName);
 		void gen_rightdown();
 		void output(const char *fileName);
 	protected:

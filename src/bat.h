@@ -5,6 +5,8 @@
 #include "binmap.h"
 #include "index.h"
 
+#test
+
 using namespace std;
 
 struct BINBAT

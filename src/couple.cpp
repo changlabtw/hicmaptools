@@ -22,7 +22,11 @@ COUPLE::COUPLE(const char *file_name, INDEX &index)
 	stringstream ss;	
 	COUPLE_E tmp;
 	int tmp_i;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	input_f.open(file_name, ios_base::in);
 	if(!input_f){
 		system("hostname");
@@ -32,7 +36,11 @@ COUPLE::COUPLE(const char *file_name, INDEX &index)
 	else{
 		cout << "\treading file =\t" << file_name << endl;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	while(!input_f.eof())
 	{
 		getline(input_f, str);
@@ -41,8 +49,13 @@ COUPLE::COUPLE(const char *file_name, INDEX &index)
 			ss.clear(); ss.str(str);
 			if ( ss >> tmp.chrom1 >> tmp.start1 >> tmp.end1 >> tmp.chrom2 >> tmp.start2 >> tmp.end2)
 			{	
+<<<<<<< HEAD
 			
 // for chrom1 == chrom2, keep start1 & end1 be smaller position 					
+=======
+
+				// for chrom1 == chrom2, keep start1 & end1 be smaller position 					
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 				if((tmp.chrom1 == tmp.chrom2)&&(tmp.start1 > tmp.start2))
 				{
 					tmp_i = tmp.start1;
@@ -53,19 +66,32 @@ COUPLE::COUPLE(const char *file_name, INDEX &index)
 					tmp.end1 = tmp.end2;
 					tmp.end2 = tmp_i;					
 				}
+<<<<<<< HEAD
 				
 // find cbin for position		
+=======
+
+				// find cbin for position		
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 				tmp.sbin1 = index.find_index(tmp.chrom1, tmp.start1, 1, 0);
 				tmp.ebin1 = index.find_index(tmp.chrom1, tmp.end1, 0, 1);
 
 				tmp.sbin2 = index.find_index(tmp.chrom2, tmp.start2, 1, 0);
 				tmp.ebin2 = index.find_index(tmp.chrom2, tmp.end2, 0, 1);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 				COUPLE_vec.push_back(tmp);	
 			}
 		}		
 	}
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	input_f.close();
 	input_f.clear();
 }
@@ -74,25 +100,44 @@ COUPLE::~COUPLE()
 {
 }
 
+<<<<<<< HEAD
 void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *outputfileName)
+=======
+void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SIZE, const char *OutputfileName)
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 {
 	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
 	float run_obs, run_exp, run_nor, obs, exp;
 	int tmp_s1, tmp_e1, tmp_s2, tmp_e2, dif1, dif2;
 	pair<int, int> r_tmp;
+<<<<<<< HEAD
 		
 // random test
     float test[RANDOME_TEST_SIZE][3];
     int outputcount=1;
     
+=======
+
+	// random test
+	float test[RANDOME_TEST_SIZE][3];
+	int outputcount=1;
+	stringstream ss;
+	string outputcount_str;
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	for(vector< COUPLE_E >::iterator iter = COUPLE_vec.begin(); iter != COUPLE_vec.end(); iter++)
 	{
 		if ((iter->sbin1 != -1) && (iter->ebin1 != -1) && (iter->sbin2 != -1) && (iter->ebin2 != -1))
 		{	
 			dif1 = iter->ebin1 - iter->sbin1;
 			dif2 = iter->ebin2 - iter->sbin2;
+<<<<<<< HEAD
 								
 // loop for all pair contacts between two sites		
+=======
+
+			// loop for all pair contacts between two sites		
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 			for(int m = iter->sbin1; m <= iter->ebin1; m++)
 			{
 				for(int n = iter->sbin2; n <= iter->ebin2; n++)
@@ -100,6 +145,7 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 					obs = binmap.get_observe(m, n);
 					exp = binmap.get_expect(m, n);
 					if ((obs != -1) && (exp != -1))
+<<<<<<< HEAD
   					{
   						iter->cont.quer_obs += obs;
   						iter->cont.quer_exp += exp;
@@ -189,6 +235,100 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
         }
         else cout << "Unable to open file";
         
+=======
+					{
+						iter->cont.quer_obs += obs;
+						iter->cont.quer_exp += exp;
+						iter->cont.quer_nor += obs/(exp+std::numeric_limits<float>::epsilon());	
+						iter->cont.num_bins++;
+					}
+				}
+			}
+
+			// generate random bin pair for randomisation test
+			index.gen_random_index(iter->sbin1, iter->ebin2, random_bins);
+
+			for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+				run_obs = run_exp = run_nor = 0;
+				tmp_s1 = random_bins[r].first;
+				tmp_e2 = random_bins[r].second;
+
+				// if generate random index				
+				if ((tmp_s1 != 0) && (tmp_e2 != 0)){
+					// get the index range for the specified chrom: begin & end
+					r_tmp = index.get_index_range(index.get_index(tmp_s1).chr);
+
+					tmp_e1 = (tmp_s1+dif1 < r_tmp.second) ? tmp_s1+dif1  : r_tmp.second;
+					tmp_s2 = (tmp_e2-dif2 > r_tmp.first)  ? tmp_e2-dif2  : r_tmp.first;
+
+					for(int i=tmp_s1; i<=tmp_e1; i++)
+					{
+						for(int j=tmp_s2; j<=tmp_e2; j++)
+						{
+							obs = binmap.get_observe(i, j);
+							exp = binmap.get_expect(i, j);
+
+							if ((obs != -1) && (exp != -1))
+							{
+								iter->cont.rand_obs += obs;
+								iter->cont.rand_exp += exp;
+								iter->cont.rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+								run_obs += obs;
+								run_exp += exp; 
+								run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							}
+						}
+					}
+
+					test[r][0] = run_obs;
+					test[r][1] = run_exp;
+					test[r][2] = run_nor;
+
+					if (run_obs > iter->cont.quer_obs) iter->cont.rank_obs++;
+					if (run_exp > iter->cont.quer_exp) iter->cont.rank_exp++;
+					if (run_nor > iter->cont.quer_nor) iter->cont.rank_nor++;
+#ifdef DEBUG				
+					cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+#endif
+				}
+			}
+
+#ifdef DEBUG						 
+			cout << "random end" << endl;
+#endif
+
+			iter->cont.rand_obs /= RANDOME_TEST_SIZE;
+			iter->cont.rand_exp /= RANDOME_TEST_SIZE;
+			iter->cont.rand_nor /= RANDOME_TEST_SIZE;
+
+			iter->cont.rank_obs /= RANDOME_TEST_SIZE;
+			iter->cont.rank_exp /= RANDOME_TEST_SIZE;
+			iter->cont.rank_nor /= RANDOME_TEST_SIZE;		 		 
+		}
+
+		//random test
+		string filename = (string)OutputfileName;
+		int found = filename.find_last_of(".");
+		ss.clear();
+		ss << outputcount;
+		ss >> outputcount_str;
+		filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
+		const char *filename_chr = filename.c_str();
+		ofstream myfile(filename_chr);
+		if (myfile.is_open())
+		{
+			myfile << "random_obs,";
+			myfile << "random_exp,";
+			myfile << "random_nor\n";
+			for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+				myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+			}
+			myfile.close();
+			outputcount++;
+		}
+		else cout << "Unable to open file";
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	}		
 }
 
@@ -196,27 +336,47 @@ void COUPLE::output(const char *fileName)
 {	
 	ofstream output_f;
 	output_f.open (fileName);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	if(!output_f)
 	{
 		system("hostname");
 		perror(fileName);
 		exit(0);
 	}
+<<<<<<< HEAD
 	
 //output header	
 	output_f << "chrom1\tstart1\tend1\tsbin1\tebin1\t"
 			 << "chrom2\tstart2\tend2\tsbin2\tebin2\t";
+=======
+
+	//output header	
+	output_f << "chrom1\tstart1\tend1\t"
+		<< "chrom2\tstart2\tend2\t";
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	COUPLE_vec.front().cont.out_header(output_f);		 
 	output_f << endl;					
 
 	for(vector< COUPLE_E >::iterator iter = COUPLE_vec.begin(); iter != COUPLE_vec.end(); iter++)
 	{		
+<<<<<<< HEAD
 		output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" << iter->sbin1 << "\t" << iter->ebin1 << "\t"
 				 << iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" << iter->sbin2 << "\t" << iter->ebin2 << "\t";
 		iter->cont.output(output_f);		 
 		output_f << endl;					
 	}
 	
+=======
+		output_f << iter->chrom1 << "\t" << iter->start1 << "\t" << iter->end1 << "\t" 
+			<< iter->chrom2 << "\t" << iter->start2 << "\t" << iter->end2 << "\t" ;
+		iter->cont.output(output_f);		 
+		output_f << endl;					
+	}
+
+>>>>>>> 532c712dd8a398b4ba4a71506605874e6fcfd805
 	output_f.close();
 }

@@ -10,7 +10,6 @@ using namespace std;
 struct REGION_E
 {
 	string chrom;
-	string name;
 	int start;
 	int end;
 	int sbin;

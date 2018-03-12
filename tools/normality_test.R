@@ -17,32 +17,31 @@ if (length(args)==0 || length(args)==1) {
 }
 
 message("For obs:");
-    result = shapiro.test(mydata$random_obs)
+    result = pearson.test(mydata$random_obs)
         result
-        if(result$p.value<0.05){
-            message("According to SHAPIRO TEST, we do not have evidence to reject that the sample is normal distribution");
-        }else{
-            message("According to SHAPIRO TEST, we reject that the  sample is normal distribution");
-        }
+if(result$p.value<0.05){
+    message("According to Pearson chi-square TEST, we reject the null hypothesis that the sample is normal distribution\n");
+}else{
+    message("According to Pearson chi-square TEST, we do not have evidence to reject the null hypothesis that the sample is normal distribution\n");
+}
 
 message("For exp:");
-result = shapiro.test(mydata$random_exp)
+result = pearson.test(mydata$random_exp)
 result
 if(result$p.value<0.05){
-    message("According to SHAPIRO TEST, we do not have evidence to reject that the sample is normal distribution");
+    message("According to Pearson chi-square TEST, we reject the null hypothesis that the sample is normal distribution\n");
 }else{
-    message("According to SHAPIRO TEST, we reject that the  sample is normal distribution");
+    message("According to Pearson chi-square TEST, we do not have evidence to reject the null hypothesis that the sample is normal distribution\n");
 }
 
 message("For nor:");
-result = shapiro.test(mydata$random_nor)
+result = pearson.test(mydata$random_nor)
 result
 if(result$p.value<0.05){
-    message("According to SHAPIRO TEST, we do not have evidence to reject that the sample is normal distribution");
+    message("According to Pearson chi-square TEST, we reject the null hypothesis that the sample is normal distribution\n");
 }else{
-    message("According to SHAPIRO TEST, we reject that the  sample is normal distribution");
+    message("According to Pearson chi-square TEST, we do not have evidence to reject the null hypothesis that the sample is normal distribution\n");
 }
-
 pdf(paste(path,filename,".pdf"))
 
 qplot(x=mydata$random_obs,

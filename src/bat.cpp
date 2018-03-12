@@ -12,7 +12,7 @@
 
 #include "bat.h"
 #include "index.h"
-//123
+
 
 BAT::BAT()
 {

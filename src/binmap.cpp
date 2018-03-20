@@ -252,7 +252,7 @@ void BINMAP::out_subcontact( const int start_bin, const int end_bin, const char 
 	}
 
 // print header	
-	output_f << "cbin1\tcbin2\tobserved_count\texpected_count" << endl;	
+	output_f << "cbin1\tcbin2\tobserved_count\texpected_count" << endl;
 	for(map< pair<int, int>, float >::iterator iter = expect_map.begin(); iter != expect_map.end(); iter++)
 	{
 		if ((iter->first.first >= start_bin) && (iter->first.first <= end_bin) && (iter->first.second >= start_bin) && (iter->first.second <= end_bin)) 

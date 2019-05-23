@@ -72,7 +72,7 @@ void exit_with_help()
 		"\t-output \t output pair contacts\n"
 		"\n"
 		"query parameters:\n"
-		"\t-random N \t random sampling corresponding N contacts [default: 500 contacts]\n"
+		"\t-random N \t random sampling corresponding N contacts. No random sampling if N = 0 [default: 100 contacts]\n"
 		"\t-ner_bin N\t consider within +- N bins [default: 10 bins]\n"
 		"\nFor instance:\n"
 		"\thicmaptools -in_map nm_none_1000_reduced.bimap -in_bin nm_none_1000.bins -TAD data/10000_40000_top5.epi_domains -output 10000_40000_top5-contact.tsv\n"
@@ -211,8 +211,8 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			strcpy(par.output_name, argv[i]);
 		}				
 		else{
-				fprintf(stderr,"unknown option:%s\n",argv[i-1]);
-				exit_with_help();	
+			fprintf(stderr,"unknown option:%s\n",argv[i-1]);
+			exit_with_help();	
 		}
 	}
 	

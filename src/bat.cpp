@@ -13,6 +13,31 @@
 #include "bat.h"
 #include "index.h"
 
+// make folder
+#include <iostream>
+#include <string>
+#include <sys/stat.h>
+
+int mkpath(std::string s,mode_t mode)
+{
+    size_t pos=0;
+    std::string dir;
+    int mdret;
+
+    if(s[s.size()-1]!='/'){
+        // force trailing / so we can handle everything in loop
+        s+='/';
+    }
+
+    while((pos=s.find_first_of('/',pos))!=std::string::npos){
+        dir=s.substr(0,pos++);
+        if(dir.size()==0) continue; // if leading / first time is 0 length
+        if((mdret=mkdir(dir.c_str(),mode)) && errno!=EEXIST){
+            return mdret;
+        }
+    }
+    return mdret;
+}
 
 BAT::BAT()
 {
@@ -260,6 +285,8 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
     int outputcount=1;
     stringstream ss;
     string outputcount_str;
+// output the header of random test when random size > 0
+	string random_str = (RANDOME_TEST_SIZE > 0)? "rand_obs\trand_exp\trand_nor\tdivide_obs\tdivide_exp\tdivide_nor\trank_obs\trank_exp\trank_nor\t":"";
     
 	ofstream output_f;
 	output_f.open (fileName);
@@ -275,9 +302,7 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
     output_f << "index1\tchrom1\tstart1\tend1\t"
     << "index2\tchrom2\tstart2\tend2\t"
     << "sum_obs\tsum_exp\tsum_nor\t"
-    << "rand_obs\trand_exp\trand_nor\t"
-    << "divide_obs\tdivide_exp\tdivide_nor\t"
-    << "rank_obs\trank_exp\trank_nor\t"
+    << random_str
     << endl;
 
 	for(vector<BINBAT>::iterator i = BINBAT_vec.begin(); i != BINBAT_vec.end(); i++)
@@ -315,82 +340,97 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
                 << j->index << "\t" << j->chrom << "\t" << j->start << "\t" << j->end << "\t"
                 << sum_obs << "\t" << sum_exp << "\t" << sum_nor<<"\t";
                 
+                // 
                 // generate random bin pair for randomisation test
-                index.gen_random_index(i->ebin, j->sbin, random_bins);
-                
-                for(int r = 0; r < RANDOME_TEST_SIZE; r++){
-                    run_obs = run_exp = run_nor = 0;
-                    // get the index range for the specified chrom: begin & end
-                    tmp_s1 = random_bins[r].first-(i->ebin-i->sbin);
-                    tmp_e1 = random_bins[r].first;
-                    tmp_s2 = random_bins[r].second;
-                    tmp_e2 = random_bins[r].second+(j->ebin-j->sbin);
-                    // if generate random index
-                    if ((tmp_s1 != 0) && (tmp_e1 != 0)&&(tmp_s2 != 0)&&(tmp_e2 != 0)){
-                        for(int m=tmp_s1; m<=tmp_e1; m++)
-                        {
-                            for(int n=tmp_s2; n<=tmp_e2; n++)
-                            {
-                                obs = binmap.get_observe(m, n);
-                                exp = binmap.get_expect(m, n);
-                                
-                                if ((obs != -1) && (exp != -1))
-                                {
-                                    sum_rand_obs += obs;
-                                    sum_rand_exp += exp;
-                                    sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
-                                    run_obs += obs;
-                                    run_exp += exp;
-                                    run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
-                                }
-                            }
-                        }
-                        
-                        test[r][0] = run_obs;
-                        test[r][1] = run_exp;
-                        test[r][2] = run_nor;
-                        if (run_obs > sum_obs) rank_obs++;
-                        if (run_exp > sum_exp) rank_exp++;
-                        if (run_nor > sum_nor) rank_nor++;
-                    }
-#ifdef DEBUG
-                    cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
-#endif
-                }
-                sum_rand_obs /= RANDOME_TEST_SIZE;
-                sum_rand_exp /= RANDOME_TEST_SIZE;
-                sum_rand_nor /= RANDOME_TEST_SIZE;
-                
-                rank_obs /= RANDOME_TEST_SIZE;
-                rank_exp /= RANDOME_TEST_SIZE;
-                rank_nor /= RANDOME_TEST_SIZE;
-                
-                //random test
-                string filename = (string)OutputfileName;
-                int found = filename.find_last_of(".");
-                ss.clear();
-                ss << outputcount;
-                ss >> outputcount_str;
-                filename = filename.substr(0,found) + "_random_" + outputcount_str + ".txt";
-                const char *filename_chr = filename.c_str();
-                ofstream myfile(filename_chr);
-                if (myfile.is_open())
+                //
+                // only perform random test if user specify
+                if (RANDOME_TEST_SIZE > 0)
                 {
-                    myfile << "random_obs,";
-                    myfile << "random_exp,";
-                    myfile << "random_nor\n";
-                    for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
-                        myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
-                    }
-                    myfile.close();
-                    outputcount++;
-                }
-                else cout << "Unable to open file";
-                
-                output_f << sum_rand_obs << "\t" << sum_rand_exp << "\t" << sum_rand_nor << "\t"
-                << sum_obs/sum_rand_obs << "\t" << sum_exp/sum_rand_exp << "\t" << sum_nor/sum_rand_nor << "\t"
-                << rank_obs << "\t" << rank_exp << "\t" << rank_nor << "\t"
-                << endl;
+					index.gen_random_index(i->ebin, j->sbin, random_bins);
+				
+					for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+						run_obs = run_exp = run_nor = 0;
+						// get the index range for the specified chrom: begin & end
+						tmp_s1 = random_bins[r].first-(i->ebin-i->sbin);
+						tmp_e1 = random_bins[r].first;
+						tmp_s2 = random_bins[r].second;
+						tmp_e2 = random_bins[r].second+(j->ebin-j->sbin);
+						// if generate random index
+						if ((tmp_s1 != 0) && (tmp_e1 != 0)&&(tmp_s2 != 0)&&(tmp_e2 != 0)){
+							for(int m=tmp_s1; m<=tmp_e1; m++)
+							{
+								for(int n=tmp_s2; n<=tmp_e2; n++)
+								{
+									obs = binmap.get_observe(m, n);
+									exp = binmap.get_expect(m, n);
+								
+									if ((obs != -1) && (exp != -1))
+									{
+										sum_rand_obs += obs;
+										sum_rand_exp += exp;
+										sum_rand_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+										run_obs += obs;
+										run_exp += exp;
+										run_nor += obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+									}
+								}
+							}
+						
+							test[r][0] = run_obs;
+							test[r][1] = run_exp;
+							test[r][2] = run_nor;
+							if (run_obs > sum_obs) rank_obs++;
+							if (run_exp > sum_exp) rank_exp++;
+							if (run_nor > sum_nor) rank_nor++;
+						}
+	#ifdef DEBUG
+						cout << " normal " << r << "\t" << run_obs << "\t" << run_exp << "\t" << run_nor << endl;
+	#endif
+					}
+					sum_rand_obs /= RANDOME_TEST_SIZE;
+					sum_rand_exp /= RANDOME_TEST_SIZE;
+					sum_rand_nor /= RANDOME_TEST_SIZE;
+				
+					rank_obs /= RANDOME_TEST_SIZE;
+					rank_exp /= RANDOME_TEST_SIZE;
+					rank_nor /= RANDOME_TEST_SIZE;
+				
+					//output random test
+					//	construct output file name
+					string filename = (string)OutputfileName;
+					int found = filename.find_last_of(".");
+
+					// make folder for keeping all random files
+					int mkdirretval;
+    				mkdirretval=mkpath(filename.substr(0,found), 0755);
+
+					ss.clear();
+					ss << outputcount;
+					ss >> outputcount_str;
+					
+					// keep random files into the folder
+					filename = filename.substr(0,found) + "/random_" + outputcount_str + ".txt";
+					const char *filename_chr = filename.c_str();
+					ofstream myfile(filename_chr);
+					
+					if (myfile.is_open())
+					{
+						myfile << "random_obs,";
+						myfile << "random_exp,";
+						myfile << "random_nor\n";
+						for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+							myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+						}
+						myfile.close();
+						outputcount++;
+					}
+					else cout << "Unable to open file";
+				
+					output_f << sum_rand_obs << "\t" << sum_rand_exp << "\t" << sum_rand_nor << "\t"
+					<< sum_obs/sum_rand_obs << "\t" << sum_exp/sum_rand_exp << "\t" << sum_nor/sum_rand_nor << "\t"
+					<< rank_obs << "\t" << rank_exp << "\t" << rank_nor << "\t";
+				}
+                output_f << endl;
 			}
 		}
 	}	

@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "straw.h"
+
 using namespace std;
 
 struct INDEX_ELE
@@ -21,6 +23,10 @@ class INDEX
 public:
 	INDEX();
 	INDEX(const char *fileName);
+
+	/*======*/
+	INDEX(vector<contactRecord> & records, int binsize, string chrName);
+	/*======*/
 	~INDEX();
 	int find_index( const string q_chr, const int q_pos, bool forStart, bool forEnd );
 	pair<int, int> get_index_range(const string chr){if(cbin_map.find(chr) != cbin_map.end()) return make_pair(cbin_map[chr].front(), cbin_map[chr].back()); else return make_pair(-1,-1);};

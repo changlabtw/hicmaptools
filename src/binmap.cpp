@@ -24,6 +24,19 @@ BINMAP::BINMAP()
 {
 }
 
+// load map from .hic file **
+BINMAP::BINMAP(vector<contactRecord> & records, int binsize)
+{
+	for(vector<contactRecord>::iterator iter = records.begin(); iter != records.end(); iter ++)
+	{
+		observe_map.insert(make_pair(make_pair(iter->binX / binsize +1, iter->binY / binsize +1), iter->counts));
+		expect_map.insert(make_pair(make_pair(iter->binX / binsize +1, iter->binY / binsize +1), 0));
+	}
+
+	//output reading information
+	cout << "\tmap size                 =\t" << (int)observe_map.size() << endl << endl;
+}
+
 // load map from binary file
 BINMAP::BINMAP(const char *file_name)
 {

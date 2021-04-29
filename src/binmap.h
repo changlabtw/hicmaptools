@@ -5,6 +5,8 @@
 #include "index.h"
 #include "par.h"
 
+#include "straw.h"
+
 using namespace std;
 
 //===BINMAP===
@@ -14,6 +16,11 @@ public:
 	BINMAP();
 	BINMAP(const char *input_name, const char *output_name);
 	BINMAP(const char *fileName);
+
+	/*===========*/
+	BINMAP(vector<contactRecord> & records, int binsize); // for .hic format
+	/*===========*/
+
 	~BINMAP();
 	float get_observe( const int i, const int j );
 	float get_expect( const int i, const int j );

@@ -18,6 +18,9 @@
 #include "couple.h"
 #include "par.h"
 
+// straw .hic
+#include "straw.h"
+
 using namespace std;
 
 void parse_command_line(int argc, char **argv, PARAMETER &par);
@@ -82,6 +85,14 @@ void exit_with_help()
 
 int main(int argc, char *argv[])
 {
+
+	string norm = "NONE";
+	string fname = "inter.hic";
+	string chr1loc = "20";
+	string chr2loc = "20";
+	string size = "100000";
+	int binsize = stoi(size);
+	
 // parse data
 	PARAMETER par;
 	
@@ -90,11 +101,36 @@ int main(int argc, char *argv[])
 
 //	for random
 	srand((unsigned)time(NULL)); 
-	
+
 	cout << endl << "[BEGIN]" << endl;
-	BINMAP map(par.in_binmap_name);
-	INDEX index(par.in_bins_name);
-	
+
+	if(strncmp(par.in_hic_name, "NONE", 10) != 0){
+		string matrix = "observed";
+		string unit = "BP";
+
+		cout << par.in_hic_norm << "\t" << par.in_hic_name << "\t" << par.in_hic_chr << "\t" << par.in_hic_res << endl;
+		vector<contactRecord> records;
+		records = straw(matrix, par.in_hic_norm, par.in_hic_name, par.in_hic_chr, par.in_hic_chr, unit, par.in_hic_res);
+		sortContactRecord(records);
+		BINMAP map(records, par.in_hic_res);
+		INDEX index(records, par.in_hic_res, par.in_hic_chr);
+	}
+	else{
+		BINMAP map(par.in_binmap_name);
+		INDEX index(par.in_bins_name);
+	}
+/*
+	for(int i=1; i <= 20;i++){
+		INDEX_ELE test = index.get_index(i);
+		cout << i << "\t" << test.chr << "\t" << test.start << "\t" << test.end <<endl;
+	}
+	cout << endl;
+
+	cout << "bin1\tbin2\tobserved" << endl;
+	for(int i=1; i<= 20;i++){
+		cout << "1" << "\t" << i << "\t" << map.get_observe(1,i) << endl;
+	}
+*/
 	if(par.query_mode == "none")
 	{
 		map.out_contIne(10000, index, par.output_name);
@@ -209,7 +245,20 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 // output								
 		else if( strncmp(argv[i-1],"-output", 20)==0 ){
 			strcpy(par.output_name, argv[i]);
-		}				
+		}
+// hic format
+		else if( strncmp(argv[i-1],"-in_hic_name", 20)== 0){
+			strcpy(par.in_hic_name, argv[i]);
+		}
+		else if( strncmp(argv[i-1],"-in_hic_norm", 20)== 0){
+			strcpy(par.in_hic_norm, argv[i]);
+		}
+		else if( strncmp(argv[i-1],"-in_hic_res", 20)== 0){
+			par.in_hic_res = stoi(argv[i]);
+		}
+		else if( strncmp(argv[i-1],"-in_hic_chr", 20)== 0){
+			strcpy(par.in_hic_chr, argv[i]);
+		}
 		else{
 			fprintf(stderr,"unknown option:%s\n",argv[i-1]);
 			exit_with_help();	

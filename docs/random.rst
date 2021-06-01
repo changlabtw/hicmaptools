@@ -13,7 +13,7 @@ You will get the exam ouput message and a PDF file contains three plot.
 
 Illustration for PDF file
 
-|image1|
+image1|
 
-.. |image0| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/queryOption.pdf
-.. |image1| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/randomExample.pdf
+image0| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/queryOption.pdf
+image1| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/randomExample.pdf

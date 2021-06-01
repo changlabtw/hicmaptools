@@ -200,3 +200,10 @@ Illustration for PDF file
 
 .. |image0| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/queryOption.pdf
 .. |image1| image:: https://github.com/cbcrg/hicmaptools/blob/master/docs/figs/randomExample.pdf
+
+.. toctree::
+   :maxdepth: 2
+
+   Requirements and Installation <install>
+   Usage <usage>
+   Random test <random>

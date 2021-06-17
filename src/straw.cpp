@@ -1287,3 +1287,43 @@ void  sortContactRecord (std::vector<contactRecord> & records){
 	std::sort(records.begin(), records.end(), compareXY);
 	return;
 }
+
+map <string, chromosome> getAllChr(string fname){
+
+	// HTTP code
+	string prefix = "http";
+	bool isHttp = false;
+	ifstream fin;
+
+	// read header into buffer; 100K should be sufficient
+	CURL *curl;
+
+	long master;
+	map <string, chromosome> chromosomeMap;
+
+	if (std::strncmp(fname.c_str(), prefix.c_str(), prefix.size()) == 0) {
+		isHttp = true;
+		char *buffer;
+		curl = initCURL(fname.c_str());
+		if (curl) {
+			buffer = getData(curl, 0, 100000);
+		} else {
+			cerr << "URL " << fname << " cannot be opened for reading" << endl;
+			map <string, chromosome> v;
+			return v;
+		}
+		membuf sbuf(buffer, buffer + 100000);
+		istream bufin(&sbuf);
+		chromosomeMap = readHeader(bufin, master);
+		delete buffer;
+	} else {
+		fin.open(fname, fstream::in);
+		if (!fin) {
+			cerr << "File " << fname << " cannot be opened for reading" << endl;
+			map <string, chromosome> v;
+			return v;
+		}
+		chromosomeMap = readHeader(fin, master);
+	}
+	return chromosomeMap;
+}

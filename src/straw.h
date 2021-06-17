@@ -100,6 +100,7 @@ bool compareXY(const contactRecord & record_1, const contactRecord & record_2); 
 
 void sortContactRecord (std::vector<contactRecord> & records);
 
+std::map <std::string, chromosome> getAllChr(std::string fname);
 
 
 #endif

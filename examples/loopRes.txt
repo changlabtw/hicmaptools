@@ -1,0 +1,2 @@
+chrom	pos1	pos2	cbin1	cbin2	obser_contact	expect_contact
+3R	100000	200000	2278	2281	1084	8.3386

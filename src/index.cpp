@@ -10,42 +10,9 @@
 
 INDEX::INDEX()
 {
+	cbin_record = 1;
 }
 
-// load map from .hic file
-INDEX::INDEX(vector<contactRecord> & records, int binsize, string chrName)
-{
-	vector<int> tmp_vec;
-	INDEX_ELE tmp_index;
-	int cbin;
-
-	long length = records.size(); // how many bins in a chro
-
-	cbin_map.insert(make_pair(chrName, tmp_vec));
-	from_map.insert(make_pair(chrName, tmp_vec));
-	to_map.insert(make_pair(chrName, tmp_vec));
-	
-	// initilize for storing data
-	tmp_index.count = 0;
-	tmp_index.chr = chrName;
-
-	// store data
-	for(long i=0;i < records[length - 1].binX / binsize ; i++)
-	{
-		cbin = i+1;
-		tmp_index.start = i * binsize;
-		tmp_index.end = (i+1) * binsize;
-
-		cbin_map[chrName].push_back(cbin);
-		from_map[chrName].push_back(tmp_index.start);
-		to_map[chrName].push_back(tmp_index.end);
-		index_map.insert(make_pair(cbin, tmp_index));
-	}
-
-	cout << "\t\treading # of chrs = " << (int)cbin_map.size() << endl;
-	cout << "\t\treading # of bins = " << (int)index_map.size() << endl << endl;
-	
-}
 
 // load map from binary file
 INDEX::INDEX(const char *file_name)
@@ -240,4 +207,44 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 		cout << " WARNING: random index for intra-chromosome is not implemented" << endl;
 	}
 	cout << "[DONE]" << endl;		
+}
+
+// load map from .hic file
+void INDEX::insert_from_hic(vector<contactRecord> & records, int binsize, string chrName)
+{
+	FIXED_BIN = true;
+	vector<int> tmp_vec;
+	INDEX_ELE tmp_index;
+
+	long length = records.size(); // how many bins in a chro
+
+	cbin_map.insert(make_pair(chrName, tmp_vec));
+	from_map.insert(make_pair(chrName, tmp_vec));
+	to_map.insert(make_pair(chrName, tmp_vec));
+	
+	// initilize for storing data
+	tmp_index.count = 0;
+	tmp_index.chr = chrName;
+
+	// store data
+	for(long i=0;i < records[length - 1].binX / binsize ; i++)
+	{
+		tmp_index.start = i * binsize;
+		tmp_index.end = (i+1) * binsize;
+
+		cbin_map[chrName].push_back(cbin_record);
+		from_map[chrName].push_back(tmp_index.start);
+		to_map[chrName].push_back(tmp_index.end);
+		index_map.insert(make_pair(cbin_record, tmp_index));
+		cbin_record ++;
+	}
+	
+
+//	cout << "\t\treading # of chrs = " << (int)cbin_map.size() << endl;
+//	cout << "\t\treading # of bins = " << (int)index_map.size() << endl << endl;
+	
+}
+
+long INDEX::get_cbin_number(){
+	return cbin_record;
 }

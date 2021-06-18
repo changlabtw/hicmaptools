@@ -1,18 +1,18 @@
-How to use HiCmappTools
+How to use HiCmappTools?
 =============================
 
-Commend
+Usage
 -----
 
 ::
 
-    hicmaptools -in_map in.binmap -in_bin in.bins SELECT_ONE_QUERY_MODE query.bed -output out_file.tsv  
+    hicmaptools -in_map in.binmap -in_bin in.bins QUERY_MODE query.bed -output out_file.tsv  
 
-    options:  
+    input:  
             -in_map      text .n_contact or binary .bimap by genBiMap commend 
             -in_bin      the bin file for contact map, .bins
         
-    query modes: 
+    QUERY_MODE: 
         -bat         a loci bat: chr    start   end
             -output      ave neighboring contact of the bat
         

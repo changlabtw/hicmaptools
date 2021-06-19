@@ -1,7 +1,7 @@
 How to use HiCmappTools?
 =============================
 
-Usage
+Quick start
 -----
 
 ::
@@ -13,30 +13,23 @@ Usage
             -in_bin      the bin file for contact map, .bins
         
     QUERY_MODE: 
-            -bat         a loci bat: chr    start   end
-            -output      ave neighboring contact of the bat
+            -bat         calculate average contacts from downstream to upstream of interested position
         
-            -couple      pair of sites: chr1    start1  end1    chr2    start2  end2
-            -output      contacts between all pairs
+            -local       list all contacts inside an interval
 
-            -local       a interval: chr    start   end
-            -output      all contacts inside interval
-
-            -loop        loci gene: chr start   end
-            -output      contact between two ends, ie. 5' and 3' genes
+            -loop        contact intensity between two ends of a loop
             
-            -TAD         loci interval: chr start   end
-            -output      sum/ave contact of the TAD
+            -pair        contacts between a pair region
+            
+            -sites       contacts between sites
 
-            -sites       interesting sites: chr start   end
-            -output      contact between those sites                        
+            -submap      sub contact map of interested regions
 
-            -submap      genome region to extract: chr  start   end
-            -output      sub contact map, ie. 3R:10~15MB
+            -TAD         sum and average of contacts inside TAD region
         
     other parameters:
-            -ner_bin     check neighbouring bins for bat mode, d.f=10
-            -random      assign random size, d,f=500
+            -ner_bin     check neighbouring bins for bat mode, default=10
+            -random      the size of the shffule sample, default=100
 
 
 Query Modes
@@ -48,44 +41,46 @@ first three required columns are enough.
 -bat
 ''''
 
--  calculate the average contacts +- 5000bps of the interested position
+-  calculate average contacts from downstream to upstream (controled by -ner_bin) of interested position (white rectangle)
 -  i.e., PcG binding sites
-
--couple
-'''''''
-
--  Contact of the pair
--  i.e., a enhancer vs a promoter
 
 -local
 ''''''
 
--  List all contacts inside the interval
--  i.e., Check intra-contacts of TAD
+-  list all contacts inside an interval (white cross)
+-  i.e., check intra-contacts of a TAD
 
 -loop
 '''''
 
--  Contact between two ends
--  i.e., Check whether gene 5’ & 3’ form loop or not
+-  contact intensity between two ends of a loop
+-  i.e., check whether 5’ & 3’ of a gene form loop or not
 
--TAD
-''''
+-pair
+'''''''
 
--  sum./ave. contacts among the interval
--  i.e., PcG/Active TAD different contact property
+-  contacts between a pair region (contact between pair *X* and pair *Y*, white cross)
+-  i.e., contact between a enhancer and a promoter
 
 -sites
 ''''''
 
--  Contact between these sites
--  i.e., Calculate contact for PcG pair sites
+-  contact between sites (contacts between three sites, including diagonal)
+-  i.e., contacts of insulator sites
 
 -submap
 '''''''
 
--  Contact map of interesting region
--  i.e., Extract contacts of specific genome region
+-  sub contact map of interested regions
+-  i.e., extract sub contact map of 3R:10~15MB
+
+-TAD
+''''
+
+-  sum and average of contacts inside TAD region (white dashed square at top right)
+-  i.e., whether PcG/Active TADs show different contact property
+
+Illustration of query modes |image0|
 
 -output
 '''''''
@@ -94,9 +89,6 @@ There are two output files
 
 - specificOutput.tsv: the contact intensity of you interested
 - specificOutput **_random** .tsv: the contact intensities of the null hypothesis
-
-Illustration of query modes |image0|
-
 
 
 Command example

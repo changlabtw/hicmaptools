@@ -9,5 +9,5 @@ It is a commend line tool for query contact information from HiC map.
 
    Requirements and Installation <install>
    Usage <usage>
-   Input and output <input>
-   Random test <random>
+   About file formats <format>
+   Shuffle test <random>

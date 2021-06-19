@@ -57,12 +57,7 @@ its binary format transferred by ``bin/genBiMap``
 Output
 -------------------------
 
-There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact intensity aganist the null hypothesis (`Shuffle test <random>`_).
-
-.. toctree::
-    :maxdepth: 1
-
-    Shuffle test <random>
+There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact intensity aganist the null hypothesis (`Shuffle test <random.html>`_).
 
 - output.tsv : the contact intensity of you interested
 

@@ -91,21 +91,24 @@ first three required columns are enough.
 '''''''
 
 There are two output files
+
 - specificOutput.tsv: the contact intensity of you interested
-- specificOutput**_random**.tsv: the contact intensities of the null hypothesis
+- specificOutput **_random** .tsv: the contact intensities of the null hypothesis
 
 Illustration of query modes |image0|
 
-****
+
 
 Command example
 -------
 
 Suppose you have below files and want to query ``-bat``:
+
 - map file : nm\_none\_30000.n\_contact
-- bin file : 30000.cbins \* 
+- bin file : 30000.cbins
 - query input file : BATtest.txt
 
+Then use the command
 ::
->hicmaptools -in\_map nm\_none\_30000.n\_contact
--in\_bin 30000.cbins -bat BATtest.txt -output temp.tsv
+
+>hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv

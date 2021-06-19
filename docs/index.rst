@@ -1,7 +1,7 @@
 hicmaptools
 ===========
 
-It is a commend line tool for query contact information from HiC map.
+It is a commend line tool to access HiC maps. The complete program provides multi-query modes and analysis tools.
 
 
 .. toctree::
@@ -10,4 +10,4 @@ It is a commend line tool for query contact information from HiC map.
    Requirements and Installation <install>
    Usage <usage>
    About file formats <format>
-   Shuffle test <random>
+   Shuffle test <shuffle>

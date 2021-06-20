@@ -80,7 +80,12 @@ first three required columns are enough.
 -  sum and average of contacts inside TAD region (white dashed square at top right)
 -  i.e., whether PcG/Active TADs show different contact property
 
-Illustration of query modes |image0|
+Illustration of query modes
+
+.. figure:: figs/queryExample.png
+      :scale: 50%
+      :alt: Illustration of query modes
+
 
 -output
 '''''''
@@ -92,7 +97,7 @@ There are two output files
 
 
 Command example
--------
+-------------------------
 
 Suppose you have below files and want to query ``-bat``:
 

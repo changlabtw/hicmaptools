@@ -11,3 +11,12 @@ It is a commend line tool to access HiC maps. The complete program provides mult
    Usage <usage>
    About file formats <format>
    Shuffle test <shuffle>
+
+Citation & contact
+,,,,,
+
+Jia-Ming Chang, Yi-Fu Weng, Wei-Ting Chang, Fu-An Lin, Giacomo Cavalli.
+`HiCmapTools: A tool to access HiC contact maps <>`_
+*submitted* (2021).
+
+gmail: chang.jiaming

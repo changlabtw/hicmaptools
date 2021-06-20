@@ -96,11 +96,11 @@ There are two output files
 - specificOutput **_random** .tsv: the contact intensities of the null hypothesis
 
 
-Command example
+Command examples
 -----------
 
 BAT query
-^^^^^^
+''''
 
 Suppose you have below files and want to query ``-bat``:
 
@@ -114,12 +114,16 @@ Then use the command
 >hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
 
 More queries
+''''
 
 ::
 
 >runExampl.sh -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
 
 TAD loop in the manuscript
+''''
+
+We calculate the contact intensity between two boundaries of the TADs via the loop query mode
 
 - map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
@@ -131,6 +135,9 @@ TAD loop in the manuscript
 >Rscript plot_TADLoop.R
 
 TAD intra-density in the manuscript
+''''
+
+We check whether intra-TAD contact intensity also shows differently across epi-classes via the TAD query mode
 
 - map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_

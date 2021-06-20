@@ -97,15 +97,48 @@ There are two output files
 
 
 Command example
--------------------------
+-----------
+
+BAT query
+^^^^^^
 
 Suppose you have below files and want to query ``-bat``:
 
 - map file : nm\_none\_30000.n\_contact
 - bin file : 30000.cbins
-- query input file : BATtest.txt
+- query file : BATtest.txt
 
 Then use the command
 ::
 
 >hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
+
+More queries
+
+::
+
+>runExampl.sh -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
+
+TAD loop in the manuscript
+
+- map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- query file : `epiTAD.bed <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+
+::
+
+>hicmaptools -in_map fly.bimap -in_bin fly.bins -loop epiTAD.bed -random 1 -output TADloop_cm_10k_top5.tsv &> TADloop.log
+>Rscript plot_TADLoop.R
+
+TAD intra-density in the manuscript
+
+- map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- query file : `epiTAD.bed <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+
+::
+
+>hicmaptools -in_map fly.bimap -in_bin fly.bins -TAD epiTAD.bed -random 0 -output TADintra_cm_10k_top5.tsv &> TADintra.log
+>Rscript plot_TADintra.R
+
+

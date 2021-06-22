@@ -94,17 +94,17 @@ There are two output files. You can use the tool ``tools/visualizeRandomTest.R``
 
 ::
 
-index	chrom	start	end	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
-1	2L	594629	595145	47916.000	459.715	2380.531	32618.180	314.679	2525.479	1.469	1.461	0.943	0.100	0.140	0.600
+ index	chrom	start	end	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
+ 1	2L	594629	595145	47916.000	459.715	2380.531	32618.180	314.679	2525.479	1.469	1.461	0.943	0.100	0.140	0.600
 
 - output **_random** .txt : the observed, expected and normalizated contact intensities of the null hypothesis
 
 ::
 
-random_obs,random_exp,random_nor
-47916,459.715,2380.53
-19632,158.539,2956.25
-57574,448.25,2832.44
-7074,60.7897,3029.22
-33009,246.588,3311.8
+ random_obs,random_exp,random_nor
+ 47916,459.715,2380.53
+ 19632,158.539,2956.25
+ 57574,448.25,2832.44
+ 7074,60.7897,3029.22
+ 33009,246.588,3311.8
 

@@ -83,7 +83,7 @@ first three required columns are enough.
 Illustration of query modes
 
 .. figure:: figs/queryOption.png
-      :scale: 70 %
+      :scale: 50 %
       :alt: Illustration of query modes
 
 

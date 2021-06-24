@@ -56,9 +56,9 @@ void exit_with_help()
 		"\t-in_bin \t the bin file for contact map, .bins\n"
 		"\n"
 		"  Usage for .hic format: hicmaptools [options] -in_hic_name in.hic -in_hic_norm NONE|VC|VC_SORT|KR|OE -in_hic_res 10000 [query]\n"
-		"\t-in_hic_name \t binary .hic generate from juicer \n"
+		"\t-in_hic \t binary .hic generate from juicer \n"
 		"\t-in_hic_norm \t the normalization method\n"
-		"\t-in_hic_res \t specify the resolution in .hic format\n"
+		"\t-in_hic_rsol \t specify the resolution in .hic format\n"
 		"\n"
 		"queries:\n"
 		"\t-loop   \t loci gene: chr\tstrat\tend\n"
@@ -113,17 +113,17 @@ int main(int argc, char *argv[])
 	BINMAP map_;
 	INDEX index;
 	
-	if(strncmp(par.in_hic_name, "NONE", 10) != 0){
-		map <string, chromosome> chromosomeMap = getAllChr(par.in_hic_name);
+	if(strncmp(par.in_hic, "NONE", 10) != 0){
+		map <string, chromosome> chromosomeMap = getAllChr(par.in_hic);
 		vector<contactRecord> records;
 		for(map <string, chromosome>::iterator it = chromosomeMap.begin(); it != chromosomeMap.end(); it++){
 			//		cout << it->second.index << "\t" << it->first << endl;
 			if(it->first == "ALL")
 				continue;
-			vector<contactRecord> temp = straw(matrix, par.in_hic_norm, par.in_hic_name, it->first, it->first, unit, par.in_hic_res);
+			vector<contactRecord> temp = straw(matrix, par.in_hic_norm, par.in_hic, it->first, it->first, unit, par.in_hic_rsol);
 			sortContactRecord(temp);
-			map_.insert_from_hic(temp, par.in_hic_res, index.get_cbin_number());
-			index.insert_from_hic(temp, par.in_hic_res, it->first);
+			map_.insert_from_hic(temp, par.in_hic_rsol, index.get_cbin_number());
+			index.insert_from_hic(temp, par.in_hic_rsol, it->first);
 		}
 		//	records = straw(matrix, par.in_hic_norm, par.in_hic_name, par.in_hic_chr, par.in_hic_chr, unit, par.in_hic_res);
 		//	sortContactRecord(records);
@@ -263,14 +263,14 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			strcpy(par.output_name, argv[i]);
 		}
 // hic format
-		else if( strncmp(argv[i-1],"-in_hic_name", 20)== 0){
-			strcpy(par.in_hic_name, argv[i]);
+		else if( strncmp(argv[i-1],"-in_hic", 20)== 0){
+			strcpy(par.in_hic, argv[i]);
 		}
 		else if( strncmp(argv[i-1],"-in_hic_norm", 20)== 0){
 			strcpy(par.in_hic_norm, argv[i]);
 		}
-		else if( strncmp(argv[i-1],"-in_hic_res", 20)== 0){
-			par.in_hic_res = stoi(argv[i]);
+		else if( strncmp(argv[i-1],"-in_hic_rsol", 20)== 0){
+			par.in_hic_rsol = stoi(argv[i]);
 		}
 		else{
 			fprintf(stderr,"unknown option:%s\n",argv[i-1]);
@@ -286,7 +286,7 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 void show_param(PARAMETER par)
 {
 	// show bin and map input
-	if (strlen(par.in_hic_name) == 0){
+	if (strncmp(par.in_hic, "NONE", 10) == 0){
 		cout << "Input" << endl
 			<< "\t map   =\t" << par.in_binmap_name << endl
 			<< "\t bin   =\t" << par.in_bins_name << endl
@@ -301,9 +301,9 @@ void show_param(PARAMETER par)
 	}
 	else{ // show hic input
 		cout << "Input" << endl
-			<< "\t hic          =\t" << par.in_hic_name << endl
+			<< "\t hic          =\t" << par.in_hic << endl
 			<< "\t normalization=\t" << par.in_hic_norm << endl
-			<< "\t resolution   =\t" << par.in_hic_res << endl
+			<< "\t resolution   =\t" << par.in_hic_rsol << endl
 			<< "\t query =\t" << par.query_name << endl;
 
 		cout << "Parameters" << endl

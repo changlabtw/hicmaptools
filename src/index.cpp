@@ -40,6 +40,13 @@ INDEX::INDEX(const char *file_name)
 		cout << "\treading index file =\t" << file_name << endl;
 	}
 
+	//checking empty file
+	if(input_f.peek() == std::ifstream::traits_type::eof()){
+		cout << "empty query file" << endl;
+		exit(-1);
+	}
+
+
 	while(!input_f.eof())
 	{
 		getline(input_f, str);

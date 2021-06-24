@@ -63,6 +63,12 @@ BINMAP::BINMAP(const char *file_name)
 	else{
 		cout << "\treading contact file =\t" << file_name << endl;
 	}
+	//checking empty file
+	if(input_f.peek() == std::ifstream::traits_type::eof()){
+		cout << "empty query file" << endl;
+		exit(-1);
+	}
+
 	
 // load map from binary : .binmap	
 	if (b_found!=std::string::npos)

@@ -10,14 +10,14 @@ else
 endif
 
 Compiler	= g++
-FLAGS		= -Wall $(CFLAGS) -O2
-LIB			=
+FLAGS		= -Wall $(CFLAGS) -O2 --std=c++0x
+LIB			= -lcurl -lz
 
 OBJECTgenBiMap	= genBiMap.o binmap.o
 
 OBJECTformatmap	= formatmap.o binmap.o index.o
 
-OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o
+OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o straw.o
 
 genBiMap:	$(OBJECTgenBiMap)
 			$(Compiler) $(FLAGS) $(OBJECTgenBiMap) -o genBiMap $(LIB)
@@ -38,5 +38,5 @@ clean:
 			rm -f *.o
 
 install:
-			mv -f ../genBiMap ~/bin/.
-			mv -f ../hicmaptools ~/bin/.
+			mv -f ../bin/genBiMap /bin/.
+			mv -f ../bin/hicmaptools /bin/.

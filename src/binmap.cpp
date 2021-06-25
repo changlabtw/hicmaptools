@@ -24,6 +24,7 @@ BINMAP::BINMAP()
 {
 }
 
+
 // load map from binary file
 BINMAP::BINMAP(const char *file_name)
 {
@@ -62,6 +63,12 @@ BINMAP::BINMAP(const char *file_name)
 	else{
 		cout << "\treading contact file =\t" << file_name << endl;
 	}
+	//checking empty file
+	if(input_f.peek() == std::ifstream::traits_type::eof()){
+		cout << "empty query file" << endl;
+		exit(-1);
+	}
+
 	
 // load map from binary : .binmap	
 	if (b_found!=std::string::npos)
@@ -85,6 +92,7 @@ BINMAP::BINMAP(const char *file_name)
 	{
 		while(!input_f.eof())
 		{
+//			cout << "1";
 			getline(input_f, str);
 			if((int)str.length() > 0)
 			{
@@ -429,3 +437,17 @@ void BINMAP::out2matrix( INDEX &index, PARAMETER par )
 
 	o_f.close();
 };
+
+// load map from .hic file **
+void BINMAP::insert_from_hic(vector<contactRecord> & records, int binsize, long cbin_number)
+{
+	for(vector<contactRecord>::iterator iter = records.begin(); iter != records.end(); iter ++)
+	{
+		observe_map.insert(make_pair(make_pair((iter->binX / binsize) + cbin_number, (iter->binY / binsize) + cbin_number), iter->counts));
+		expect_map.insert(make_pair(make_pair((iter->binX / binsize) + cbin_number, (iter->binY / binsize)+ cbin_number), 1));
+	}
+
+	//output reading information
+	//cout << "\tmap size                 =\t" << (int)observe_map.size() << endl << endl;
+}
+

@@ -1,6 +1,6 @@
 .KEEP_STAT:
 
-all: genBiMap formatmap hicmaptools
+all: genBinMap formatmap hicmaptools
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -13,15 +13,15 @@ Compiler	= g++
 FLAGS		= -Wall $(CFLAGS) -O2 --std=c++0x
 LIB			= -lcurl -lz
 
-OBJECTgenBiMap	= genBiMap.o binmap.o
+OBJECTgenBinMap	= genBinMap.o binmap.o
 
 OBJECTformatmap	= formatmap.o binmap.o index.o
 
 OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o straw.o
 
-genBiMap:	$(OBJECTgenBiMap)
-			$(Compiler) $(FLAGS) $(OBJECTgenBiMap) -o genBiMap $(LIB)
-			mv -f genBiMap ../bin/.
+genBinMap:	$(OBJECTgenBinMap)
+			$(Compiler) $(FLAGS) $(OBJECTgenBinMap) -o genBinMap $(LIB)
+			mv -f genBinMap ../bin/.
 
 formatmap:	$(OBJECTformatmap)
 			$(Compiler) $(FLAGS) $(OBJECTformatmap) -o formatmap $(LIB)

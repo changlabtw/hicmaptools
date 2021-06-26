@@ -42,13 +42,13 @@ A contact map contains Hi-C intensity indexed by bins in text format, an example
 - expected\_count : the expected contact between those two genome locis (bins) according to model. It could be 1 if no model is applied.
 - observed\_count : the observed contact between those two genome locis (bins) in Hi-C data
 
-It takes time to parse text format so we develop ``bin/genBiMap`` to turn text format (.n_contact) into binary format (.bimap) which could be used in -in\_map, an example `fly_30k.bimap <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.binmap>`_.
+It takes time to parse text format so we develop ``bin/genBinMap`` to turn text format (.n_contact) into binary format (.binmap) which could be used in -in\_map, an example `fly_30k.binmap <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.binmap>`_.
 
 ::
  
  genBinMap [options] -in_ncontact input.n_contact -out_binmap out.binmap
  >bin/genBinMap -in_ncontact examples/fly_30k.n_contact -out_binmap examples/fly_30k.binmap
- >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bat BAT.bed -output batTest.tsv 
+ >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bat examples/bat.bed -output batTest.tsv 
 
 .hic format
 ^^^^^^^^^^^

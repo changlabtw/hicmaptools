@@ -70,4 +70,4 @@ Quick start
 		
 		
 For instance:
->hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.binmap.bins -bat examples/bat.bed -output temp.tsv
+>hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.bins -bat examples/bat.bed -output temp.tsv

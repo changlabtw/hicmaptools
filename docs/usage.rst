@@ -117,7 +117,7 @@ Suppose you have below files and want to query ``-bat``:
 Then use the command
 ::
 
->hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output temp.tsv
+>hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output batTest.tsv
 
 More queries
 ''''
@@ -153,5 +153,3 @@ We check whether intra-TAD contact intensity also shows differently across epi-c
 
 >hicmaptools -in_map fly.bimap -in_bin fly.bins -TAD epiTAD.bed -random 0 -output TADintra_cm_10k_top5.tsv &> TADintra.log
 >Rscript plot_TADintra.R
-
-

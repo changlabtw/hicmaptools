@@ -8,7 +8,7 @@ We provide ``tools/visualSuffleTest.R``, a script to visualize the query's outpu
     hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output batTest.tsv
     Rscript tools/visualSuffleTest.R batTest_random_1.txt batTest_plot.pdf
 
-The output plot is given as below which show density of shuffle test and query intensity is highlined as a red vertical line.
+The plot shows density of shuffle test and the query intensity is highlined as a red vertical line.
 
 .. image:: figs/batTest_plot.png
       :scale: 35 %

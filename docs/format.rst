@@ -46,9 +46,9 @@ It takes time to parse text format so we develop ``bin/genBiMap`` to turn text f
 
 ::
  
- genBiMap [options] -in_ncontact input.n_contact -out_bimap out.bimap
+ genBinMap [options] -in_ncontact input.n_contact -out_binmap out.binmap
  >bin/genBinMap -in_ncontact examples/fly_30k.n_contact -out_binmap examples/fly_30k.binmap
- >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bat BAT.bed -output test_BAT.tsv 
+ >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bat BAT.bed -output batTest.tsv 
 
 .hic format
 ^^^^^^^^^^^
@@ -102,7 +102,7 @@ There are two output files. You can use the tool ``tools/visualizeRandomTest.R``
  index	chrom	start	end	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
  1	2L	594629	595145	47916.000	459.715	2380.531	32618.180	314.679	2525.479	1.469	1.461	0.943	0.100	0.140	0.600
 
-- output **_random** .txt : the observed, expected and normalizated contact intensities of the null hypothesis
+- output **_random** .txt : the observed, expected and normalizated contact intensities of the null hypothesis starting from the third row where the second row is the query intensity
 
 ::
 

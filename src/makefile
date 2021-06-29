@@ -38,5 +38,5 @@ clean:
 			rm -f *.o
 
 install:
-			mv -f ../bin/genBiMap /bin/.
+			mv -f ../bin/genBinMap /bin/.
 			mv -f ../bin/hicmaptools /bin/.

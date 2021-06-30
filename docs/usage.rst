@@ -93,15 +93,6 @@ Illustration of query modes
       :alt: Illustration of query modes
 
 
--output
-'''''''
-
-There are two output files
-
-- output_file.tsv: the contact intensity of you interested
-- output_file **_random** .tsv: the contact intensities of the null hypothesis
-
-
 Command examples
 -----------
 

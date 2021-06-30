@@ -91,7 +91,7 @@ Output
 
 There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact intensity aganist the null hypothesis (`Shuffle test <random.html>`_).
 
-- output.tsv : the contact intensity of you interested where 
+- output.tsv : the contact intensity of the interested regions 
  - sum_* indicates intensity of HiC
  - rand_* indicates intensity of shuffle test
  - divide_* indicates ratio of sum/rand

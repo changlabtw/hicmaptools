@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
+
 #include <cstring>
 #include <iostream>
 #include <fstream>
@@ -200,8 +201,8 @@ map<string, chromosome> readHeader(istream &fin, long &masterIndexPosition) {
     getline(fin, genomeID, '\0');
 
     if (version > 8) {
-        long nviPosition = readLongFromFile(fin);
-        long nviLength = readLongFromFile(fin);
+//        long nviPosition = readLongFromFile(fin);
+//        long nviLength = readLongFromFile(fin);
     }
 
     int nattributes = readIntFromFile(fin);
@@ -239,9 +240,9 @@ map<string, chromosome> readHeader(istream &fin, long &masterIndexPosition) {
 // at the given normalization and resolution
 bool readFooter(istream& fin, long master, int c1, int c2, string matrix, string norm, string unit, int resolution, long &myFilePos, indexEntry &c1NormEntry, indexEntry &c2NormEntry, vector<double> &expectedValues) {
     if (version > 8) {
-        long nBytes = readLongFromFile(fin);
+//        long nBytes = readLongFromFile(fin);
     } else {
-        int nBytes = readIntFromFile(fin);
+//        int nBytes = readIntFromFile(fin);
     }
 
     stringstream ss;
@@ -254,7 +255,7 @@ bool readFooter(istream& fin, long master, int c1, int c2, string matrix, string
         string str;
         getline(fin, str, '\0');
         long fpos = readLongFromFile(fin);
-        int sizeinbytes = readIntFromFile(fin);
+//        int sizeinbytes = readIntFromFile(fin);
         if (str == key) {
             myFilePos = fpos;
             found = true;
@@ -526,8 +527,8 @@ map <int, indexEntry> readMatrixHttp(CURL *curl, long myFilePosition, string uni
     membuf sbuf(buffer, buffer + size);
     istream bufin(&sbuf);
 
-    int c1 = readIntFromFile(bufin);
-    int c2 = readIntFromFile(bufin);
+//    int c1 = readIntFromFile(bufin);
+//    int c2 = readIntFromFile(bufin);
     int nRes = readIntFromFile(bufin);
     int i = 0;
     bool found = false;
@@ -553,8 +554,8 @@ map <int, indexEntry> readMatrix(istream& fin, long myFilePosition, string unit,
     map<int, indexEntry> blockMap;
 
     fin.seekg(myFilePosition, ios::beg);
-    int c1 = readIntFromFile(fin);
-    int c2 = readIntFromFile(fin);
+//    int c1 = readIntFromFile(fin);
+//    int c2 = readIntFromFile(fin);
     int nRes = readIntFromFile(fin);
     int i = 0;
     bool found = false;

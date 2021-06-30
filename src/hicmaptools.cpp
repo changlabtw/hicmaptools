@@ -113,28 +113,12 @@ int main(int argc, char *argv[])
 			map_.insert_from_hic(temp, par.in_hic_resol, index.get_cbin_number());
 			index.insert_from_hic(temp, par.in_hic_resol, it->first);
 		}
-		//	records = straw(matrix, par.in_hic_norm, par.in_hic_name, par.in_hic_chr, par.in_hic_chr, unit, par.in_hic_res);
-		//	sortContactRecord(records);
-		//	map = BINMAP(records, par.in_hic_res);
-		//	index = INDEX(records, par.in_hic_res, par.in_hic_chr);
 	}
 	else{
 		map_ = BINMAP(par.in_binmap_name);
 		index = INDEX(par.in_bins_name);
 	}
 	
-/*
-	for(int i=1; i <= 20;i++){
-		INDEX_ELE test = index.get_index(i);
-		cout << i << "\t" << test.chr << "\t" << test.start << "\t" << test.end <<endl;
-	}
-	cout << endl;
-
-	cout << "bin1\tbin2\tobserved" << endl;
-	for(int i=1; i<= 20;i++){
-		cout << "1" << "\t" << i << "\t" << map_.get_observe(1,i) << endl;
-	}
-*/
 	if(par.query_mode == "none")
 	{
 		map_.out_contIne(10000, index, par.output_name);
@@ -165,7 +149,7 @@ int main(int argc, char *argv[])
         bat.cal_contact(map_, index, par.ner_bin, par.ner_bin, par.random_size, par.output_name);
         bat.output(par.output_name);
 	}
-	else if (par.query_mode == "site")
+	else if (par.query_mode == "sites")
 	{
 		BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
 		
@@ -176,7 +160,7 @@ int main(int argc, char *argv[])
 		REGION region(par.query_name, index);		
 		region.output(par.output_name, map_);	
 	}
-	else if (par.query_mode == "couple")
+	else if (par.query_mode == "pair")
 	{
 		COUPLE couple(par.query_name, index);	
 		couple.cal_contact(map_, index, par.random_size, par.output_name);
@@ -221,8 +205,8 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			par.query_mode = "local";
 			strcpy(par.query_name, argv[i]);
 		}		
-		else if( strncmp(argv[i-1],"-couple", 20)==0 ){
-			par.query_mode = "couple";
+		else if( strncmp(argv[i-1],"-pair", 20)==0 ){
+			par.query_mode = "pair";
 			strcpy(par.query_name, argv[i]);
 		}				
 		else if( strncmp(argv[i-1],"-submap", 20)==0 ){
@@ -233,8 +217,8 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			par.query_mode = "loop";
 			strcpy(par.query_name, argv[i]);
 		}
-		else if( strncmp(argv[i-1],"-site", 20)==0 ){
-			par.query_mode = "site";
+		else if( strncmp(argv[i-1],"-sites", 20)==0 ){
+			par.query_mode = "sites";
 			strcpy(par.query_name, argv[i]);
 		}		
 // other parameters		
@@ -279,13 +263,6 @@ void show_param(PARAMETER par)
 			<< "\t map   =\t" << par.in_binmap_name << endl
 			<< "\t bin   =\t" << par.in_bins_name << endl
 			<< "\t query =\t" << par.query_name << endl;
-
-		cout << "Parameters" << endl
-			<< "\t ner_bin     =\t"  << par.ner_bin << endl
-			<< "\t random size =\t"  << par.random_size << endl;
-
-		cout << "Output" << endl
-			<< "\t output =\t" << par.output_name << endl;  
 	}
 	else{ // show hic input
 		cout << "Input" << endl
@@ -293,13 +270,13 @@ void show_param(PARAMETER par)
 			<< "\t normalization=\t" << par.in_hic_norm << endl
 			<< "\t resolution   =\t" << par.in_hic_resol << endl
 			<< "\t query =\t" << par.query_name << endl;
-
-		cout << "Parameters" << endl
-			<< "\t ner_bin     =\t"  << par.ner_bin << endl
-			<< "\t random size =\t"  << par.random_size << endl;
-
-		cout << "Output" << endl
-			<< "\t output =\t" << par.output_name << endl;  
-
 	}
+	
+	cout << "Parameters" << endl
+		<< "\t ner_bin     =\t"  << par.ner_bin << endl
+		<< "\t random size =\t"  << par.random_size << endl;
+
+	cout << "Output" << endl
+		<< "\t output =\t" << par.output_name << endl;  
+	
 }

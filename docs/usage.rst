@@ -98,8 +98,8 @@ Illustration of query modes
 
 There are two output files
 
-- specificOutput.tsv: the contact intensity of you interested
-- specificOutput **_random** .tsv: the contact intensities of the null hypothesis
+- output_file.tsv: the contact intensity of you interested
+- output_file **_random** .tsv: the contact intensities of the null hypothesis
 
 
 Command examples
@@ -110,14 +110,14 @@ BAT query
 
 Suppose you have below files and want to query ``-bat``:
 
-- map file : nm\_none\_30000.n\_contact
-- bin file : 30000.cbins
-- query file : BATtest.txt
+- map file : `fly_30k.n\_contact <../examples/fly_30k.n\_contact>`_
+- bin file : `fly_30k.cbins <../examples/fly_30k.cbins>`_
+- query file : `bat.bed <../examples/bat.bed>`_
 
 Then use the command
 ::
 
->hicmaptools -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
+>hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output batTest.tsv
 
 More queries
 ''''
@@ -153,5 +153,3 @@ We check whether intra-TAD contact intensity also shows differently across epi-c
 
 >hicmaptools -in_map fly.bimap -in_bin fly.bins -TAD epiTAD.bed -random 0 -output TADintra_cm_10k_top5.tsv &> TADintra.log
 >Rscript plot_TADintra.R
-
-

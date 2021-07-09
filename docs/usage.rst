@@ -60,12 +60,14 @@ first three required columns are enough.
 '''''
 
 -  contact intensity between two ends of a loop
+-  3R   2721975 2824950 => 3R:2721975(bin11), 3R:2824950(bin17), the contact between bin11 & bin17
 -  i.e., check whether 5’ & 3’ of a gene form loop or not
 
 -pair
 '''''''
 
--  contacts between a pair region (contact between pair *X* and pair *Y*, white cross)
+-  contacts between a pair region (contact between region *X* and region *Y*, white cross)
+-  3R   952484  953085  3R  1094107 1094708 => 3R:952484-953085(bin23 bin24), 3R:1094107-1094708(bin27 bin28) => the contacts of bin23& bin27, bin23&bin28, bin24&bin27 and bin24&bin28.
 -  i.e., contact between a enhancer and a promoter
 
 -sites

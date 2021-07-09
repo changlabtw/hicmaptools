@@ -3,6 +3,7 @@ File formats
 
 Input
 -------------------------
+The input contact map is stored as a hash structure using pair-bins as keys. Then, a query is binned into a corresponding key based on its position. The size of the bin is specified by a user (-in_hic_resol for .hic) or dependents on the input file (bin-contact pair files).
 
 HiC map
 ............

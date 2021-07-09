@@ -1,4 +1,4 @@
-How to use HiCmappTools?
+How to use HiCmapTools?
 =============================
 
 Quick start

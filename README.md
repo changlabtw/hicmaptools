@@ -71,3 +71,9 @@ Quick start
 		
 For instance:
 >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.bins -bat examples/bat.bed -output temp.tsv
+
+References
+--------------------
+* Jia-Ming Chang, Yi-Fu Weng, Wei-Ting Chang, Fu-An Lin, Giacomo Cavalli. "HiCmapTools: A tool to access HiC contact maps" submitted (2021).
+* The parser of .*hic* is adapted from [straw](https://github.com/aidenlab/straw).
+	* Neva C. Durand, James T. Robinson, Muhammad S. Shamim, Ido Machol, Jill P. Mesirov, Eric S. Lander, and Erez Lieberman Aiden. "Juicebox provides a visualization system for Hi-C contact maps with unlimited zoom." *Cell Systems* 3(1), 2016.

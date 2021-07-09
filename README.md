@@ -2,7 +2,7 @@ hicmaptools
 ----------------------
 
 It is a commend line tool to access HiC maps. The complete program provides multi-query modes and analysis tools. 
-A detailed document is avaiable in [the readthedocs of HiCMapTools](https://hicmaptools.readthedocs.io/).
+A detailed document is avaiable in [the readthedocs of HiCmapTools](https://hicmaptools.readthedocs.io/).
 
 Prerequisites
 --------------

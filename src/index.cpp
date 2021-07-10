@@ -77,8 +77,8 @@ INDEX::INDEX(const char *file_name)
 	input_f.close();
 	input_f.clear();
 
-	cout << "\t\treading # of chrs = " <<  (int)cbin_map.size()  << endl;
-	cout << "\t\treading # of bins = " <<  (int)index_map.size()  << endl << endl;
+	cout << "\treading # of chrs  = " <<  (int)cbin_map.size()  << endl;
+	cout << "\treading # of bins  = " <<  (int)index_map.size()  << endl << endl;
 
 #ifdef DEBUG
 	cout << "cbins" << endl;

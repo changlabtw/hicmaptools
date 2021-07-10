@@ -103,9 +103,9 @@ BAT query
 
 Suppose you have below files and want to query ``-bat``:
 
-- map file : `fly_30k.n\_contact <../examples/fly_30k.n\_contact>`_
-- bin file : `fly_30k.cbins <../examples/fly_30k.cbins>`_
-- query file : `bat.bed <../examples/bat.bed>`_
+- map file : `fly_30k.n\_contact <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.n\_contact>`_
+- bin file : `fly_30k.cbins <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.cbins>`_
+- query file : `bat.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bat.bed>`_
 
 Then use the command
 ::
@@ -114,10 +114,11 @@ Then use the command
 
 More queries
 ''''
-
+There are two scripts, `runExamples4bincontact.sh <https://github.com/changlabtw/hicmaptools/blob/master/examples/runExamples4bincontact.sh>`_ and `runExamples4hic.sh <https://github.com/changlabtw/hicmaptools/blob/master/examples/runExamples4hic.sh>`_, to run all query modes for bin-contact and hic inputs, respectively.
 ::
 
->runExampl.sh -in_map nm_none_30000.n_contact -in_bin 30000.cbins -bat BATtest.txt -output temp.tsv
+>runExamples4bincontact.sh
+>runExamples4hic.sh
 
 TAD loop in the manuscript
 ''''

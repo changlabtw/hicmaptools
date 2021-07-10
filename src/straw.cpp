@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
+
 #include <cstring>
 #include <iostream>
 #include <fstream>
@@ -199,10 +200,10 @@ map<string, chromosome> readHeader(istream &fin, long &masterIndexPosition) {
     string genomeID;
     getline(fin, genomeID, '\0');
 
-    if (version > 8) {
-        long nviPosition = readLongFromFile(fin);
-        long nviLength = readLongFromFile(fin);
-    }
+	if (version > 8) {
+		long nviPosition = readLongFromFile(fin);
+		long nviLength = readLongFromFile(fin);
+	}
 
     int nattributes = readIntFromFile(fin);
 
@@ -526,7 +527,7 @@ map <int, indexEntry> readMatrixHttp(CURL *curl, long myFilePosition, string uni
     membuf sbuf(buffer, buffer + size);
     istream bufin(&sbuf);
 
-    int c1 = readIntFromFile(bufin);
+	  int c1 = readIntFromFile(bufin);
     int c2 = readIntFromFile(bufin);
     int nRes = readIntFromFile(bufin);
     int i = 0;

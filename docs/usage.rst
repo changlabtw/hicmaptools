@@ -125,7 +125,7 @@ TAD loop in the manuscript
 
 We calculate the contact intensity between two boundaries of the TADs via the loop query mode
 
-- map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- map file (binary format): `fly.binmap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - query file : `epiTAD.bed <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 
@@ -139,7 +139,7 @@ TAD intra-density in the manuscript
 
 We check whether intra-TAD contact intensity also shows differently across epi-classes via the TAD query mode
 
-- map file (binary format): `fly.bimap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
+- map file (binary format): `fly.binmap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - query file : `epiTAD.bed <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 

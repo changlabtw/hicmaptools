@@ -24,14 +24,23 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
 
 	// random
 	float obs, exp;
-	vector< pair<int, int> > random_bins (RANDOME_TEST_SIZE, make_pair(0,0));
+	vector< pair<int, int> > random_bins;
 	BINCONT run;
 	int tmp_s, tmp_e;
 	pair<int, int> r_tmp;
 
 	// random test
-	float test[RANDOME_TEST_SIZE][3];
+	float** test;
 	int outputcount=1;
+
+	//arg -random != 0
+	if(RANDOME_TEST_SIZE != 0){
+		random_bins = vector< pair<int, int> >(RANDOME_TEST_SIZE, make_pair(0,0));
+		test = new float*[RANDOME_TEST_SIZE];
+		for(int i=0; i<RANDOME_TEST_SIZE ;i++){
+			test[i] = new float[3];
+		}
+	}
 
 	input_f.open(file_name, ios_base::in);
 	if(!input_f)
@@ -96,79 +105,82 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
 				tmp.exp = binmap.get_expect(tmp.cbin1, tmp.cbin2);
 				tmp.nor = tmp.obs/(tmp.exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
 
-				// generate random bin pair for randomisation test
-				index.gen_random_index(tmp.cbin1, tmp.cbin2, random_bins);
+				if(RANDOME_TEST_SIZE != 0){
 
-				for(int r = 0; r < RANDOME_TEST_SIZE; r++){
-					run.obs = run.exp = run.nor = 0;
-					// get the index range for the specified chrom: begin & end
-					tmp_s = random_bins[r].first;
-					tmp_e = random_bins[r].second;
-					// if generate random index
-					if ((tmp_s != 0) && (tmp_e != 0)){
-						obs = binmap.get_observe(tmp_s, tmp_e);
-						exp = binmap.get_expect(tmp_s, tmp_e);
+					// generate random bin pair for randomisation test
+					index.gen_random_index(tmp.cbin1, tmp.cbin2, random_bins);
 
-						if ((obs != -1) && (exp != -1))
-						{
-							// add internal contact inf to interval
-							run.obs = obs;
-							run.exp = exp;
-							run.nor = obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+					for(int r = 0; r < RANDOME_TEST_SIZE; r++){
+						run.obs = run.exp = run.nor = 0;
+						// get the index range for the specified chrom: begin & end
+						tmp_s = random_bins[r].first;
+						tmp_e = random_bins[r].second;
+						// if generate random index
+						if ((tmp_s != 0) && (tmp_e != 0)){
+							obs = binmap.get_observe(tmp_s, tmp_e);
+							exp = binmap.get_expect(tmp_s, tmp_e);
+
+							if ((obs != -1) && (exp != -1))
+							{
+								// add internal contact inf to interval
+								run.obs = obs;
+								run.exp = exp;
+								run.nor = obs/(exp+std::numeric_limits<float>::epsilon()); // avoid x/0 => nan
+							}
+							random_bincont_vec.push_back(run);
+
 						}
-						random_bincont_vec.push_back(run);
 
-					}
+						test[r][0] = run.obs;
+						test[r][1] = run.exp;
+						test[r][2] = run.nor;
 
-					test[r][0] = run.obs;
-					test[r][1] = run.exp;
-					test[r][2] = run.nor;
-
-					if (run.obs > tmp.obs) tmp.rank_obs++;
-					if (run.exp > tmp.exp) tmp.rank_exp++;
-					if (run.nor > tmp.nor) tmp.rank_nor++;
+						if (run.obs > tmp.obs) tmp.rank_obs++;
+						if (run.exp > tmp.exp) tmp.rank_exp++;
+						if (run.nor > tmp.nor) tmp.rank_nor++;
 
 #ifdef DEBUG
-					cout << " normal " << r << "\t" << run.obs << "\t" << run.exp << "\t" << run.nor << endl;
+						cout << " normal " << r << "\t" << run.obs << "\t" << run.exp << "\t" << run.nor << endl;
 #endif
-				}
-
-				tmp.rank_obs/=RANDOME_TEST_SIZE;
-				tmp.rank_exp/=RANDOME_TEST_SIZE;
-				tmp.rank_nor/=RANDOME_TEST_SIZE;
-
-				bincont_vec.push_back(tmp);
-				tmp.rank_obs = tmp.rank_exp = tmp.rank_nor =0;
-
-				//ranom test
-				string filename = (string)OutputName;
-				int found = filename.find_last_of(".");
-				filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
-				ofstream myfile(filename);
-				if (myfile.is_open())
-				{
-					myfile << "random_obs,";
-					myfile << "random_exp,";
-					myfile << "random_nor\n";
-					myfile << tmp.obs << "," << tmp.exp << "," << tmp.nor << endl;
-					for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
-						myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
 					}
-					myfile.close();
-					outputcount++;
+
+					tmp.rank_obs/=RANDOME_TEST_SIZE;
+					tmp.rank_exp/=RANDOME_TEST_SIZE;
+					tmp.rank_nor/=RANDOME_TEST_SIZE;
+
+					bincont_vec.push_back(tmp);
+					tmp.rank_obs = tmp.rank_exp = tmp.rank_nor =0;
+
+					//ranom test
+					string filename = (string)OutputName;
+					int found = filename.find_last_of(".");
+					filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
+					ofstream myfile(filename);
+					if (myfile.is_open())
+					{
+						myfile << "random_obs,";
+						myfile << "random_exp,";
+						myfile << "random_nor\n";
+						myfile << tmp.obs << "," << tmp.exp << "," << tmp.nor << endl;
+						for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+							myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+						}
+						myfile.close();
+						outputcount++;
+					}
+					else cout << "Unable to open file";
+
 				}
-				else cout << "Unable to open file";
-
+				//else{
+				//tmp.obs = tmp.exp = -1;
+				//}
+				else{
+					bincont_vec.push_back(tmp);
+				}
 			}
-			//else{
-			//tmp.obs = tmp.exp = -1;
-			//}
 
-			//bincont_vec.push_back(tmp);
+
 		}
-
-
-
 
 	}//while
 

@@ -96,7 +96,7 @@ There are two output files. You can use the tool ``tools/visualizeRandomTest.R``
  - sum_* indicates intensity of HiC
  - rand_* indicates intensity of shuffle test
  - divide_* indicates ratio of sum/rand
- - rank_* indicates the rank of HiC among shuffle test
+ - rank_* indicates the rank of HiC among shuffle test. The smaller rank is, the stronger query intensity is, i.e., 0.140 = top14%
 
 ::
 

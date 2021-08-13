@@ -5,7 +5,7 @@ The biological meaning of the extracted intensity is assessed by the probability
 
 We provide ``tools/visualSuffleTest.R``, a script to visualize the query's output against the random samples' distribution.
 ::
-    hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output batTest.tsv
+    hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -random 100 -output batTest.tsv
     Rscript tools/visualSuffleTest.R batTest_random_1.txt batTest_plot.pdf
 
 The plot shows density of shuffle test and the query intensity is highlined as a red vertical line.

@@ -35,7 +35,7 @@ Quick start
         
     other parameters:
             -ner_bin     check neighbouring bins for bat mode, (default: 10)
-            -random      the size of the shffule sample (default: 100)
+            -random      the size of the shuffle sample, you can turn off shuffle test by 0 (default: 100)
 
 
 Query Modes

@@ -76,7 +76,7 @@ void exit_with_help()
 			"\n"
 			"other parameters:\n"
 			"\t-ner_bin       check neighbouring bins for bat mode, (default: 10)\n"
-			"\t-random        the size of the shffule sample (default: 100)\n"
+			"\t-random        the size of the shuffle sample, you can turn off shuffle test by 0 (default: 100)\n"
 			);
 	exit(0);
 }

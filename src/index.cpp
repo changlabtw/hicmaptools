@@ -189,7 +189,7 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 		return; 
 	}
 
-	// inter-chromosome	
+	// intra-chromosome	
 	if(ele1.chr == ele2.chr){
 		if(FIXED_BIN){
 			// fixed bins : random use bin difference
@@ -209,9 +209,9 @@ void INDEX::gen_random_index(const int binx, const int biny, vector< pair<int, i
 			cout << " WARNING: random index for non-fxied bin is not implemented, time consuming" << endl;		
 		}	
 	}
-	// intra-chromosome
+	// inter-chromosome
 	else{
-		cout << " WARNING: random index for intra-chromosome is not implemented" << endl;
+		cout << " WARNING: random index for inter-chromosome is not implemented" << endl;
 	}
 	cout << "[DONE]" << endl;		
 }

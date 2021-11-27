@@ -10,7 +10,7 @@ It is a commend line tool to access HiC maps. The complete program provides mult
    Requirements and Installation <install>
    Usage <usage>
    About file formats <format>
-   Shuffle test <shuffle>
+   Permutation test <shuffle>
 
 Citation & contact
 ,,,,,

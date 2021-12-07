@@ -50,7 +50,7 @@ Quick start
             -in_hic_resol  optional, a resolution used to bin .hic (default: 10000)    
         
     QUERY_MODE: 
-            -bat         calculate average contacts from downstream to upstream of interested position
+            -bait         calculate average contacts from downstream to upstream of interested position
         
             -local       list all contacts inside an interval
 

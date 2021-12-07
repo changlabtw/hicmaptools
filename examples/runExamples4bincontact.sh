@@ -2,8 +2,8 @@
 mkdir -p res logs
 
 # test bat query
-echo "[QUERY] bat mode"
-../bin/hicmaptools -in_map fly_30k.binmap -in_bin fly_30k.cbins -bat bat.bed -output res/bat.tsv -random 1 &> logs/bat.log
+echo "[QUERY] bait mode"
+../bin/hicmaptools -in_map fly_30k.binmap -in_bin fly_30k.cbins -bait bait.bed -output res/bait.tsv -random 1 &> logs/bait.log
 
 # test local query
 echo "[QUERY] local mode"

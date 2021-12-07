@@ -29,7 +29,7 @@ A bin file defines the chromosome, start and end positions of each bin, an examp
 -in\_map 
 ''''''''
 
-A contact map contains Hi-C intensity indexed by bins in text format, an example `fly_30k.n_contact <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.n_contact>`_.
+A contact map contains Hi-C frequency indexed by bins in text format, an example `fly_30k.n_contact <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.n_contact>`_.
 
 ::
 
@@ -90,20 +90,20 @@ The example file of each query mode is listed:
 Output
 -------------------------
 
-There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact intensity aganist the null hypothesis (`Shuffle test <random.html>`_).
+There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact frequency aganist the null hypothesis (`Shuffle test <random.html>`_).
 
-- output.tsv : the contact intensity of the interested regions 
- - sum_* indicates intensity of HiC
- - rand_* indicates intensity of shuffle test
+- output.tsv : the contact frequency of the interested regions 
+ - sum_* indicates frequency of HiC
+ - rand_* indicates frequency of shuffle test
  - divide_* indicates ratio of sum/rand
- - rank_* indicates the rank of HiC among shuffle test. The smaller rank is, the stronger query intensity is (i.e., rank_nor 0.600 = top60%).
+ - rank_* indicates the rank of HiC among shuffle test. The smaller rank is, the stronger query frequency is (i.e., rank_nor 0.600 = top60%).
 
 ::
 
  index	chrom	start	end	sum_obs	sum_exp	sum_nor	rand_obs	rand_exp	rand_nor	divide_obs	divide_exp	divide_nor	rank_obs	rank_exp	rank_nor	
  1	2L	594629	595145	47916.000	459.715	2380.531	32618.180	314.679	2525.479	1.469	1.461	0.943	0.100	0.140	0.600
 
-- output **_random** .txt : the observed, expected and normalizated contact intensities of the null hypothesis starting from the third row where the second row is the query intensity
+- output **_random** .txt : the observed, expected and normalizated contact intensities of the null hypothesis starting from the third row where the second row is the query frequency
 
 ::
 

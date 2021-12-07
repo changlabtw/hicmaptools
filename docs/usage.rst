@@ -23,7 +23,7 @@ Quick start
         
             -local       list all contacts inside an interval
 
-            -loop        contact intensity between two ends of a loop
+            -loop        contact frequency between two ends of a loop
             
             -pair        contacts between a pair region
             
@@ -59,7 +59,7 @@ first three required columns are enough.
 -loop
 '''''
 
--  contact intensity between two ends of a loop
+-  contact frequency between two ends of a loop
 -  3R   2721975 2824950 => 3R:2721975(bin11), 3R:2824950(bin17), the contact between bin11 & bin17
 -  i.e., check whether 5’ & 3’ of a gene form loop or not
 
@@ -123,7 +123,7 @@ There are two scripts, `runExamples4bincontact.sh <https://github.com/changlabtw
 TAD loop in the manuscript
 ''''
 
-We calculate the contact intensity between two boundaries of the TADs via the loop query mode
+We calculate the contact frequency between two boundaries of the TADs via the loop query mode
 
 - map file (binary format): `fly.binmap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
@@ -137,7 +137,7 @@ We calculate the contact intensity between two boundaries of the TADs via the lo
 TAD intra-density in the manuscript
 ''''
 
-We check whether intra-TAD contact intensity also shows differently across epi-classes via the TAD query mode
+We check whether intra-TAD contact frequency also shows differently across epi-classes via the TAD query mode
 
 - map file (binary format): `fly.binmap <https://figshare.com/s/1e045bbab7b6c5e3e880>`_
 - bin file : `fly.bins <https://figshare.com/s/1e045bbab7b6c5e3e880>`_

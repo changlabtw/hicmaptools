@@ -49,7 +49,7 @@ It takes time to parse text format so we develop ``bin/genBinMap`` to turn text 
  
  genBinMap [options] -in_ncontact input.n_contact -out_binmap out.binmap
  >bin/genBinMap -in_ncontact examples/fly_30k.n_contact -out_binmap examples/fly_30k.binmap
- >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bat examples/bat.bed -output batTest.tsv 
+ >hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.cbins -bait examples/bait.bed -output baitTest.tsv 
 
 .hic format
 ^^^^^^^^^^^
@@ -77,13 +77,13 @@ Query file
 The query file is in `bed format <https://genome.ucsc.edu/FAQ/FAQformat.html#format1>`_ where the first three columns are enough.
 The example file of each query mode is listed:
 
-- bat: `bat.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bat.bed>`_ a PRE binding site
+- bait: `bait.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_ a PRE binding site
 - local: `local.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/local.bed>`_ a PcG TAD
 - loop: `loop.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/loop.bed>`_ gene, Antp
 - pair: `pair.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/pair.bed>`_ a pair of insulator binding sites
 - sites: `sites.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/sites.bed>`_ a list of insulator binding sites in range 3L:10000000-11000000
 - submap: `submap.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/submap.bed>`_ a region contains Antp-BX long range conttact
-- TAD: `TAD.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bat.bed>`_ selected TADs in range 2L:2000000~3000000
+- TAD: `TAD.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_ selected TADs in range 2L:2000000~3000000
 
 ----------------------------
 

@@ -19,7 +19,7 @@ Quick start
             -in_hic_resol  optional, a resolution used to bin .hic (default: 10000)    
         
     QUERY_MODE: 
-            -bat         calculate average contacts from downstream to upstream of interested position
+            -bait         calculate average contacts from downstream to upstream of interested position
         
             -local       list all contacts inside an interval
 
@@ -34,7 +34,7 @@ Quick start
             -TAD         sum and average of contacts inside TAD region
         
     other parameters:
-            -ner_bin     check neighbouring bins for bat mode, (default: 10)
+            -ner_bin     check neighbouring bins for bait mode, (default: 10)
             -random      the size of the shuffle sample, you can turn off shuffle test by 0 (default: 100)
 
 
@@ -44,7 +44,7 @@ Query Modes
 `bed format <https://genome.ucsc.edu/FAQ/FAQformat.html#format1>`__ :
 first three required columns are enough.
 
--bat
+-bait
 ''''
 
 -  calculate average contacts from downstream to upstream (controled by -ner_bin) of interested position (white rectangle)
@@ -98,19 +98,19 @@ Illustration of query modes
 Command examples
 -----------
 
-BAT query
+BAIT query
 ''''
 
-Suppose you have below files and want to query ``-bat``:
+Suppose you have below files and want to query ``-bait``:
 
 - map file : `fly_30k.n\_contact <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.n\_contact>`_
 - bin file : `fly_30k.cbins <https://github.com/changlabtw/hicmaptools/blob/master/examples/fly_30k.cbins>`_
-- query file : `bat.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bat.bed>`_
+- query file : `bait.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_
 
 Then use the command
 ::
 
->hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -output batTest.tsv
+>hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bait bait.bed -output baitTest.tsv
 
 More queries
 ''''

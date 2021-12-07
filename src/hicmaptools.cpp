@@ -60,7 +60,7 @@ void exit_with_help()
 			"\t-in_hic_resol  optional, a resolution used to bin .hic (default: 10000)\n"
 			"\n"
 			"QUERY_MODE:\n"
-			"\t-bat           calculate average contacts from downstream to upstream of interested position\n"
+			"\t-bait           calculate average contacts from downstream to upstream of interested position\n"
 			"\n"
 			"\t-local         list all contacts inside an interval\n"
 			"\n"
@@ -75,7 +75,7 @@ void exit_with_help()
 			"\t-TAD           sum and average of contacts inside TAD region\n"
 			"\n"
 			"other parameters:\n"
-			"\t-ner_bin       check neighbouring bins for bat mode, (default: 10)\n"
+			"\t-ner_bin       check neighbouring bins for bait mode, (default: 10)\n"
 			"\t-random        the size of the shuffle sample, you can turn off shuffle test by 0 (default: 100)\n"
 			);
 	exit(0);
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
 		interval.gen_internal_contact(map_, index, par.random_size, par.output_name);
 		interval.output_internal(par.output_name);		
 	}	
-	else if (par.query_mode == "bat")
+	else if (par.query_mode == "bait")
 	{
         BAT bat(par.query_name, index, par.ner_bin, par.ner_bin);
         
@@ -193,8 +193,8 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 			strcpy(par.in_bins_name, argv[i]);
 		}
 // query mode
-		else if( strncmp(argv[i-1],"-bat", 20)==0 ){
-			par.query_mode = "bat";
+		else if( strncmp(argv[i-1],"-bait", 20)==0 ){
+			par.query_mode = "bait";
 			strcpy(par.query_name, argv[i]);
 		}
 		else if( strncmp(argv[i-1],"-TAD", 20)==0 ){

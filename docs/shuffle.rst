@@ -5,11 +5,11 @@ The biological meaning of the extracted intensity is assessed by the probability
 
 We provide ``tools/visualPermutationTest.R``, a script to visualize the query's output against the random samples' distribution.
 ::
-    hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bat bat.bed -random 100 -output batTest.tsv
-    Rscript tools/visualPermutationTest.R batTest_random_1.txt batTest_plot.pdf
+    hicmaptools -in_map fly_30k.n_contact -in_bin fly_30k.cbins -bait bait.bed -random 100 -output baitTest.tsv
+    Rscript tools/visualPermutationTest.R baitTest_random_1.txt baitTest_plot.pdf
 
 The plot shows density of shuffle test and the query intensity is highlined as a red vertical line.
 
-.. image:: figs/batTest_plot.png
+.. image:: figs/baitTest_plot.png
       :scale: 35 %
       :alt: Illustration of permutation test

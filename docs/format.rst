@@ -90,7 +90,7 @@ The example file of each query mode is listed:
 Output
 -------------------------
 
-There are two output files. You can use the tool ``tools/visualizeRandomTest.R`` to examine query's contact frequency aganist the null hypothesis (`Shuffle test <random.html>`_).
+There are two output files. You can use the tool ``tools/visualPermutationTest.R`` to examine query's contact frequency aganist the null hypothesis (`Shuffle test <random.html>`_).
 
 - output.tsv : the contact frequency of the interested regions 
  - sum_* indicates frequency of HiC

@@ -65,12 +65,12 @@ Quick start
             -TAD         sum and average of contacts inside TAD region
         
     other parameters:
-            -ner_bin     check neighbouring bins for bat mode, (default: 10)
+            -ner_bin     check neighbouring bins for bait mode, (default: 10)
             -random      the size of the shffule sample (default: 100)
 		
 		
 For instance:
->hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.bins -bat examples/bat.bed -output temp.tsv
+>hicmaptools -in_map examples/fly_30k.binmap -in_bin examples/fly_30k.bins -bait examples/bait.bed -output temp.tsv
 
 References
 --------------------

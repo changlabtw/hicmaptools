@@ -85,6 +85,12 @@ The example file of each query mode is listed:
 - submap: `submap.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/submap.bed>`_ a region contains Antp-BX long range conttact
 - TAD: `TAD.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_ selected TADs in range 2L:2000000~3000000
 
+Illustration of `query modes <usage.html#query-modes>`_
+
+.. figure:: figs/queryOption.png
+      :scale: 35 %
+      :alt: Illustration of query modes
+
 ----------------------------
 
 Output

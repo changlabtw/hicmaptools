@@ -74,10 +74,10 @@ To extract data at a specified resolution, e.g., 5000, 10000, or 50000 (default:
 Query file
 ............
 
-The query file is in `bed format <https://genome.ucsc.edu/FAQ/FAQformat.html#format1>`_ where the first three columns are enough.
-The example file of each query mode is listed:
+The query file is in `bed format <https://genome.ucsc.edu/FAQ/FAQformat.html#format1>`_, where the first three columns are enough.
+Next, the example of each query mode is listed. Although the biology scenarios of examples are mainly based on Drosophila, HiCmapTools could handle other species (i.e., the example of the mouse Tox gene in the bait query model). 
 
-- bait: `bait.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_ a PRE binding site
+- bait: `bait.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/bait.bed>`_ a PRE binding site, `Tox_mm10.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/Tox_mm10.bed>`_ mouse Tox gene
 - local: `local.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/local.bed>`_ a PcG TAD
 - loop: `loop.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/loop.bed>`_ gene, Antp
 - pair: `pair.bed <https://github.com/changlabtw/hicmaptools/blob/master/examples/pair.bed>`_ a pair of insulator binding sites

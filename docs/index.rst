@@ -16,7 +16,7 @@ Citation & contact
 ,,,,,
 
 Jia-Ming Chang, Yi-Fu Weng, Wei-Ting Chang, Fu-An Lin, Giacomo Cavalli.
-`HiCmapTools: A tool to access HiC contact maps <>`_
-*BMC Bioinformatics* (2022).
+`HiCmapTools: A tool to access HiC contact maps <https://doi.org/10.1186/s12859-022-04589-y>`_
+*BMC Bioinformatics* **23**, 64 (2022).
 
 gmail: chang.jiaming

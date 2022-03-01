@@ -74,6 +74,6 @@ For instance:
 
 References
 --------------------
-* Jia-Ming Chang, Yi-Fu Weng, Wei-Ting Chang, Fu-An Lin, Giacomo Cavalli. "HiCmapTools: A tool to access HiC contact maps" BMC Bioinformatics (2022).
+* Jia-Ming Chang, Yi-Fu Weng, Wei-Ting Chang, Fu-An Lin, Giacomo Cavalli. [HiCmapTools: A tool to access HiC contact maps.](https://doi.org/10.1186/s12859-022-04589-y) *BMC Bioinformatics* **23**, 64 (2022).
 * The parser of .*hic* is adapted from [straw](https://github.com/aidenlab/straw).
 	* Neva C. Durand, James T. Robinson, Muhammad S. Shamim, Ido Machol, Jill P. Mesirov, Eric S. Lander, and Erez Lieberman Aiden. "Juicebox provides a visualization system for Hi-C contact maps with unlimited zoom." *Cell Systems* 3(1), 2016.

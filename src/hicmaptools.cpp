@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 	{
 		INTERVAL interval(par.query_name, map_, index);
 		interval.gen_internal_contact(map_, index, par.random_size, par.output_name);
-		interval.output(par.output_name, 1);
+		interval.output(par.output_name, 1, (par.random_size > 0));
 	}
 	else if (par.query_mode == "local")
 	{

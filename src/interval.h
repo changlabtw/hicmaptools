@@ -40,7 +40,7 @@ public:
 	INTERVAL( const char *fileName, BINMAP &binmap, INDEX &index );
 	~INTERVAL();
 	void gen_internal_contact( BINMAP &binmap, INDEX &index , const int RANDOME_TEST_SIZE, const char *fileName );
-	void output(const char *fileName, bool show_average);
+	void output(const char *fileName, bool show_average, bool randomTest);
 	void output_internal(const char *fileName);
 protected:
 	vector< BININTERVAL > BININTERVAL_vec;

@@ -14,7 +14,7 @@ INTERVAL::INTERVAL()
 {
 }
 
-// load map from binary file
+// load map from binary file 
 INTERVAL::INTERVAL(const char *file_name, BINMAP &binmap, INDEX &index)
 {
 	fstream input_f;
@@ -116,14 +116,13 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 	int outputcount=1;
 
 	//arg -random != 0
-	if(RANDOME_TEST_SIZE != 0){
+	if(RANDOME_TEST_SIZE > 0){
 		random_bins = vector< pair<int, int> >(RANDOME_TEST_SIZE, make_pair(0,0));
 		test = new float*[RANDOME_TEST_SIZE];
 		for(int i=0; i<RANDOME_TEST_SIZE ;i++){
 			test[i] = new float[3];
 		}
 	}
-
 
 	//  loop for all intervals	
 	for(vector<BININTERVAL>::iterator iter = BININTERVAL_vec.begin(); iter != BININTERVAL_vec.end(); iter++)
@@ -173,7 +172,8 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 				<< iter->sbin << "\t" << iter->ebin << "\t" 
 				<< iter->obs << "\t" << iter->exp << endl;
 		}
-		if(RANDOME_TEST_SIZE != 0){
+		
+		if(RANDOME_TEST_SIZE > 0){
 			// generate random bin pair for randomisation test
 			index.gen_random_index(iter->sbin, iter->ebin, random_bins);
 
@@ -218,6 +218,7 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 #endif
 				}
 			}
+			
 			iter->rank_obs /= RANDOME_TEST_SIZE;
 			iter->rank_exp /= RANDOME_TEST_SIZE;
 			iter->rank_nor /= RANDOME_TEST_SIZE;
@@ -240,19 +241,17 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 			}   	
 #endif
 
-			//ranom test
+			// output ranom test
 			string filename = (string)OutputfileName;
 			int found = filename.find_last_of(".");
 			filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
 			ofstream myfile(filename);
 			if (myfile.is_open())
 			{
-				myfile << "random_obs,";
-				myfile << "random_exp,";
-				myfile << "random_nor\n";
+				myfile << "random_obs,random_exp,random_nor\n";
 				myfile << iter->sum_obs << "," << iter->sum_exp << "," << iter->sum_nor << endl;
 				for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
-					myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+					myfile << test[i][0] << "," << test[i][1] << "," << test[i][2] <<endl ;
 				}
 				myfile.close();
 			}
@@ -263,7 +262,7 @@ void INTERVAL::gen_internal_contact(BINMAP &binmap, INDEX &index, const int RAND
 }
 
 // output function
-void INTERVAL::output(const char *fileName, bool show_average)
+void INTERVAL::output(const char *fileName, bool show_average, bool randomTest)
 {
 	ofstream output_f;
 	output_f.open (fileName);
@@ -275,32 +274,33 @@ void INTERVAL::output(const char *fileName, bool show_average)
 		exit(0);
 	}
 
-	// print header 
-	if (show_average)
-		output_f <<"index\tchrom\tstart\tend\tobser_contact\texpect_contact\tnormal_contact\tsum_obser\tsum_expect\tsum_normal"
-			<< "rank_obs\trank_exp\trank_nor"
-			<<endl;
-	else
-		output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact\t"
-			<< "rank_obs\trank_exp\t\rank_nor"
-			<< endl;
-
+// print header 
+	if (show_average){
+        output_f <<"index\tchrom\tstart\tend\tnumContactPairs\tave_obser\tave_expect\tave_normal";
+        if (randomTest) output_f << "\trank_obs\trank_exp\trank_nor";
+        output_f <<endl;
+    }else{
+		output_f << "index\tchrom\tstart\tend\tobser_contact\texpect_contact";
+    	if (randomTest) output_f << "\trank_obs\trank_exp\t\rank_nor";
+        output_f << endl;
+	}
+		
 	for(vector<BININTERVAL>::iterator iter = BININTERVAL_vec.begin(); iter != BININTERVAL_vec.end(); iter++)
 	{
-		output_f << iter->index << "\t" << iter->chrom << "\t"
-			<< iter->start << "\t" << iter->end << "\t"
-			<< iter->obs << "\t" << iter->exp << "\t" << iter->nor;
-
+        output_f << iter->index << "\t" << iter->chrom << "\t"
+        << iter->start << "\t" << iter->end << "\t" << iter->sum_bin;
+		
 		if(show_average)
 		{		 
-			output_f << "\t" << iter->sum_obs << "\t" << iter->sum_exp << "\t" << iter->sum_nor << "\t"<< iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor
-				<<endl;
+            output_f << "\t" << iter->sum_obs/iter->sum_bin << "\t" << iter->sum_exp/iter->sum_bin << "\t" << iter->sum_nor/iter->sum_bin;
+            if (randomTest) output_f << "\t"<< iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor;
 		}
 		else{
 			output_f << "\t" <<iter->rank_obs << "\t" << iter->rank_exp << "\t" << iter->rank_nor << endl;
 		}
+		output_f << endl;
 	}
-
+	
 	output_f.close();	
 }
 
@@ -324,8 +324,7 @@ void INTERVAL::output_internal(const char *fileName)
 		cout << "[SUMMARY] output internal " << (int)internal_BININTERVAL_vec.size() << " elements to " << fileName << endl;
 		for(vector<BININTERVAL>::iterator iter = internal_BININTERVAL_vec.begin(); iter != internal_BININTERVAL_vec.end(); iter++)
 		{
-			output_f << iter->index << "\t" << iter->chrom << "\t" 
-
+			output_f << iter->index << "\t" << iter->chrom << "\t"
 				<< iter->sbin << "\t" << iter->ebin << "\t" 
 				<< iter->obs << "\t" << iter->exp << "\t" << iter->nor << endl;
 		}	

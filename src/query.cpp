@@ -34,7 +34,7 @@ QUERY::QUERY(const char *file_name, BINMAP &binmap, INDEX &index , const int RAN
 	int outputcount=1;
 
 	//arg -random != 0
-	if(RANDOME_TEST_SIZE != 0){
+	if(RANDOME_TEST_SIZE > 0){
 		random_bins = vector< pair<int, int> >(RANDOME_TEST_SIZE, make_pair(0,0));
 		test = new float*[RANDOME_TEST_SIZE];
 		for(int i=0; i<RANDOME_TEST_SIZE ;i++){

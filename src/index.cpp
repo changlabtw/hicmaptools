@@ -21,7 +21,7 @@ INDEX::INDEX(const char *file_name)
 	fstream input_f;
 	string str, chr;
 	stringstream ss1,ss2;
-	int cbin;	
+	int cbin;
 	vector<int> tmp_vec;
 	INDEX_ELE tmp_index;
 
@@ -103,6 +103,33 @@ INDEX::INDEX(const char *file_name)
 
 INDEX::~INDEX()
 {
+}
+
+void INDEX::insert4ginteraction(map<CHR_ELE, int> &CHR2int)
+{
+	int cbin;
+//	string chr;
+	vector<int> tmp_vec;
+	INDEX_ELE tmp_index;
+		
+	for(map<CHR_ELE, int>::iterator iter = CHR2int.begin(); iter != CHR2int.end();iter++)
+	{
+		tmp_index.chr = iter->first.chr;
+		tmp_index.start = iter->first.start;
+		tmp_index.end = iter->first.end;
+		cbin = 	iter->second;
+		
+		if(cbin_map.find(tmp_index.chr) == cbin_map.end()){
+			cbin_map.insert(make_pair(tmp_index.chr, tmp_vec));
+			from_map.insert(make_pair(tmp_index.chr, tmp_vec));
+			to_map.insert(make_pair(tmp_index.chr, tmp_vec));
+		}
+
+		cbin_map[tmp_index.chr].push_back(cbin);
+		from_map[tmp_index.chr].push_back(tmp_index.start);
+		to_map[tmp_index.chr].push_back(tmp_index.end);
+		index_map.insert(make_pair(cbin,tmp_index));		
+	}
 }
 
 int INDEX::find_index( const string q_chr, const int q_pos, bool forStart, bool forEnd )

@@ -17,7 +17,7 @@ OBJECTgenBinMap	= genBinMap.o binmap.o
 
 OBJECTformatmap	= formatmap.o binmap.o index.o
 
-OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o straw.o
+OBJECThicmaptools	= hicmaptools.o binmap.o index.o query.o interval.o bat.o region.o couple.o straw.o ginter.o
 
 genBinMap:	$(OBJECTgenBinMap)
 			$(Compiler) $(FLAGS) $(OBJECTgenBinMap) -o genBinMap $(LIB)

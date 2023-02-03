@@ -438,7 +438,7 @@ void BINMAP::out2matrix( INDEX &index, PARAMETER par )
 	o_f.close();
 };
 
-// load map from .hic file **
+// load map from .hic file
 void BINMAP::insert_from_hic(vector<contactRecord> & records, int binsize, long cbin_number)
 {
 	for(vector<contactRecord>::iterator iter = records.begin(); iter != records.end(); iter ++)

@@ -17,14 +17,23 @@ struct INDEX_ELE
 	int count;
 };
 
+struct CHR_ELE
+{
+	string chr;
+	int start;
+	int end;
+};
+
 //===INDEX===
 class INDEX
 {
 public:
 	INDEX();
 	INDEX(const char *fileName);
-
 	~INDEX();
+	
+	void insert4ginteraction(map<CHR_ELE, int> &CHR2int);
+	
 	int find_index( const string q_chr, const int q_pos, bool forStart, bool forEnd );
 	pair<int, int> get_index_range(const string chr){if(cbin_map.find(chr) != cbin_map.end()) return make_pair(cbin_map[chr].front(), cbin_map[chr].back()); else return make_pair(-1,-1);};
 	INDEX_ELE get_index(const int q_bin){return index_map[q_bin];};

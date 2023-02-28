@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 	BINMAP map_;
 	INDEX index;
 	
-	if(strncmp(par.in_hic, "NONE", 10) != 0){
+	if( strlen(par.in_hic) != 0 ){
 		map <string, chromosome> chromosomeMap = getAllChr(par.in_hic);
 		vector<contactRecord> records;
 		for(map <string, chromosome>::iterator it = chromosomeMap.begin(); it != chromosomeMap.end(); it++){
@@ -125,12 +125,12 @@ int main(int argc, char *argv[])
 			index.insert_from_hic(temp, par.in_hic_resol, it->first);
 		}
 	}
-	else if(strncmp(par.in_binmap_name, "NONE", 10) != 0){
+	else if( strlen(par.in_binmap_name) != 0 ){
 		map_ = BINMAP(par.in_binmap_name);
 		index = INDEX(par.in_bins_name);
 	}
 // parse ginteraction	
-	else if(strncmp(par.in_ginter_name, "NONE", 10) != 0){
+	else if( strlen(par.in_ginter_name) != 0 ){
 		map_ = BINMAP();
 		index = INDEX();
 		parse_ginteraction(par.in_ginter_name, map_, index);
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 	else{
 		exit_with_help();
 	}
-	
+		
 ////////////////////////////////
 // handle query mode
 ////////////////////////////////	
@@ -270,6 +270,10 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 		}
 	}
 	
+	// initial .hic normalization as default NONE
+	if (strlen(par.in_hic_norm) == 0) 
+		strcpy(par.in_hic_norm, "NONE");
+	
 	// determine filenames
 	if(i != argc)
 		exit_with_help();
@@ -278,18 +282,26 @@ void parse_command_line(int argc, char **argv, PARAMETER &par)
 void show_param(PARAMETER par)
 {
 	// show bin and map input
-	if (strncmp(par.in_hic, "NONE", 10) == 0){
+	if ( strlen(par.in_binmap_name) != 0 ){
 		cout << "Input" << endl
 			<< "\t map   =\t" << par.in_binmap_name << endl
 			<< "\t bin   =\t" << par.in_bins_name << endl
 			<< "\t query =\t" << par.query_name << endl;
 	}
-	else{ // show hic input
+	else if( strlen(par.in_hic) != 0 ){ // show hic input		
 		cout << "Input" << endl
-			<< "\t hic          =\t" << par.in_hic << endl
-			<< "\t normalization=\t" << par.in_hic_norm << endl
-			<< "\t resolution   =\t" << par.in_hic_resol << endl
-			<< "\t query =\t" << par.query_name << endl;
+			<< "\t hic           =\t" << par.in_hic << endl
+			<< "\t normalization =\t" << par.in_hic_norm << endl
+			<< "\t resolution    =\t" << par.in_hic_resol << endl
+			<< "\t query         =\t" << par.query_name << endl;
+	}
+	else if( strlen(par.in_ginter_name) != 0 ){ // show ginteraction input
+		cout << "Input" << endl
+			<< "\t ginteractions =\t" << par.in_ginter_name << endl
+			<< "\t query         =\t" << par.query_name << endl;		
+	}
+	else{
+		exit_with_help();
 	}
 	
 	cout << "Parameters" << endl
@@ -298,5 +310,4 @@ void show_param(PARAMETER par)
 
 	cout << "Output" << endl
 		<< "\t output =\t" << par.output_name << endl;  
-	
 }

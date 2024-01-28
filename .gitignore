@@ -3,3 +3,4 @@
 examples/res/
 examples/logs/
 src/*.o
+.DS_Store

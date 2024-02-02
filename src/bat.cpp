@@ -448,6 +448,23 @@ void BAT::output_pair(const char *fileName, BINMAP &binmap, INDEX &index, const 
 				}
 				output_f << endl;
 			}
+			// output zero for all metrics if there is no contact information for the query
+			else
+			{
+				output_f.setf(ios::fixed, ios::floatfield); // set fixed floating format
+				output_f.precision(3); // for fixed format, two decimal places
+				output_f << i->index << "\t" << i->chrom << "\t" << i->start << "\t" << i->end << "\t"
+					<< j->index << "\t" << j->chrom << "\t" << j->start << "\t" << j->end << "\t"
+					<< 0 << "\t" << 0 << "\t" << 0 <<"\t";
+					
+				if (RANDOME_TEST_SIZE > 0)
+				{
+					output_f << 0 << "\t" << 0 << "\t" << 0 << "\t"
+						<< 0 << "\t" << 0 << "\t" << 0 << "\t"
+						<< 0 << "\t" << 0 << "\t" << 0 << "\t";				
+				}
+				output_f << endl;				
+			}
 		}
 	}	
 

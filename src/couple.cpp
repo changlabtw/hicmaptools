@@ -91,8 +91,8 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 // random test
     float** test;
 
- 	//arg -random != 0
-	if(RANDOME_TEST_SIZE != 0){
+ 	//arg -random > 0
+	if(RANDOME_TEST_SIZE > 0){
 		random_bins = vector< pair<int, int> >(RANDOME_TEST_SIZE, make_pair(0,0));
 		test = new float*[RANDOME_TEST_SIZE];
 		for(int i=0; i<RANDOME_TEST_SIZE ;i++){
@@ -124,8 +124,11 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 					}
 				}
 			}
-
-			if(RANDOME_TEST_SIZE != 0){
+			
+			/////////////////////////
+			// perform ranom test
+			////////////////////////
+			if(RANDOME_TEST_SIZE > 0){
 				// generate random bin pair for randomisation test
 				index.gen_random_index(iter->sbin1, iter->ebin2, random_bins);
 
@@ -174,37 +177,30 @@ void COUPLE::cal_contact(BINMAP &binmap, INDEX &index, const int RANDOME_TEST_SI
 					}
 				}
 
-#ifdef DEBUG						 
-				cout << "random end" << endl;
-#endif
-
 				iter->cont.rand_obs /= RANDOME_TEST_SIZE;
 				iter->cont.rand_exp /= RANDOME_TEST_SIZE;
 				iter->cont.rand_nor /= RANDOME_TEST_SIZE;
 
-				iter->cont.rank_obs /= RANDOME_TEST_SIZE;
-				iter->cont.rank_exp /= RANDOME_TEST_SIZE;
-				iter->cont.rank_nor /= RANDOME_TEST_SIZE;		 		 
-			}
-
-			//ranom test
-			string filename = (string)outputfileName;
-			int found = filename.find_last_of(".");
-			filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
-			ofstream myfile(filename);
-			if (myfile.is_open())
-			{
-				myfile << "random_obs,";
-				myfile << "random_exp,";
-				myfile << "random_nor\n";
-				myfile << iter->cont.quer_obs << "," << iter->cont.quer_exp << "," << iter->cont.quer_nor << endl;
-				for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
-					myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+				string filename = (string)outputfileName;
+				int found = filename.find_last_of(".");
+				filename = filename.substr(0,found) + "_random_" + to_string(outputcount) + ".txt";
+				ofstream myfile(filename);
+				if (myfile.is_open())
+				{
+					myfile << "random_obs," << "random_exp," << "random_nor\n";
+					myfile << iter->cont.quer_obs << "," << iter->cont.quer_exp << "," << iter->cont.quer_nor << endl;
+					for(int i = 0; i < RANDOME_TEST_SIZE; i ++){
+						myfile << test[i][0] << ","<<test[i][1]<<","<<test[i][2]<<endl ;
+					}
+					myfile.close();
+					outputcount++;
 				}
-				myfile.close();
-				outputcount++;
+				else cout << "Unable to open file";
+				
+#ifdef DEBUG						 
+				cout << "random end" << endl;
+#endif
 			}
-			else cout << "Unable to open file";
 		}
 	}		
 }

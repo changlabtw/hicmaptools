@@ -1,8 +1,8 @@
 hicmaptools
 ----------------------
 
-It is a commend line tool to access HiC maps. The complete program provides multi-query modes and analysis tools. 
-A detailed document is avaiable in [the readthedocs of HiCmapTools](https://hicmaptools.readthedocs.io/).
+It is a commend line tool for accessing HiC maps. The complete program provides multi-query modes and analysis tools. 
+A detailed document is available in [the readthedocs of HiCmapTools](https://hicmaptools.readthedocs.io/).
 
 Prerequisites
 --------------
@@ -52,9 +52,9 @@ Quick start
             -in_gin        .gin file in ginteractions format
         
     QUERY_MODE: 
-            -bait         calculate average contacts from downstream to upstream of interested position
+            -bait         calculates average contacts from downstream to upstream of the interested position
         
-            -local       list all contacts inside an interval
+            -local       list of all contacts inside an interval
 
             -loop        contact intensity between two ends of a loop
             
@@ -67,8 +67,8 @@ Quick start
             -TAD         sum and average of contacts inside TAD region
         
     other parameters:
-            -ner_bin     check neighbouring bins for bait mode, (default: 10)
-            -random      the size of the shffule sample (default: 100)
+            -ner_bin     check neighboring bins for bait mode (default: 10)
+            -random      the size of the shuffle sample (default: 100)
 		
 		
 For instance:
